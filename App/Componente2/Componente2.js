@@ -7,23 +7,6 @@ export default function Componente2() {
     <div class="mensaje">
     <h2>RAISE YOUR LIMITS</h2>    
 
-    <p>hola</p>
-    
-    <p>hola</p>
-    
-    <p>hola</p>
-    <p>hola</p>
-    <p>hola</p>
-    <p>hola</p>
-    <p>hola</p>
-    <p>hola</p>
-    <p>hola</p>
-    <p>hola</p>
-    <p>hola</p>
-    <p>hola</p>
-    <p>hola</p>
-    <p>hola</p>
-
-    </div>
+   
   )
 }
