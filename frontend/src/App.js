@@ -1,38 +1,29 @@
 import React from 'react';
-import lock from './Imagenes/Lock.png'
-import USER from './Imagenes/USER.png'
-import video from './Videos/mclarenf1.mp4'
-import ReactPlayer from 'react-player';
-import './App.css';
-
+import Login from './paginas/login.jsx';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './paginas/home.jsx';
+import Piezas from './paginas/piezas.jsx';
+import Sponsor from './paginas/sponsor.jsx';
+import Carreras from './paginas/carreras.jsx';
+import Pistas from './paginas/pistas.jsx';
+import Empleados from './paginas/empleados.jsx';
+import Departamentos from './paginas/departamentos.jsx';
 function App() {
   return (
-    <div Class="Envoltura">
-    <div class="video">
-     <ReactPlayer class="video1" url= { video }
-     muted
-     playing
-     loop
-     />
-     </div> 
-     <div class="Envoltura2" >
-        <form class="Formulario">
+      <Router>
+          <Routes>
+          <Route path="/" element={<Login/>}/>
+          <Route path="home" element={<Home/>}/>
+          <Route path="piezas" element={<Piezas/>}/>
+          <Route path="sponsor" element={<Sponsor/>}/>
+          <Route path="carreras" element={<Carreras/>}/>
+          <Route path="pistas" element={<Pistas/>}/>
+          <Route path="empleados" element={<Empleados/>}/>
+          <Route path="departamentos" element={<Departamentos/>}/>
 
-          <h1>Login</h1>
-          <div class="log_caja">
-          <input type="text" placeholder='Legajo' required/>
-          <img src= { USER } alt="Imagen de usuario"/>
-          </div>
-          <div class="log_caja">
-          <input type="password" placeholder='Contraseña' required/>
-          <img  src= { lock } alt =" Imagen de Seguro"/> 
-          </div>
+          </Routes>
 
-          <button type="submit" class="Boton" >Log in</button>
-        </form>
-
-      </div>
-    </div>
+      </Router>
   );
 }
 
