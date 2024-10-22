@@ -19,6 +19,7 @@
     background-position: 0%;
     align-items: center;  
     color: white;
+
 }
 
 .Logo {
@@ -45,13 +46,52 @@
 
 }
 
-.menu{
-    text-align: center;
-    object-fit: cover;
+.menuHorizontal{
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.menuHorizontal > li > a{
+    display: block;
+    font-size: 10px;
+    color: white;
+    text-decoration: none;
+}
+
+.menuVertical {
+    position: absolute; 
+    display: none;
+    list-style: none;
+    width: 250px;
+    background-color: transparent;
+    z-index: 1000; 
 }
 
 
+.menuHorizontal li:hover .menuVertical{
+    display: block;
+    transform: translateX(-18%);
+  transform: translateZ(10px);
 
+}
+
+.menuVertical li:hover{
+    background-color: white;
+    padding: 1px;
+    text-align: center;
+    color: black;
+    text-align: center;
+
+}
+
+.menuVertical li a{
+    display: flex;
+    color:rgb(255, 255, 255);
+    padding: 10px;
+
+}
 .carrusel {
     height: 100vh;
     position: relative;

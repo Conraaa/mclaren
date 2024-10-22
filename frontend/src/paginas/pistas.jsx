@@ -21,7 +21,9 @@ function Pistas(){
         <>
             <div Class="Todo">
                 <div class="bar">
+                    <a href="./home" className="">
                 <img class="Logo_central" src= { Logocentral } alt ="Logo de en medio"/>
+                </a>
                 </div>
             </div>
             

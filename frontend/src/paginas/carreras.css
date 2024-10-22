@@ -1,0 +1,78 @@
+.bar{
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    background-color: black;
+    background-position: 0%;
+    align-items: center;  
+    color: white;
+
+}
+
+.Logo {
+    width: 60px;
+    height: auto;
+    transform: translateX(10%);
+    cursor:pointer;
+    background-color: black;
+}
+
+.Logo_central{
+    width: 200px;
+    height: auto;
+    cursor:pointer;
+
+}
+
+.user{
+    transform: translateX(-50%);
+    background-color: rgb(39, 39, 39);
+    border-width: 20px;
+    border-radius: 10px;
+    padding: 4px;
+
+}
+
+.menuHorizontal{
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.menuHorizontal > li > a{
+    display: block;
+    font-size: 10px;
+    color: white;
+    text-decoration: none;
+}
+
+.menuVertical {
+    position: absolute; /* Asegúrate de que esté en posición absoluta */
+    display: none;
+    list-style: none;
+    width: 250px;
+    background-color: black;
+    z-index: 1000; /* Ajusta el z-index a un valor alto */
+}
+
+
+.menuHorizontal li:hover .menuVertical{
+    display: block;
+    transform: translateX(-18%);
+  transform: translateZ(10px);
+
+}
+
+.menuVertical li:hover{
+    background-color: white;
+    padding: 0px;
+    text-align: center;
+}
+
+.menuVertical li a{
+    display: flex;
+    color:white;
+    z-index: 10px;
+
+}
