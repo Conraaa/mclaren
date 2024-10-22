@@ -1,6 +1,6 @@
 --Frontend - React
 
-+Utilizando Visual Studio Code, agregar la extension de React: "ES7 + React/Redux/React-Native snippets
++Utilizando Visual Studio Code, agregar la extension de React: "ES7 + React/Redux/React-Native snippets"
 
 npm install create-react-app
 
