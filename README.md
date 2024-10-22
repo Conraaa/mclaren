@@ -1,3 +1,5 @@
+----Requisitos para el correcto funcionamiento del sistema:
+
 --Frontend - React
 
 +Utilizando Visual Studio Code, agregar la extension de React: "ES7+ React/Redux/React-Native snippets".
