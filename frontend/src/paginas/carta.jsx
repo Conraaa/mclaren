@@ -10,7 +10,7 @@ import Monza from '../Imagenes/Monza.png'
 function Cartita({nombre, imagen, kilometros, pais, ciudad}) {
   return (
     <div className='class'>
-    <Card>
+    <Card class="card">
       <Card.Img variant="top" src={imagen}/>
       <Card.Body>
         <Card.Title>{nombre}</Card.Title>

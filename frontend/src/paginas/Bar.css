@@ -1,0 +1,86 @@
+.bar {
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+    background-color: black;
+    align-items: center;  
+    color: white;
+}
+
+.Logo {
+    width: 60px;
+    height: auto;
+    transform: translateX(10%);
+    cursor: pointer;
+    background-color: black;
+}
+
+.Logo_central {
+    width: 200px;
+    height: auto;
+    cursor: pointer;
+}
+
+.user {
+    transform: translateX(-50%);
+    background-color: rgb(39, 39, 39);
+    border-width: 20px;
+    border-radius: 10px;
+    padding: 4px;
+}
+
+.menuVertical {
+    position: absolute; 
+    display: none;
+    list-style: none;
+    width: 300px; /* Cambiado a 300px o el tamaño que desees */
+    z-index: 1000; 
+    border-radius: 5px;
+    overflow: hidden; /* Evita que el contenido sobresalga */
+}
+
+.menuHorizontal li:hover .menuVertical {
+    background-color: transparent;
+    backdrop-filter: blur(250px);
+    padding-left: 40px;
+    width: 320px;
+    display: block;
+    transform: translateX(-25%);
+}
+
+.menuVertical li:hover {
+    background-color: transparent;
+    padding: 0px;
+    text-align: center;
+    color: black;
+}
+
+.menuVertical li a {
+    display: flex;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+}
+
+.menuVertical li:hover {
+    color: #000000;
+    border: none;
+}
+
+.menuHorizontal li .menuVertical button {
+    background: none;
+    border: none; 
+    color: white;
+    font-size: 100%;
+    padding: 10px; 
+    margin: 0; 
+    cursor: pointer; 
+    width: 100%; 
+    box-sizing: border-box; 
+}
+
+.menuHorizontal li .menuVertical button:hover {
+    color: black;
+    background-color: #ffffff;
+    overflow: hidden; /* Asegúrate de que no haya desbordamiento */
+    border-radius: 5px;
+}

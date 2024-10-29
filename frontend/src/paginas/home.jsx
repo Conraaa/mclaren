@@ -1,7 +1,6 @@
 import React from 'react'
 import './home.css'
-import Logo from '../Imagenes/Logo.png'
-import Logocentral from '../Imagenes/Logo_Central.png'
+
 import MC21 from '../Imagenes/MC21.png'
 import MC22 from '../Imagenes/MC22.png'
 import MC23 from '../Imagenes/MC23.png'
@@ -18,6 +17,8 @@ import AA1 from '../Imagenes/2021.png'
 import AA2 from '../Imagenes/2022.png'
 import AA3 from '../Imagenes/2023.png'
 import AA4 from '../Imagenes/2024.png'
+import Bar from './Bar'
+
 
 export default function home() {
   const thumbs = document.querySelectorAll('.thumb li');
@@ -40,29 +41,7 @@ export default function home() {
  
   return (
     <div>  
-      <div class="bar">
-        <div class="logoMenú">
-      <nav >
-      <ul class="menuHorizontal">
-        
-        <li>
-            <a><img class="Logo" src= { Logo } alt="logo de la pagina"/></a>
-            <ul class="menuVertical">
-              <li><a href="./home"></a>Home</li>
-              <li><a href="./empleados"></a>Empleados</li>
-              <li><a href="./carreras"></a>Carreras</li>
-              <li><a href="./piezas"></a>Piezas</li>
-              <li><a href="./pistas"></a>Pistas</li>
-              <li><a href="./sponsor"></a>Sponsor</li>
-            </ul>
-        </li>
-      </ul>
-      </nav>
-        </div>
-      <img class="Logo_central" src= { Logocentral } alt ="Logo de en medio"/>
-      <h4 class="user">User</h4>
-      </div>
-
+      <Bar/>
 <div class="carrusel">
   <div class="item active">
     <div class="img-box">

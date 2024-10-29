@@ -31,7 +31,7 @@ function App() {
           </div>
 
         </form>
-          <button class="Boton" ><Link to="/home">Log in</Link></button>
+          <Link to="/home"><button class="Boton" >Log in</button></Link>
 
       </div>
     </div>

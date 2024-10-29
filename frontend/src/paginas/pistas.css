@@ -1,3 +1,29 @@
+.todo {
+    background-color: rgb(65, 65, 65);
+    position: relative; /* Permite el posicionamiento absoluto de elementos hijos */
+    z-index: 0; /* Asegura que el contenido esté por encima */
+}
+
+.pagePista {
+    backdrop-filter:blur(25px) ;
+    position: absolute; /* Posiciona la imagen de manera absoluta */
+    top: 0; /* Coloca la imagen en la parte superior */
+    left: 0; /* Alinea la imagen a la izquierda */
+    width: 100%; /* La imagen ocupa todo el ancho */
+    height: 100%; /* La imagen ocupa todo el alto */
+    object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
+    z-index: -1; /* Coloca la imagen detrás del contenido */
+}
+
+.botonAnadir {
+    display: flex;
+    align-items: center; /* Cambia a align-items para alinear verticalmente */
+    justify-content: center;
+    margin-top: 20px;
+    position: relative; /* Asegúrate de que esté en el contexto del contenedor */
+    z-index: 1; /* Asegúrate de que esté por encima de la imagen de fondo */
+}
+
 .class {
     width: 18rem;
     margin-left: 40px;
@@ -6,38 +32,28 @@
     align-items: center;
     max-width: 300px;
     min-height: 300px;
-   
 }
 
-.bar{
-    text-align: center;
-    display: flex;
-    background-color: black;
-    background-position: 0%;
-    align-items: center;  
+.card {
     color: white;
-    justify-content: center;
-   
-}
-
-.bar.Logo_central{
-    width: 2px;
-    height: auto;
-    cursor:pointer;
-    
-
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo blanco con 50% de opacidad */
+    border: 1px solid white;
+    border-radius: 8px; /* Opcional: bordes redondeados */
+    backdrop-filter:blur(25px) ;
 }
 
 
-.boton{
+
+.boton {
+    background: transparent;
     justify-content: space-between;
     display: flex;
     margin: 20px;
 }
-
-.botonAnadir{
-    display: flex;
-    align-content: center;
-    justify-content: center;
-    margin-top: 20px;
+.custom-modal .modal-content  {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo blanco con 80% de opacidad */
+    border: none; /* Opcional: eliminar el borde */
+    backdrop-filter:blur(25px) ;
+    border-radius: 8px; /* Opcional: bordes redondeados */
 }
