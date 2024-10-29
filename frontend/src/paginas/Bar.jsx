@@ -13,12 +13,12 @@ export default function Bar() {
     <li>
         <Link><img class="Logo" src= { Logo } alt="logo de la pagina"/></Link>
         <ul class="menuVertical">
-          <li><Link to="/home"><button>Home</button></Link></li>
-          <li><Link to="/empleados"><button>Empleados</button></Link></li>
-          <li><Link to="/carreras"><button>Carreras</button></Link></li>
-          <li><Link to="/piezas"><button>Piezas</button></Link></li>
-          <li><Link to="/pistas"><button>Pistas</button></Link></li>
-          <li><Link to="/sponsor"><button>Sponsor</button></Link></li>
+          <li><Link to="/home"><button><b>Home</b></button></Link></li>
+          <li><Link to="/empleados"><button><b>Empleados</b></button></Link></li>
+          <li><Link to="/carreras"><button><b>Carreras</b></button></Link></li>
+          <li><Link to="/piezas"><button><b>Piezas</b></button></Link></li>
+          <li><Link to="/pistas"><button><b>Pistas</b></button></Link></li>
+          <li><Link to="/sponsor"><button><b>Sponsor</b></button></Link></li>
         </ul>
     </li>
   </ul>
