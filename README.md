@@ -20,3 +20,6 @@ C:\...> npm install react-bootstrap bootstrap
 +Teniendo Python y el gestor de paquetes PIP instalados, se instalará Django. En caso de no tenerlos se pueden obtener en https://www.python.org/ y https://pypi.org/project/pip/, respectivamente.
 
 C:\...> py -m pip install Django
+
+
+----Reglas de Negocio:
