@@ -5,161 +5,130 @@
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
 }
-.Todo{
+.Fondo{
     background: #000000;
 
-
-
-}
-.carrusel {
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
 }
 
-.item .img-box {
-    position: absolute;
-    left: 0;
-    top: 0;
+
+.CajaCarrusel{
     width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    transform: translateY(100%);
-    transition: transform 0.5s ease-in-out;
-}
-
-.item .img-box::before {
-    content: '';
-    position: absolute;
-    top: 200px;
-    width: 100%;
-    height: 300px;
-    background: #47c7fc;
-    border-radius: 50%;
-    filter: blur(200px);
+    height: auto;
     overflow: hidden;
+    right: 0;
 }
 
-.item.active .img-box {
-    transform: translateY(0);
-}
-
-.item:nth-child(1) .img-box {
-    background: #000000;
-}
-.item:nth-child(2) .img-box {
-    background: #000000;
-}
-.item:nth-child(3) .img-box {
-    background: #000000;
-}
-.item:nth-child(4) .img-box {
-    background: #000000;
-}
-
-
-
-.img-box img {
-    position: absolute;
-    bottom: 0;
-    filter: drop-shadow(0 0 10px black);
-    top: 400px;
-    width: 50%;
-    height: auto;
-}
-.img-box .pilot{
-    transform: translateY(-100%);
-
-
-
-}
-
-.img-box .anio{
-    transform: translate(-400%);
-    width: 10%;
-    height: auto;
-
-}
-
-.item .info-box {
-    position: absolute;
-    left: 3%;
-    top: 25%;
-    transform: translateY(-50%);
-    width: 450px;
-    height: 280px;
-    z-index: 1;
-
+.CajaCarrusel ul{
     display: flex;
-    flex-direction: column; /* Para alinear los elementos verticalmente */
-    justify-content: center;
-    padding: 20px;
-}
-.info-box .info-slider{
-    transition: .7s cubic-bezier(0.68, -0.55, 0.1, 1);
-
-
+    padding: 0;
+    width: 400%;
+    animation: slide 20s infinite alternate ease-in-out;
 
 }
-.info-slider .info-item {
-    height: 100%; /* Cambiado para usar todo el espacio del contenedor */
-    display: flex;
-    flex-direction: column; /* Asegura que el contenido esté uno debajo del otro */
-    justify-content: center;
-    align-items: flex-start; /* Alinear el contenido al inicio (izquierda) */
-    color: black;
-    transform: translateY(calc(var(--i) * 100%));
-    transition: transform 0.5s ease-in-out;
-}
 
-.info-item h1 {
-    font-size: 40px;
-    line-height: 1;
-    margin-bottom: 10px; /* Espacio debajo del título */
-}
-
-.info-item p {
-    font-size: 16px;
-    margin: 0;
-    line-height: 1.5;
-}
-
-.thumb {
-    position: absolute;
-    right: 5%;
-    top: 50%;
-    transform: translateY(-50%);
+.CajaCarrusel li{
+    width: 100%;
     list-style: none;
-    z-index: 100;
+    position: relative;
+
 }
 
-.thumb li {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    box-shadow: 0 0 10px black;
-    cursor: pointer;
-    margin: 25px 0;
-    overflow: hidden;
+.texto{
+    position: absolute;
+    text-align: center;
+    padding: 0 250px;
+    top:250px;
+    color: white;
+
+}
+
+.texto h2{
+    font-size: 45px;
+    margin-bottom: 35px;
+
+
+}
+
+.CajaCarrusel img{
+    width: 100%;
+
+}
+
+
+@keyframes slide{
+    0% { margin-left: 0; }
+    20%{ margin-left: 0;}
+    
+    25%{ margin-left: -100%;}
+    45%{ margin-left: -100%;}
+    
+    50%{ margin-left: -200%;}
+    70%{ margin-left: -200%;}
+    
+    75%{ margin-left: -300%;}
+    100%{ margin-left: -300%;}
     
 }
 
-.thumb li.selected {
-    border: 3px solid #FF8000;
-}
+@media(max-width:991px){
+    .Todo{
+        padding: 30px;
 
-.thumb li img {
+
+    }
+    .CajaCarrusel{
+        width: 100%;
+
+
+
+    }
+    .texto{
+        top:50px;
+        padding: 0 25px;
+    }
+
+    .texto h2{
+        font-size: 35px;
+        margin-bottom: 15px;
+    }
+    .texto p{
+        font-size: 15px;
+
+
+
+    }
+}
+.buttons {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.video{
     display: flex;
-    justify-content: center;
-
-
-
+    justify-content: space-between;
 }
 
+button {
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dots {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.dot.active {
+    background-color: #717171;
+}
