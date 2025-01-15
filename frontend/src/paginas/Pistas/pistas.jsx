@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import Bar from "./Bar.jsx";
+import Bar from "../Bar/Bar.jsx";
 import PagePista from '../Imagenes/PagePista.jpg'; // Asegúrate de que la ruta sea correcta
 
 function Pistas() {
