@@ -1,6 +1,6 @@
 import React from 'react';
 import './Estrategia.css';
-import imagen from '../Imagenes/MclarenEstrategia.png';
+import imagen from '../Imagenes/lando-norris-mclaren-mcl36-1.jpg';
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
 
       <div className="contenedor-imagen">
         <img src={imagen} alt="Estrategia de coche" className="imagen" />
-        
+
         {/* Campos de entrada */}
         <input type="text" placeholder="Alerón Delantero" className="input" id="AleronD" />
         <input type="text" placeholder="Motor" className="input" id="Motor" />

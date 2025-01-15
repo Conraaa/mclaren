@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './carreras.css'
-import Monza from '../Imagenes/Monza.png'
+import Monza from '../Imagenes/Menu.png'
 
 
 

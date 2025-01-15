@@ -19,6 +19,8 @@ export default function Bar() {
           <li><Link to="/piezas"><button><b>Piezas</b></button></Link></li>
           <li><Link to="/pistas"><button><b>Pistas</b></button></Link></li>
           <li><Link to="/Estrategia"><button><b>Estrategia</b></button></Link></li>
+          <li><Link to="/Departamento"><button><b>Departamento</b></button></Link></li>
+          
         </ul>
     </li>
   </ul>

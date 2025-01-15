@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Bar from "../Bar/Bar.jsx";
-import PagePista from '../Imagenes/PagePista.jpg'; // Asegúrate de que la ruta sea correcta
+import PagePista from '../Imagenes/2021.png'; // Asegúrate de que la ruta sea correcta
 
 function Pistas() {
     const [show, setShow] = useState(false);

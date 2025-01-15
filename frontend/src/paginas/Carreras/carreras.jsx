@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Bar from "../Bar/Bar.jsx";
-import PagePista from '../Imagenes/PagePista.jpg';
+import PagePista from '../Imagenes/Empleados1.png';
 
 
 function Carrera() {
