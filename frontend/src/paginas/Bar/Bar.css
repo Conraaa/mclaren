@@ -10,7 +10,7 @@
 .Logo {
     width: 60px;
     height: auto;
-    transform: translateX(10%);
+    transform: translateX(-35%);
     cursor: pointer;
     background-color: black;
 }
@@ -22,7 +22,7 @@
 }
 
 .user {
-    transform: translateX(-50%);
+    transform: translateX(-30%);
     background-color: rgb(39, 39, 39);
     border-width: 20px;
     border-radius: 10px;

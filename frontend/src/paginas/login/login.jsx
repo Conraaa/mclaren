@@ -23,15 +23,18 @@ function App() {
           <h1>Log in</h1>
           <div class="log_caja">
           <input type="text" placeholder='Legajo' required/>
-          <img src= { USER } alt="Imagen de usuario"/>
+          <img class="ImagenLog"src= { USER } alt="Imagen de usuario"/>
           </div>
           <div class="log_caja">
           <input type="password" placeholder='Contraseña' required/>
-          <img  src= { lock } alt =" Imagen de Seguro"/> 
+          <img  class="ImagenLog" src= { lock } alt =" Imagen de Seguro"/> 
           </div>
 
         </form>
           <Link to="/home"><button class="Boton" >Log in</button></Link>
+        <div className="registro">
+          <Link><button class="Boton">Iniciar registro</button></Link>
+          </div>
 
       </div>
     </div>

@@ -1,25 +1,26 @@
 import React from 'react';
 import './Estrategia.css';
-import imagen from '../Imagenes/lando-norris-mclaren-mcl36-1.jpg';
-
+import imagen from '../Imagenes/Estrategia.jpg';
+import Bar from '../Bar/Bar'
 export default function Home() {
   return (
-    <div className="Fondo">
+    <div >
+      <Bar/>
       <header>
-        <h1>Formulario de Estrategia</h1>
+        <h3>Formulario de Estrategia</h3>
       </header>
 
       <div className="contenedor-imagen">
-        <img src={imagen} alt="Estrategia de coche" className="imagen" />
+        <img className="imagenEstrategia" src={imagen} alt="Estrategia de coche" />
 
         {/* Campos de entrada */}
-        <input type="text" placeholder="Alerón Delantero" className="input" id="AleronD" />
-        <input type="text" placeholder="Motor" className="input" id="Motor" />
-        <input type="text" placeholder="Caja de Cambios" className="input" id="CajaCambios" />
-        <input type="text" placeholder="Alerón Trasero" className="input" id="AleronT" />
-        <input type="text" placeholder="Pontones" className="input" id="Pontones" />
-        <input type="text" placeholder="Fondo Plano" className="input" id="FondoPlano" />
-        <input type="text" placeholder="Difusor" className="input" id="Difusor" />
+        <input type="text" placeholder="Alerón Delantero"  id="AleronD" />
+        <input type="text" placeholder="Motor" id="Motor" />
+        <input type="text" placeholder="Caja de Cambios"  id="CajaCambios" />
+        <input type="text" placeholder="Alerón Trasero"  id="AleronT" />
+        <input type="text" placeholder="Pontones"  id="Pontones" />
+        <input type="text" placeholder="Fondo Plano"  id="FondoPlano" />
+        <input type="text" placeholder="Difusor"  id="Difusor" />
       </div>
     </div>
   );

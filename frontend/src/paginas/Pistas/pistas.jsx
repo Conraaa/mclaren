@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Bar from "../Bar/Bar.jsx";
-import PagePista from '../Imagenes/2021.png'; // Asegúrate de que la ruta sea correcta
+import PagePista from '../Imagenes/Pistas.png'; // Asegúrate de que la ruta sea correcta
 
 function Pistas() {
     const [show, setShow] = useState(false);
@@ -19,7 +19,7 @@ function Pistas() {
             <img className="pagePista" src={PagePista} alt="Fondo de Pista" />
             <Bar />
             <div className="botonAnadir">
-                <Button variant="primary" size="lg" onClick={handleShow}>Añadir +</Button>
+                <Button className="Añadir" variant="primary" size="lg" onClick={handleShow}>Añadir +</Button>
                 <Modal 
                     show={show} 
                     onHide={handleClose} 
@@ -31,49 +31,49 @@ function Pistas() {
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Nombre de la pista</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Ej: Circuito nacional de Monza"
-                                    autoFocus
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                                <Form.Label>Cantidad de Kilómetros</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Ej: 10"
-                                    autoFocus
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
-                                <Form.Label>País</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Ej: Argentina"
-                                    autoFocus
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                <Form.Label>Ciudad</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Ej: Buenos Aires"
-                                    autoFocus
-                                />
-                            </Form.Group>
-                            <Form.Group controlId="formFile" className="mb-3">
-                                <Form.Label>Agregar una foto</Form.Label>
-                                <Form.Control type="file" />
-                            </Form.Group>
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+  <Form.Label>Nombre de la pista</Form.Label>
+  <Form.Control
+    type="text"
+    autoFocus
+  />
+</Form.Group>
+<Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+  <Form.Label>Cantidad de Kilómetros</Form.Label>
+  <Form.Control
+    type="text"
+
+    autoFocus
+  />
+</Form.Group>
+<Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+  <Form.Label>País</Form.Label>
+  <Form.Control
+    type="text"
+
+    autoFocus
+  />
+</Form.Group>
+<Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+  <Form.Label>Ciudad</Form.Label>
+  <Form.Control
+    type="text"
+
+    autoFocus
+  />
+</Form.Group>
+<Form.Group controlId="formFile" className="mb-3">
+  <Form.Label>Agregar una foto</Form.Label>
+  <Form.Control type="file" />
+</Form.Group>
+
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
+                        <Button className="Cerrar" onClick={handleClose}>
                             Cerrar
                         </Button>
-                        <Button variant="primary" onClick={handleClose}>
+                        <Button className="Guardar" onClick={handleClose}>
                             Guardar
                         </Button>
                     </Modal.Footer>

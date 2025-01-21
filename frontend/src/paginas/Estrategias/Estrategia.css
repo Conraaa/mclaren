@@ -1,145 +1,88 @@
-/* General: Mantener tamaños fijos y posiciones absolutas */
-.todo {
-    background-color: rgb(65, 65, 65);
-    position: relative;
-    z-index: 0;
-    min-height: 100vh;
-}
-
-.pagePista {
-    backdrop-filter: blur(25px);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-    filter: brightness(50%);
-}
-
-.botonAnadir {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-    position: relative;
-    z-index: 1;
-}
-
-.card {
-    color: white;
-    background-color: rgba(0, 0, 0, 0.5);
-    border: 1px solid white;
-    border-radius: 8px;
-    backdrop-filter: blur(25px);
-    width: 300px;
-    height: 300px;
-    margin: 50px 40px;
-    display: inline-block;
-    vertical-align: top;
-}
-
-/* Estilo del modal */
-.custom-modal .modal-content {
-    color: white;
-    width: 120vh;
-    margin: 0 auto;
-    border: 2px solid white;
-    border-radius: 8px;
-    transform: translate(-120px);
-}
-
-/* Contenedor principal */
-.container {
-    background-color: rgb(0, 0, 0);
-    color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    width: 500px;
-    margin: 20px auto;
-    font-family: Arial, sans-serif;
-}
-
-.field-container1 {
-    margin-bottom: 15px;
-    width: 500px;
-    transform: translateX(-130px);
-}
-
-.field-container2 {
-    margin-bottom: 15px;
-    transform: translate(-130px);
-}
-
-.field-container3 {
-    margin-bottom: 15px;
-    transform: translate(240px, -56px);
-}
-
-.input {
-    width: 100%;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    background-color: #333;
-    color: #fff;
-}
-
-.button-container {
-    display: flex;
-    justify-content: space-between;
-}
-
-.button {
-    padding: 10px 15px;
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
 
 /* Posicionamiento de los campos alrededor de la imagen */
+.imagenEstrategia{
+width: 100%;
+}
 #AleronD {
+    width: 160px;
     position: absolute;
-    top: 10%;
-    left: 20%;
+    top: 24%;
+    left: 4%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 3px solid #CCA;
+    background-color: rgb(1, 1, 1, 1);
+    color: #ffffff;
 }
 
 #Motor {
+    
+    width: 160px;
     position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 45%;
+    left: 35%;
+    transform: translateX(-50%);padding: 8px;
+    border-radius: 6px;
+    border: 3px solid #CCA;
+    background-color: rgb(1, 1, 1, 1);
+    color: #fff;
 }
 
 #CajaCambios {
+    
+    width: 160px;
     position: absolute;
     top: 40%;
-    left: 60%;
+    left: 60%;padding: 8px;
+    border-radius: 6px;
+    border: 3px solid #CCA;
+    background-color: rgb(1, 1, 1, 1);
+    color: #fff;
 }
 
 #AleronT {
+    
+    width: 160px;
     position: absolute;
-    top: 50%;
-    left: 80%;
+    top: 39%;
+    left: 82%;padding: 8px;
+    border-radius: 6px;
+    border: 3px solid #CCA;
+    background-color: rgb(1, 1, 1, 1);
+    color: #fff;
 }
 
 #Pontones {
+    
+    width: 160px;
     position: absolute;
-    top: 40%;
-    left: 15%;
+    top: 90%;
+    left: 8%;padding: 8px;
+    border-radius: 6px;
+    border: 3px solid #CCA;
+    background-color: rgb(1, 1, 1, 1);
+    color: #fff;
 }
 
 #FondoPlano {
+    
+    width: 160px;
     position: absolute;
-    bottom: 10%;
-    left: 40%;
+    bottom: 5%;
+    left: 45%;padding: 8px;
+    border-radius: 6px;
+    border: 3px solid #CCA;
+    background-color: rgb(1, 1, 1, 1);
+    color: #fff;
 }
 
 #Difusor {
+    width: 160px;
     position: absolute;
-    bottom: 5%;
-    left: 70%;
+    bottom: 1%;
+    left: 76%;padding: 8px;
+    border-radius: 6px;
+    border: 3px solid #CCA;
+    background-color: rgb(1, 1, 1, 1);
+    color: #fff;
 }
