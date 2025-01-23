@@ -1,0 +1,128 @@
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Usuario]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Usuario] (
+      [id] bigint NOT NULL IDENTITY(1,1),
+      [dni] bigint,
+      [nombre] varchar(500),
+      [apellido] varchar(500),
+      [legajo] bigint,
+      [contrasenia] varchar(500),
+      [rolID] bigint,
+      [departamentoID] bigint
+    );
+END
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Rol]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Rol] (
+      [id] bigint NOT NULL IDENTITY(1,1) PRIMARY KEY,
+      [nombre] varchar(500)
+    );
+END
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Ticket]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Ticket] (
+      [id] bigint NOT NULL IDENTITY(1,1) PRIMARY KEY,
+      [usuarioID] bigint
+    );
+END
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Departamento]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Departamento] (
+      [id] bigint NOT NULL IDENTITY(1,1) PRIMARY KEY,
+      [nombre] varchar(500)
+    );
+END
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Pieza]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Pieza] (
+      [id] bigint NOT NULL IDENTITY(1,1) PRIMARY KEY,
+      [nombre] varchar(500),
+      [categoriaID] bigint
+    );
+END
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[EstrategiaPieza]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [EstrategiaPieza] (
+      [id] bigint NOT NULL IDENTITY(1,1) PRIMARY KEY,
+      [estrategiaID] bigint,
+      [piezaID] bigint
+    );
+END
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Estrategia]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Estrategia] (
+      [id] bigint NOT NULL IDENTITY(1,1) PRIMARY KEY,
+      [nombre] varchar(500),
+      [pistaID] bigint
+    );
+END
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Categoria]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Categoria] (
+      [id] bigint NOT NULL IDENTITY(1,1) PRIMARY KEY,
+      [nombre] varchar(500),
+      [departamentoID] bigint
+    );
+END
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Carrera]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Carrera] (
+      [id] bigint NOT NULL IDENTITY(1,1) PRIMARY KEY,
+      [anio] integer,
+      [cantVueltas] integer,
+      [imagen] varbinary(max),
+      [pistaID] bigint,
+      [estrategiaID] bigint
+    );
+END
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Pista]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Pista] (
+      [id] bigint NOT NULL IDENTITY(1,1) PRIMARY KEY,
+      [nombre] varchar(500),
+      [kilometros] integer,
+      [pais] varchar(500),
+      [ciudad] varchar(500),
+      [imagen] varbinary(max)
+    );
+END
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Telemetria]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Telemetria] (
+      [id] bigint NOT NULL IDENTITY(1,1) PRIMARY KEY,
+      [carreraID] bigint
+    );
+END
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Registro]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [Registro] (
+      [id] bigint NOT NULL IDENTITY(1,1) PRIMARY KEY,
+      [valor] time,
+      [numVuelta] integer,
+      [telemetriaID] bigint
+    );
+END
+
+ALTER TABLE [Usuario] ADD CONSTRAINT [Usuario_rolID_fk] FOREIGN KEY ([rolID]) REFERENCES [Rol] ([id]);
+ALTER TABLE [Usuario] ADD CONSTRAINT [Usuario_departamentoID_fk] FOREIGN KEY ([departamentoID]) REFERENCES [Departamento] ([id]);
+ALTER TABLE [Ticket] ADD CONSTRAINT [Ticket_usuarioID_fk] FOREIGN KEY ([usuarioID]) REFERENCES [Usuario] ([id]);
+ALTER TABLE [Categoria] ADD CONSTRAINT [Categoria_departamentoID_fk] FOREIGN KEY ([departamentoID]) REFERENCES [Departamento] ([id]);
+ALTER TABLE [Pieza] ADD CONSTRAINT [Pieza_categoriaID_fk] FOREIGN KEY ([categoriaID]) REFERENCES [Categoria] ([id]);
+ALTER TABLE [EstrategiaPieza] ADD CONSTRAINT [EstrategiaPieza_piezaID_fk] FOREIGN KEY ([piezaID]) REFERENCES [Pieza] ([id]);
+ALTER TABLE [EstrategiaPieza] ADD CONSTRAINT [EstrategiaPieza_estrategiaID_fk] FOREIGN KEY ([estrategiaID]) REFERENCES [Estrategia] ([id]);
+ALTER TABLE [Estrategia] ADD CONSTRAINT [Estrategia_pistaID_fk] FOREIGN KEY ([pistaID]) REFERENCES [Pista] ([id]);
+ALTER TABLE [Carrera] ADD CONSTRAINT [Carrera_pistaID_fk] FOREIGN KEY ([pistaID]) REFERENCES [Pista] ([id]);
+ALTER TABLE [Carrera] ADD CONSTRAINT [Carrera_estrategiaID_fk] FOREIGN KEY ([estrategiaID]) REFERENCES [Estrategia] ([id]);
+ALTER TABLE [Telemetria] ADD CONSTRAINT [Telemetria_carreraID_fk] FOREIGN KEY ([carreraID]) REFERENCES [Carrera] ([id]);
+ALTER TABLE [Registro] ADD CONSTRAINT [Registro_telemetriaID_fk] FOREIGN KEY ([telemetriaID]) REFERENCES [Telemetria] ([id]);
