@@ -26,7 +26,9 @@ export default function Bar() {
   </ul>
   </nav>
     </div>
+    <Link to="/home">
   <img class="Logo_central" src= { Logocentral } alt ="Logo de en medio"/>
+  </Link>
   <h4 class="user">User</h4>
   </div>
   )

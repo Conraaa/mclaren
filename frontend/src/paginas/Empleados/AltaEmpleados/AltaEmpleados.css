@@ -1,17 +1,17 @@
-.cuerpoEmpleados {
+.cuerpoAltaEmpleado {
     position: relative;
     height: 100vh; /* Ocupa toda la altura de la ventana */
     width: 100%; /* Ocupa todo el ancho de la ventana */
     overflow: hidden;
 }
-  .cuerpoEmpleados::before {
+  .cuerpoAltaEmpleado::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url(https://cdn-1.motorsport.com/images/amp/0oAdv3aY/s6/f1-visit-at-the-mclaren-techno.jpg);
+    background-image: url(https://external-preview.redd.it/using-cloth-simulation-for-a-jellyfish-v0-4LtusdKdQd5PBAW1-mcMV8YcpF_YkUiTekGg-laYZH0.png?format=pjpg&auto=webp&s=0f51f003ca45860a21017f67d8cf5679d10079ba);
     background-size: cover;
     background-position: center center;
     filter: brightness(110%) blur(0px); /* Aplica el desenfoque solo a la imagen */

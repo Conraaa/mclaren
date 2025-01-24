@@ -33,7 +33,7 @@ function App() {
         </form>
           <Link to="/home"><button class="Boton" >Log in</button></Link>
         <div className="registro">
-          <Link><button class="Boton">Iniciar registro</button></Link>
+          <Link to="/Registro"><button class="Boton">Iniciar registro</button></Link>
           </div>
 
       </div>

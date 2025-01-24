@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './empleados.css';
-import Bar from '../Bar/Bar.jsx';
+import './AltaEmpleados.css';
+import Bar from 'C:/Users/Maurinho/Documents/Mclaren/mclaren/frontend/src/paginas/Bar/Bar';
 import MuiDatatable from 'mui-datatables';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
@@ -8,9 +8,9 @@ import { Link } from 'react-router-dom';
 function ListadoLugar() {
   const columns = [
     { name: "Nombre", options: { setCellProps: () => ({ style: { paddingLeft: '40px' } }) } },
-    { name: "Apellido", options: { setCellProps: () => ({ style: { paddingLeft: '40px' } }) } },
-    { name: "Legajo", options: { setCellProps: () => ({ style: { paddingLeft: '40px' } }) } },
-    { name: "Departamento", options: { setCellProps: () => ({ style: { paddingLeft: '40px' } }) } },
+    { name: "Profesion", options: { setCellProps: () => ({ style: { paddingLeft: '40px' } }) } },
+    { name: "Experiencia", options: { setCellProps: () => ({ style: { paddingLeft: '40px' } }) } },
+    { name: "Valoracion", options: { setCellProps: () => ({ style: { paddingLeft: '40px' } }) } },
   ];
   
   const [data, setData] = useState([]);
@@ -120,20 +120,15 @@ function ListadoLugar() {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <div className="cuerpoEmpleados">
+      <div className="cuerpoAltaEmpleado">
         <Bar />
         <div className="Listado">
           <MuiDatatable
-            title="Listado de Empleados"
+            title="Listado de Empleados JellyJobs"
             columns={columns}
             data={data}
             options={options} // Agrega las opciones aquí
           />
-          <div className="altaEmpleado">
-            //<Link to="/AltaEmpleados">
-              <button>Contratar Empleados</button>
-            </Link>
-          </div>
         </div>
       </div>
     </ThemeProvider>
