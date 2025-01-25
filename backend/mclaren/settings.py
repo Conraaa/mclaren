@@ -76,6 +76,7 @@ WSGI_APPLICATION = 'mclaren.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+ #Config DB default
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -83,6 +84,25 @@ DATABASES = {
     }
 }
 
+'''
+#Config DB SQL Server
+DATABASES = {
+    'default': {
+        'ENGINE': 'sql_server.pyodbc',
+        'NAME': 'mclaren',
+        'HOST': 'localhost\\SQLEXPRESS',
+        'PORT': '1433',
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',
+            'TrustServerCertificate': 'yes',
+            'encrypt': 'no',
+            'trusted_connection': 'yes',
+            'extra_params': 'TrustServerCertificate=yes;'
+        },
+        'CONN_MAX_AGE': 0,
+    }
+}
+'''
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

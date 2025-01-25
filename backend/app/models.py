@@ -1,9 +1,6 @@
 from django.db import models
 
 # Create your models here.
-class Rol(models.Model):
-    nombre = models.CharField(max_length=500)
-
 class Departamento(models.Model):
     nombre = models.CharField(max_length=500)
 
@@ -13,7 +10,6 @@ class Usuario(models.Model):
     apellido = models.CharField(max_length=500, null=True, blank=True)
     legajo = models.BigIntegerField(null=True, blank=True)
     contrasenia = models.CharField(max_length=500, null=True, blank=True)
-    rol = models.ForeignKey(Rol, on_delete=models.CASCADE, related_name='usuarios')
     departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, related_name='usuarios')
 
 class Ticket(models.Model):
