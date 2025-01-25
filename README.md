@@ -1,4 +1,4 @@
-### Requisitos para un correcto funcionamiento del sistema
+# Requisitos para un correcto funcionamiento del sistema
 
 ## FRONTEND - React
 
