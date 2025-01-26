@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './AltaEmpleados.css';
-import Bar from 'C:/Users/Maurinho/Documents/Mclaren/mclaren/frontend/src/paginas/Bar/Bar';
+import Bar from '../../Bar/Bar';
 import MuiDatatable from 'mui-datatables';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
 
 function ListadoLugar() {
   const columns = [
