@@ -23,13 +23,20 @@ _C:\...>_ npm install react-bootstrap bootstrap
 _C:\...>_ py -m pip install Django
 
 
-+Tener la base de datos creda en SSMS con nombre "mclaren".
+### Base de Datos
 
++Con una base de datos creda en SSMS con nombre "mclaren", migrar los modelos definidos:
+
+_C:...\mclaren\backend>_ python manage.py makemigrations
+
+_C:...\mclaren\backend>_ python manage.py migrate
 
 +Instalar _Version 17_ del controlador ODBC:
 
 https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver16
 
+
+### Entorno Virtual
 
 +Crear y configurar el entorno virtual:
 
