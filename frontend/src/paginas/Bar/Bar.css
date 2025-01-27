@@ -170,3 +170,7 @@
 .loginButton:hover {
     background-color: #c76300;
 }
+.bar.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-out; /* Rápido desvanecimiento al cambiar página */
+}
