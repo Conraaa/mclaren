@@ -47,7 +47,7 @@ function Carrera() {
     return (
         <div className="todo">
             <div className="contenido">
-                <img className="pagePista" src={ Fondo } alt="Fondo de Pista" />
+                <img className="pageCarrera" src={ Fondo } alt="Fondo de Pista" />
                 <Bar />
                 <div className="botonAnadir">
                     <Button className="Añadir"variant="primary" size="lg" onClick={handleShow}>Añadir +</Button>

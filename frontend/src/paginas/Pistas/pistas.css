@@ -3,10 +3,12 @@
     position: relative; /* Permite el posicionamiento absoluto de elementos hijos */
     z-index: 0; /* Asegura que el contenido esté por encima */
 }
-
+.card-text{
+  text-align: center;
+}
 .pagePista {
     backdrop-filter:blur(25px) ;
-    position: absolute; /* Posiciona la imagen de manera absoluta */
+    position: fixed; /* Posiciona la imagen de manera absoluta */
     top: 0; /* Coloca la imagen en la parte superior */
     left: 0; /* Alinea la imagen a la izquierda */
     width: 100%; /* La imagen ocupa todo el ancho */
@@ -63,6 +65,7 @@
     justify-content: space-between;
     display: flex;
     margin: 20px;
+    align-items: center;
 }
 .Cerrar{
     background-color: red;

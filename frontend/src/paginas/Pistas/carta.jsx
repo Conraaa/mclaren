@@ -11,22 +11,13 @@ function Cartita({nombre, imagen, kilometros, pais, ciudad}) {
   return (
     <div className='class'>
     <Card class="card">
-      <Card.Img variant="top" src={imagen}/>
       <Card.Body>
         <Card.Title>{nombre}</Card.Title>
-        <Card.Text>
-          Kilometros: {kilometros}
-        </Card.Text>
+      <Card.Img variant="top" src={imagen}/>
         <Card.Text>
           Pais: {pais}
         </Card.Text>
-        <Card.Text>
-          Ciudad: {ciudad}
-        </Card.Text>
-        <div className='boton'>
-        <Button variant='warning'>Editar</Button>
-        <Button variant='danger'>Eliminar</Button>
-        </div>
+        <Button className='boton'variant='warning'>+ INFO</Button>
       </Card.Body>
     </Card>
 
