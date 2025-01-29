@@ -1,13 +1,57 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, viewsets
 from django.contrib.auth.hashers import check_password
-from .models import Usuario
-from .serializers import LoginSerializer
+from .models import Departamento, Usuario, Ticket, Categoria, Pieza, Pista, Estrategia, EstrategiaPieza, Carrera, Telemetria, Registro
+from .serializers import DepartamentoSerializer, UsuarioSerializer, TicketSerializer, CategoriaSerializer, PiezaSerializer, PistaSerializer, EstrategiaSerializer, EstrategiaPiezaSerializer, CarreraSerializer, TelemetriaSerializer, RegistroSerializer, LoginSerializer 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from .serializers import UsuarioSerializer
+
+class DepartamentoViewSet(viewsets.ModelViewSet):
+    queryset = Departamento.objects.all()
+    serializer_class = DepartamentoSerializer
+
+class UsuarioViewSet(viewsets.ModelViewSet):
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioSerializer
+    
+class TicketViewSet(viewsets.ModelViewSet):
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerializer
+
+class CategoriaViewSet(viewsets.ModelViewSet):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+
+class PiezaViewSet(viewsets.ModelViewSet):
+    queryset = Pieza.objects.all()
+    serializer_class = PiezaSerializer
+
+class PistaViewSet(viewsets.ModelViewSet):
+    queryset = Pista.objects.all()
+    serializer_class = PistaSerializer
+
+class EstrategiaViewSet(viewsets.ModelViewSet):
+    queryset = Estrategia.objects.all()
+    serializer_class = EstrategiaSerializer
+
+class EstrategiaPiezaViewSet(viewsets.ModelViewSet):
+    queryset = EstrategiaPieza.objects.all()
+    serializer_class = EstrategiaPiezaSerializer
+
+class CarreraViewSet(viewsets.ModelViewSet):
+    queryset = Carrera.objects.all()
+    serializer_class = CarreraSerializer
+
+class TelemetriaViewSet(viewsets.ModelViewSet):
+    queryset = Telemetria.objects.all()
+    serializer_class = TelemetriaSerializer
+
+class RegistroViewSet(viewsets.ModelViewSet):
+    queryset = Registro.objects.all()
+    serializer_class = RegistroSerializer
+
 class LoginView(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
@@ -126,10 +170,3 @@ def registrar_usuario(request):
                 return JsonResponse({'status': 'error', 'message': 'Departamento no encontrado'}, status=404)
         
     return JsonResponse({'status': 'error', 'message': 'Método no permitido'}, status=405)
-# views.py
-
-class UsuarioListView(APIView):
-    def get(self, request):
-        usuarios = Usuario.objects.all()
-        serializer = UsuarioSerializer(usuarios, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
