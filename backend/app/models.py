@@ -21,6 +21,13 @@ class Categoria(models.Model):
     nombre = models.CharField(max_length=500)
     departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, related_name='categorias')
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "departamento_id": self.departamento.id
+        }
+
 class Pieza(models.Model):
     nombre = models.CharField(max_length=500)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='piezas')

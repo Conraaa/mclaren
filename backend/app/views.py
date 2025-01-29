@@ -28,6 +28,15 @@ class PiezaViewSet(viewsets.ModelViewSet):
     queryset = Pieza.objects.all()
     serializer_class = PiezaSerializer
 
+    def get_queryset(self):
+        queryset = Pieza.objects.all()
+        departamento_id = self.request.query_params.get('departamento_id')
+
+        if departamento_id:
+            queryset = queryset.filter(categoria__departamento_id=departamento_id)
+
+        return queryset
+
 class PistaViewSet(viewsets.ModelViewSet):
     queryset = Pista.objects.all()
     serializer_class = PistaSerializer
@@ -51,6 +60,17 @@ class TelemetriaViewSet(viewsets.ModelViewSet):
 class RegistroViewSet(viewsets.ModelViewSet):
     queryset = Registro.objects.all()
     serializer_class = RegistroSerializer
+
+class CategoriaList(APIView):
+    def get(self, request, *args, **kwargs):
+        departamento_id = request.query_params.get('departamento_id')
+        
+        if departamento_id:
+            categorias = Categoria.objects.filter(departamento_id=departamento_id)
+        else:
+            categorias = Categoria.objects.all() 
+        
+        return Response([categoria.to_dict() for categoria in categorias], status=status.HTTP_200_OK)
 
 class LoginView(APIView):
     def post(self, request):

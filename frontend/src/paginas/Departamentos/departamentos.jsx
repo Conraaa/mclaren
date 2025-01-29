@@ -3,11 +3,13 @@ import "./departamento.css";
 import aerodinamica from '../Imagenes/Aerodinamica.png';
 import GrupoMotor from '../Imagenes/GrupoMotor.png';
 import Bar from "../Bar/Bar";
+import { Link } from 'react-router-dom';
 import fondo from "../Imagenes/Departamentos.jpg"
 import next from "../Imagenes/Next.png"
 import prev from "../Imagenes/Prev.png"
+
 const Carousel = () => {
-  const [items, setItems] = useState([
+  const [items] = useState([
     { id: 1, background: aerodinamica, name: "Aerodinamica", description: "Diseñamos piezas que generan carga, reducen la resistencia al aire, enfrían componentes y aseguran la estabilidad del vehículo" },
     { id: 2, background: GrupoMotor, name: "Grupo Motor", description: "Nos encargamos de desarrollar y optimizar los motores, asegurando su rendimiento máximo, eficiencia de combustible y fiabilidad en la pista." }
   ]);
@@ -42,9 +44,21 @@ const Carousel = () => {
         <div className="text-containerDepartamento">
           <div className="nameDepar">{items[activeIndex].name}</div>
           <div className="desDepar">{items[activeIndex].description}</div>
-          <button>Entrar</button>
+          <nav>
+            
+            {items[activeIndex].id === 1 && (
+             <Link to="/Aerodinamica"><button>Entrar</button></Link>
+            )}
+            {items[activeIndex].id === 2 && (
+              <Link to="/GrupoMotor"><button>Entrar</button></Link>
+            )}
+            {(items[activeIndex].id !== 1 && items[activeIndex].id !== 2) && (
+              <button disabled>No disponible</button>
+            )}
+          </nav>
         </div>
       </div>
+
 
       {/* Botones de navegación */}
       <div className="buttonDepar">

@@ -58,17 +58,12 @@ export default function Bar() {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/piezas">
-                      <button><b>Piezas</b></button>
-                    </Link>
-                  </li>
-                  <li>
                     <Link to="/pistas">
                       <button><b>Pistas</b></button>
                     </Link>
                   </li>
                   <li>
-                    <Link to="/Estrategia">
+                    <Link to="/ListadoEstrategia">
                       <button><b>Estrategia</b></button>
                     </Link>
                   </li>

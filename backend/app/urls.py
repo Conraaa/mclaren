@@ -19,6 +19,7 @@ urlpatterns = [
     path('api/login/', views.LoginView.as_view(), name='login'),
     path('verificar-legajo/', views.verificar_legajo, name='verificar_legajo'),
     path('registrar-usuario/', views.registrar_usuario, name='registrar_usuario'),
+    path('lista_categoria/',views.CategoriaList.as_view(), name='lista_categoria'),
     
     path('api/', include(router.urls)),
 ]

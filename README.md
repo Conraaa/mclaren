@@ -12,6 +12,10 @@ _C:\...>_ npm install react-router-dom
 
 _C:\...>_ npm install react-bootstrap bootstrap
 
+_C:\...>_ npm install axios
+
+_C:\...>_ npm install @mui/material @emotion/react @emotion/styled 
+
 +Una vez instalado todo, "_C:\...>_ npm start" ejecutará la aplicación en el modo de desarrollo.
 
 
