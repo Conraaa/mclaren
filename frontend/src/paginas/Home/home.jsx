@@ -6,6 +6,7 @@ export default function empleados() {
   return (
     <div>  
       <Bar/>
+      <Footer/>
 </div>
   )
 }

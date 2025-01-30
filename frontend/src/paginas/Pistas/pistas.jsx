@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Bar from "../Bar/Bar.jsx";
 import PagePista from '../Imagenes/Pistas.png'; // Asegúrate de que la ruta sea correcta
-
+import Footer from '../Footer/Footer.jsx';
 function Pistas() {
     const [show, setShow] = useState(false);
 
@@ -80,6 +80,7 @@ function Pistas() {
                 </Modal>
             </div>
             <Carta />
+            <Footer/>
         </div>
     );
 }

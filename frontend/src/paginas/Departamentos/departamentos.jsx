@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import fondo from "../Imagenes/Departamentos.jpg"
 import next from "../Imagenes/Next.png"
 import prev from "../Imagenes/Prev.png"
-import Footer from '../Footer/Footer.jsx';
 const Carousel = () => {
   const [items] = useState([
     { id: 1, background: aerodinamica, name: "Aerodinamica", description: "Diseñamos piezas que generan carga, reducen la resistencia al aire, enfrían componentes y aseguran la estabilidad del vehículo" },
