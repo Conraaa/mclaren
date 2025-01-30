@@ -180,7 +180,7 @@ function ListadoPiezas() {
             position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
             width: 400, bgcolor: "background.paper", boxShadow: 24, p: 4, borderRadius: 2
           }}>
-            <h2>{selectedRow !== null ? "Editar Pieza" : "Agregar Pieza"}</h2>
+            <h2 className="TituloCRUD">{selectedRow !== null ? "Editar Pieza" : "Agregar Pieza"}</h2>
             <TextField fullWidth margin="normal" label="Nombre" value={editedData.Nombre}
               onChange={(e) => setEditedData({ ...editedData, Nombre: e.target.value })} />
             <FormControl fullWidth margin="normal">
