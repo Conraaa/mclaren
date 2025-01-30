@@ -4,7 +4,7 @@ import Bar from "../Bar/Bar.jsx";
 import MuiDatatable from "mui-datatables";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
-
+import Footer from '../Footer/Footer.jsx';
 function ListadoLugar() {
   const columns = [
     { name: "Nombre", options: { setCellProps: () => ({ style: { paddingLeft: "40px" } }) } },
@@ -19,7 +19,7 @@ function ListadoLugar() {
   useEffect(() => {
     const fetchEmpleados = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/empleados/");
+        const response = await fetch("http://127.0.0.1:8000/api/usuarios/");
         if (response.ok) {
           const empleados = await response.json();
           // Transformar los datos para la tabla
@@ -27,7 +27,7 @@ function ListadoLugar() {
             empleado.nombre,
             empleado.apellido,
             empleado.legajo,
-            empleado.departamento.nombre,
+            empleado.departamento,
           ]);
           setData(formattedData);
         } else {

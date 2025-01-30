@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Bar from "../Bar/Bar.jsx";
 import Fondo from '../Imagenes/Carreras.jpg';
-
+import Footer from '../Footer/Footer.jsx';
 
 function Carrera() {
     const [show, setShow] = useState(false);
@@ -130,6 +130,7 @@ function Carrera() {
                 </div>
                 <Carta />
             </div>
+            <Footer/> 
         </div>
     );
 }

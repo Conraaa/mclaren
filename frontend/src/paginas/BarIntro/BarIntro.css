@@ -1,0 +1,176 @@
+/* Barra principal */
+.bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: black;
+    padding: 1px 9px;
+    color: white;
+  }
+  
+  /* Logo izquierda */
+  .Logo {
+    width: 60px;
+    cursor: pointer;
+    position: relative;
+    left: -26px;
+    top: 5px;
+  }
+  .user{
+    color: white;
+    transform: translateY(36%);
+
+  }
+  .Logo_central {
+    width: 200px;
+    cursor: pointer;
+  }
+  
+  /* Menú vertical izquierdo */
+  .menuHorizontal {
+    list-style: none;
+  }
+  
+  .menuVertical {
+    display: none;
+    position: absolute;
+    background-color: black;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  .menuVertical {
+    position: absolute; 
+    display: none;
+    list-style: none;
+    width: 300px; /* Cambiado a 300px o el tamaño que desees */
+    z-index: 1000; 
+    border-radius: 5px;
+    overflow: hidden; /* Evita que el contenido sobresalga */
+}
+
+.menuHorizontal li:hover .menuVertical {
+    background-color: transparent;
+    backdrop-filter: blur(250px);
+    padding-left: 40px;
+    width: 320px;
+    display: block;
+    transform: translateX(-25%);
+    border: 2px solid white;
+}
+
+.menuVertical li:hover {
+    background-color: transparent;
+    padding: 0px;
+    text-align: center;
+    color: black;
+}
+
+.menuVertical li a {
+    display: flex;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+}
+
+.menuVertical li:hover {
+    color: #000000;
+    border: none;
+}
+
+.menuHorizontal li .menuVertical button {
+    background: none;
+    border: none; 
+    color: white;
+    font-size: 100%;
+    padding: 10px; 
+    margin: 0; 
+    cursor: pointer; 
+    width: 100%; 
+    box-sizing: border-box; 
+}
+
+.menuHorizontal li .menuVertical button:hover {
+    color: black;
+    background-color: #ffffff;
+    overflow: hidden; /* Asegúrate de que no haya desbordamiento */
+    border-radius: 5px;
+}
+  .menuHorizontal li:hover .menuVertical {
+    display: block;
+  }
+  
+  /* Menú de usuario (derecha) */
+  .userMenu {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  
+  .userInfo {
+    cursor: pointer;
+    background-color: #FF8000;
+    padding: 2px 10px;
+    border-radius: 10px;
+  }
+  
+  .menuVerticalUser {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    border: 2px solid white;
+    background-color: rgba(0, 0, 0, 0.281);
+    color: white;
+    backdrop-filter: blur(25px);
+    padding: 30px;
+    border-radius: 5px;
+    list-style: none;
+    z-index: 10;
+  }
+  
+  .userInfo:hover + .menuVerticalUser,
+  .menuVerticalUser:hover {
+    display: block;
+  }
+  
+  .menuVerticalUser li {
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .menuVerticalUser li:hover {
+    background-color: #333;
+  }
+  
+  .logoutButton {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .logoutButton:hover {
+    background-color: rgb(255, 255, 255);
+    color: black;
+    padding: 5px 10px;
+  }
+  .loginButton {
+    background-color: #FF8000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.loginButton:hover {
+    background-color: #c76300;
+}
+.bar.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-out; /* Rápido desvanecimiento al cambiar página */
+}

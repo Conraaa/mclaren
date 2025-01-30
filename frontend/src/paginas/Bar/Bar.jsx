@@ -72,6 +72,11 @@ export default function Bar() {
                       <button><b>Departamento</b></button>
                     </Link>
                   </li>
+                   <li>
+                    <Link to="/Solving">
+                      <button><b>Solving Tickets</b></button>
+                    </Link>
+                  </li>
                 </ul>
               </li>
             </ul>

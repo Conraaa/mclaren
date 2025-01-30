@@ -1,4 +1,5 @@
 /* General - Contenedor para los inputs */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;700&family=Audiowide&display=swap');
 .containerCarrera {
   display: flex;
   flex-direction: column; /* Apilar los inputs */
@@ -13,6 +14,10 @@
   display: flex;
   flex-direction: column;
 }
+.card-body{
+  height:278px;
+
+}
 .pageCarrera {
   backdrop-filter:blur(25px) ;
   position: fixed; /* Posiciona la imagen de manera absoluta */
@@ -23,7 +28,57 @@
   object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
   z-index: -1; /* Coloca la imagen detrás del contenido */
 }
+.imagenCarrera {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: -1; /* Coloca la imagen detrás del contenido */
+  border-radius: 12px;
+  filter:brightness(60%)
+}
+.botonCar{
+  position: relative;
+  background: #ff000000;
+  color: white;
+  justify-content: space-between;
+  display: flex;
+  margin: 20px;
+  left: 48px;
+  top: 44px;
+}
+.Pilotos{
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  font-weight: bold;
+  left: 81px;
+  top: 44px;
+  margin: 0px;
+  background: rgb(0, 0, 0);
+  text-align: center;
+  color: #ffffff;
+  width: 154px;
+}
+.inputCarrera option{
+  background-color: rgb(0 0 0);
+}
+.CartaTexto{
+  font-weight: bold; 
 
+  font-family: 'Audiowide', sans-serif;
+  position: relative;
+  top: -4px;
+  left: 21px;
+  text-align: center;
+  color: #000000;
+  background-color:#FF8000;
+  margin: 0px;
+  width: 60px;
+  filter: brightness(120%);
+}
 /* Input de vueltas - Ajuste para el botón al lado derecho */
 .field-container3 {
   display: flex;
@@ -63,7 +118,6 @@
   display: flex;
   color: white;
 }
-
 .buttonTele:hover {
   cursor: pointer;
 }
@@ -132,11 +186,7 @@ select{
 
 }
 
-.inputCarrera option{
-  background-color: rgb(0,0,0,0.1);
-
-
-}.modal-content {
+.modal-content {
   flex-direction: column;
   width: 137%;
   pointer-events: auto;

@@ -10,6 +10,7 @@ import Departamentos from './paginas/Departamentos/departamentos.jsx';
 import Aerodinamica from './paginas/Departamentos/aerodinamica.jsx';
 import GrupoMotor from './paginas/Departamentos/grupomotor.jsx';
 import AltaEmpleados from './paginas/Empleados/AltaEmpleados/AltaEmpleados.jsx';
+import Solving from './paginas/SolvingTickets/Solving.jsx';
 import Registro from './paginas/login/Registro/Registro.jsx';
 import ListadoEstrategia from './paginas/Estrategias/Listado/listadoEstrategia.jsx';
 function App() {
@@ -25,9 +26,10 @@ function App() {
           <Route path="departamentos" element={<Departamentos/>}/>
           <Route path="AltaEmpleados" element={<AltaEmpleados/>}/>
           <Route path="Registro" element={<Registro/>}/>
-          <Route path="Aerodinamica" element={<Aerodinamica/>}/>
-          <Route path="GrupoMotor" element={<GrupoMotor/>}/>
+          <Route path="departamentos/Aerodinamica" element={<Aerodinamica/>}/>
+          <Route path="departamentos/GrupoMotor" element={<GrupoMotor/>}/>
           <Route path="ListadoEstrategia" element={<ListadoEstrategia/>}/>
+          <Route path="Solving" element={<Solving/>}/>
           </Routes>
       </Router>
   );

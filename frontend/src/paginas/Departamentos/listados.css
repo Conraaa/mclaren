@@ -4,7 +4,11 @@
   width: 100%;/* Ocupa todo el ancho de la ventana */
 }
 
+.TituloCRUD{
+  color: #90caf9;
+  text-align: center;
 
+}
 .cuerpoAltaPieza::before {
   content: '';
   position: absolute;

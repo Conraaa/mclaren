@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Intro.css';
-import introVideo from '../../Videos/ClipInicio.mp4';
+import introVideo from '../../Videos/ClipPaginas.mp4';
 
 export default function Intro({ onFinish }) {
   const [isFadingOut, setIsFadingOut] = useState(false); // Controla el efecto de desvanecimiento final

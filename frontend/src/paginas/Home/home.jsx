@@ -1,7 +1,7 @@
 import React from 'react'
 import './home.css'
-import Bar from "../Bar/Bar.jsx";
-
+import Bar from "../BarIntro/BarIntro";
+import Footer from '../Footer/Footer.jsx';
 export default function empleados() {
   return (
     <div>  

@@ -3,18 +3,18 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './pistas.css'
-import Monza from '../Imagenes/Empleados1.png'
-
-
-
+import Monza from '../Imagenes/Albert_park.png'
+import Suzuka from '../Imagenes/Suzuka.png'
+import Jeddah from '../Imagenes/Jeddah.png'
+import Sakhir from '../Imagenes/sakhir.png'
 function Cartita({nombre, imagen, kilometros, pais, ciudad}) {
   return (
     <div className='class'>
-    <Card class="card">
+    <Card className="card">
       <Card.Body>
         <Card.Title>{nombre}</Card.Title>
       <Card.Img variant="top" src={imagen}/>
-        <Card.Text>
+        <Card.Text className="CartaTextoPist">
           Pais: {pais}
         </Card.Text>
         <Button className='boton'variant='warning'>+ INFO</Button>
@@ -30,39 +30,86 @@ function ListaDeCircuitos() {
   const circuitos = [
     
     {
-      nombre: "Circuito de Suzuka",
-      imagen: "ruta/a/imagen_suzuka.jpg",
+      nombre: "Suzuka GP",
+      imagen: Suzuka,
       kilometros: "5.807 km",
       pais: "Japón",
       ciudad: "Suzuka"
     },
     {
-      nombre: "Circuito de Le Mans",
-      imagen: "ruta/a/imagen_le_mans.jpg",
+      nombre: "Sakhir GP",
+      imagen: Sakhir,
       kilometros: "13.626 km",
-      pais: "Francia",
+      pais: "Barein",
       ciudad: "Le Mans"
     },
     {
-      nombre: "Circuito de Interlagos",
-      imagen: "ruta/a/imagen_interlagos.jpg",
-      kilometros: "4.309 km",
-      pais: "Brasil",
-      ciudad: "Interlagos"
-    },
-    {
-      nombre: "Circuito de Hockenheimring",
-      imagen: "ruta/a/imagen_hockenheim.jpg",
+      nombre: "Jeddah GP",
+      imagen: Jeddah,
       kilometros: "4.574 km",
-      pais: "Alemania",
-      ciudad: "Hockenheim"
+      pais: "Arabia Saudita",
+      ciudad: ""
     },
     {
-      nombre: "Circuito de Monza",
+      nombre: "Albert Park GP",
       imagen: Monza,
       kilometros: "5.793 km",
-      pais: "Italia",
-      ciudad: "Monza"
+      pais:"Australia",
+      ciudad: ""
+    },{
+      nombre: "Suzuka GP",
+      imagen: Suzuka,
+      kilometros: "5.807 km",
+      pais: "Japón",
+      ciudad: "Suzuka"
+    },
+    {
+      nombre: "Sakhir GP",
+      imagen: Sakhir,
+      kilometros: "13.626 km",
+      pais: "Barein",
+      ciudad: "Le Mans"
+    },
+    {
+      nombre: "Jeddah GP",
+      imagen: Jeddah,
+      kilometros: "4.574 km",
+      pais: "Arabia Saudita",
+      ciudad: ""
+    },
+    {
+      nombre: "Albert Park GP",
+      imagen: Monza,
+      kilometros: "5.793 km",
+      pais:"Australia",
+      ciudad: ""
+    },{
+      nombre: "Suzuka GP",
+      imagen: Suzuka,
+      kilometros: "5.807 km",
+      pais: "Japón",
+      ciudad: "Suzuka"
+    },
+    {
+      nombre: "Sakhir GP",
+      imagen: Sakhir,
+      kilometros: "13.626 km",
+      pais: "Barein",
+      ciudad: "Le Mans"
+    },
+    {
+      nombre: "Jeddah GP",
+      imagen: Jeddah,
+      kilometros: "4.574 km",
+      pais: "Arabia Saudita",
+      ciudad: ""
+    },
+    {
+      nombre: "Albert Park GP",
+      imagen: Monza,
+      kilometros: "5.793 km",
+      pais:"Australia",
+      ciudad: ""
     }
   ];
 

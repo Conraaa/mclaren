@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import fondo from "../Imagenes/Departamentos.jpg"
 import next from "../Imagenes/Next.png"
 import prev from "../Imagenes/Prev.png"
-
+import Footer from '../Footer/Footer.jsx';
 const Carousel = () => {
   const [items] = useState([
     { id: 1, background: aerodinamica, name: "Aerodinamica", description: "Diseñamos piezas que generan carga, reducen la resistencia al aire, enfrían componentes y aseguran la estabilidad del vehículo" },
@@ -47,10 +47,10 @@ const Carousel = () => {
           <nav>
             
             {items[activeIndex].id === 1 && (
-             <Link to="/Aerodinamica"><button>Entrar</button></Link>
+             <Link to="Aerodinamica"><button>Entrar</button></Link>
             )}
             {items[activeIndex].id === 2 && (
-              <Link to="/GrupoMotor"><button>Entrar</button></Link>
+              <Link to="GrupoMotor"><button>Entrar</button></Link>
             )}
             {(items[activeIndex].id !== 1 && items[activeIndex].id !== 2) && (
               <button disabled>No disponible</button>
