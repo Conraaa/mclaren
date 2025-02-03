@@ -27,19 +27,6 @@ _C:\...>_ npm install @mui/material @emotion/react @emotion/styled
 _C:\...>_ py -m pip install Django
 
 
-### Base de Datos
-
-+Con una base de datos creda en SSMS con nombre "mclaren", migrar los modelos definidos:
-
-_C:...\mclaren\backend>_ python manage.py makemigrations
-
-_C:...\mclaren\backend>_ python manage.py migrate
-
-+Instalar _Version 17_ del controlador ODBC:
-
-https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver16
-
-
 ### Entorno Virtual
 
 +Crear y configurar el entorno virtual:
@@ -62,6 +49,19 @@ _(venv) C:...\mclaren\backend>_ pip install -r requirements.txt
 +Correr el backend:
 
 _(venv) C:...\mclaren\backend>_ python manage.py runserver
+
+
+### Base de Datos
+
++Con una base de datos creda en SSMS con nombre "mclaren", migrar los modelos definidos:
+
+_C:...\mclaren\backend>_ python manage.py makemigrations
+
+_C:...\mclaren\backend>_ python manage.py migrate
+
++Instalar _Version 17_ del controlador ODBC:
+
+https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver16
 
 
 
