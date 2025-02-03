@@ -31,7 +31,9 @@ _C:\...>_ py -m pip install Django
 
 +Crear y configurar el entorno virtual:
 
-_C:...\mclaren\backend>_ python -m venv venv                  #Crea el entorno virtual
+_C:...\mclaren\backend>_ pip install virtualenv
+
+_C:...\mclaren\backend>_ virtualenv venv                  #Crea el entorno virtual
 
 **_Windows:_**
 .\venv\Scripts\activate                                 #Activa el entorno virtual
