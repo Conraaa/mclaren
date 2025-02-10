@@ -120,7 +120,7 @@ function ListadoPiezas() {
   const options = {
     selectableRows: "none",
     textLabels: {
-      body: { noMatch: "No se encontraron registros", toolTip: "Ordenar" },
+      body: { noMatch: "No se encontraron registros", toolTip: "Ordenar", columnHeaderTooltip: (column) => `Ordenar por ${column.label}`, },
       pagination: { next: "Siguiente", previous: "Anterior", rowsPerPage: "Filas por página:", displayRows: "de" },
       toolbar: { search: "Buscar", downloadCsv: "Descargar CSV", print: "Imprimir", viewColumns: "Ver columnas", filterTable: "Filtrar" },
       filter: { all: "Todo", title: "FILTROS", reset: "REINICIAR" },
