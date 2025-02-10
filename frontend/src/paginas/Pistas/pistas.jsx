@@ -22,8 +22,7 @@ function Pistas() {
                 <Button className="Añadir" variant="primary" size="lg" onClick={handleShow}>Añadir +</Button>
                 <Modal 
                     show={show} 
-                    onHide={handleClose} 
-                    animation={false} 
+                    onHide={handleClose}  
                     className="custom-modal" // Agrega la clase aquí
                 >
                     <Modal.Header closeButton>
