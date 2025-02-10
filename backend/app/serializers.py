@@ -6,6 +6,9 @@ class BaseModelSerializer(serializers.ModelSerializer):                         
     restricted_fields = ['nombre', 'apellido', 'ciudad', 'pais']                #Array de los campos a validar
     
     def validate(self, data):
+        if self.Meta.model.__name__ == "Pieza":     #Si el modelo es pieza, devuelve la data sin validar (permite que el nombre de piezas tenga numeros)
+            return data
+        
         for field_name, value in data.items():
             if field_name in self.restricted_fields:
                 if isinstance(value, str) and any(char.isdigit() for char in value):        #Valida solo los campos CharField
