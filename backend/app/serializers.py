@@ -2,19 +2,47 @@ from rest_framework import serializers
 from .models import Departamento, Usuario, Ticket, Categoria, Pieza, Pista, Estrategia, EstrategiaPieza, Carrera, Telemetria, Registro 
 from datetime import timedelta
 
-class DepartamentoSerializer(serializers.ModelSerializer):
+class BaseModelSerializer(serializers.ModelSerializer):                         #Serializador Base
+    restricted_fields = ['nombre', 'apellido', 'ciudad', 'pais']                #Array de los campos a validar
+    
+    def validate(self, data):
+        for field_name, value in data.items():
+            if field_name in self.restricted_fields:
+                if isinstance(value, str) and any(char.isdigit() for char in value):        #Valida solo los campos CharField
+                    raise serializers.ValidationError(
+                        {field_name: "Este campo no puede contener números."}
+                    )
+        return data
+
+class DepartamentoSerializer(BaseModelSerializer):
     class Meta:
         model = Departamento
         fields = '__all__'
         
-class UsuarioSerializer(serializers.ModelSerializer):
+class UsuarioSerializer(BaseModelSerializer):
     departamento_nombre = serializers.ReadOnlyField(source='departamento.nombre')
+    contrasenia = serializers.CharField(write_only=True)
 
     class Meta:
         model = Usuario
         fields = '__all__'
         
-class TicketSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        contrasenia = validated_data.pop('contrasenia')  #Obtengo la contraseña de los datos validados
+        usuario = Usuario(**validated_data)
+        usuario.set_contrasenia(contrasenia)             #Cifro la contraseña antes de guardar
+        usuario.save()
+        return usuario
+
+    def update(self, instance, validated_data):
+        contrasenia = validated_data.pop('contrasenia', None)
+        instance = super().update(instance, validated_data)
+        if contrasenia:
+            instance.set_contrasenia(contrasenia)        #Si se cambia la contraseña, se cifra
+        instance.save()
+        return instance
+        
+class TicketSerializer(BaseModelSerializer):
     usuario_dni = serializers.ReadOnlyField(source='usuario.dni')
     usuario_legajo = serializers.ReadOnlyField(source='usuario.legajo')
     usuario_departamento = serializers.ReadOnlyField(source='usuario.departamento.nombre')
@@ -23,14 +51,14 @@ class TicketSerializer(serializers.ModelSerializer):
         model = Ticket
         fields = '__all__'
 
-class CategoriaSerializer(serializers.ModelSerializer):
+class CategoriaSerializer(BaseModelSerializer):
     departamento_nombre = serializers.ReadOnlyField(source='departamento.nombre')
 
     class Meta:
         model = Categoria
         fields = '__all__'
 
-class PiezaSerializer(serializers.ModelSerializer):
+class PiezaSerializer(BaseModelSerializer):
     categoria_nombre = serializers.ReadOnlyField(source='categoria.nombre')
     categoria_departamento = serializers.ReadOnlyField(source='categoria.departamento.nombre')
 
@@ -38,12 +66,12 @@ class PiezaSerializer(serializers.ModelSerializer):
         model = Pieza
         fields = '__all__'
 
-class PistaSerializer(serializers.ModelSerializer):
+class PistaSerializer(BaseModelSerializer):
     class Meta:
         model = Pista
         fields = '__all__'
 
-class EstrategiaSerializer(serializers.ModelSerializer):
+class EstrategiaSerializer(BaseModelSerializer):
     pista_nombre = serializers.ReadOnlyField(source='pista.nombre')
 
     class Meta:
@@ -52,7 +80,7 @@ class EstrategiaSerializer(serializers.ModelSerializer):
         
     nombre = serializers.ChoiceField(choices=Estrategia.ESTRATEGIAS)
 
-class EstrategiaPiezaSerializer(serializers.ModelSerializer):
+class EstrategiaPiezaSerializer(BaseModelSerializer):
     estrategia_nombre = serializers.ReadOnlyField(source='estrategia.nombre')
     pieza_nombre = serializers.ReadOnlyField(source='pieza.nombre')
 
@@ -60,7 +88,7 @@ class EstrategiaPiezaSerializer(serializers.ModelSerializer):
         model = EstrategiaPieza
         fields = '__all__'
 
-class CarreraSerializer(serializers.ModelSerializer):
+class CarreraSerializer(BaseModelSerializer):
     pista_nombre = serializers.ReadOnlyField(source='pista.nombre')
     estrategia_nombre = serializers.ReadOnlyField(source='estrategia.nombre')
 
@@ -68,7 +96,7 @@ class CarreraSerializer(serializers.ModelSerializer):
         model = Carrera
         fields = '__all__'
 
-class TelemetriaSerializer(serializers.ModelSerializer):
+class TelemetriaSerializer(BaseModelSerializer):
     carrera_anio = serializers.ReadOnlyField(source='carrera.anio')
     carrera_pista = serializers.ReadOnlyField(source='carrera.pista.nombre')
     carrera_estrategia = serializers.ReadOnlyField(source='carrera.estrategia.nombre')
@@ -77,7 +105,7 @@ class TelemetriaSerializer(serializers.ModelSerializer):
         model = Telemetria
         fields = '__all__'
 
-class RegistroSerializer(serializers.ModelSerializer):
+class RegistroSerializer(BaseModelSerializer):
     telemetria_numVuelta = serializers.ReadOnlyField(source='telemetria.numVuelta')
     
     valor_segundos = serializers.SerializerMethodField()
