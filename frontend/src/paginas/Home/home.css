@@ -1,134 +1,128 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
-}
-.Fondo{
-    background: #000000;
+/* Barra de progreso */
 
-}
-
-
-.CajaCarrusel{
-    width: 100%;
-    height: auto;
-    overflow: hidden;
-    right: 0;
+.progress-bar-group {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  gap: 10px;
 }
 
-.CajaCarrusel ul{
-    display: flex;
-    padding: 0;
-    width: 400%;
-    animation: slide 20s infinite alternate ease-in-out;
-
+.progress-bar {
+  width: 50px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
 }
 
-.CajaCarrusel li{
-    width: 100%;
-    list-style: none;
-    position: relative;
-
+.progress-bar.active .progress {
+    background: #ff8000;
 }
 
-.texto{
-    position: absolute;
-    text-align: center;
-    padding: 0 250px;
-    top:250px;
-    color: white;
-
+.progress-bar.active {
+    background: rgba(255, 255, 255, 0.5);
 }
 
-.texto h2{
-    font-size: 45px;
-    margin-bottom: 35px;
-
-
+.progress {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  transition: width 0.5s linear;
 }
 
-.CajaCarrusel img{
-    width: 100%;
+/* Contenido carrusel */
 
+.carousel-content {
+  position: absolute;
+  bottom: 15%;
+  left: 0;
+  right: 0;
+  padding: 20px 5%;
+  color: white;
+  text-align: left;
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 0;
+  width: 100%;
 }
 
-
-@keyframes slide{
-    0% { margin-left: 0; }
-    20%{ margin-left: 0;}
-    
-    25%{ margin-left: -100%;}
-    45%{ margin-left: -100%;}
-    
-    50%{ margin-left: -200%;}
-    70%{ margin-left: -200%;}
-    
-    75%{ margin-left: -300%;}
-    100%{ margin-left: -300%;}
-    
+.carousel-content h2 {
+  font-size: 80px;
+  font-family: "Comic sans", sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-@media(max-width:991px){
-    .Todo{
-        padding: 30px;
-
-
-    }
-    .CajaCarrusel{
-        width: 100%;
-
-
-
-    }
-    .texto{
-        top:50px;
-        padding: 0 25px;
-    }
-
-    .texto h2{
-        font-size: 35px;
-        margin-bottom: 15px;
-    }
-    .texto p{
-        font-size: 15px;
-
-
-
-    }
-}
-.buttons {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+.carousel-link {
+  margin-top: 10px;
+  display: inline-block;
+  padding: 12px 18px;
+  background: #ff8000b3;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 2px;
+  font-family: "Comic sans", sans-serif;
+  font-weight: bold;
 }
 
-button {
-    background: rgba(255, 255, 255, 0.8);
-    border: none;
-    padding: 10px;
-    cursor: pointer;
+.carousel-container {
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
 }
 
-.dots {
-    text-align: center;
-    margin-top: 10px;
+/* Flechas */
+
+.carousel-navigation {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 5%;
 }
 
-.dot {
-    height: 10px;
-    width: 10px;
-    margin: 0 5px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-    cursor: pointer;
+.nav-button {
+  background: transparent;
+  border: none;
+  font-size: 4rem;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  opacity: 0.7;
+  transition: opacity 0.3s;
 }
 
-.dot.active {
-    background-color: #717171;
+.nav-button:hover {
+  opacity: 1;
+}
+
+/* Transicion */
+
+.carousel-slide {
+  display: flex;
+  height: 100%;
+  transition: transform 0.8s ease-in-out;
+}
+  
+.carousel-item {
+  min-width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-item.active {
+  opacity: 1;
 }
