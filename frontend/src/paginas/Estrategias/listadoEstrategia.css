@@ -1,0 +1,94 @@
+/* Aseguramos que el contenedor .todo ocupe todo el espacio */
+.todo {
+    padding-top: 0%;
+    padding-left: 0%;
+    padding-right: 0%;
+    position: fixed;
+    width: 100%;
+    height: 100vh;  /* O 100% si prefieres que sea relativo a su contenedor padre */
+    overflow: auto;  /* Permite el scroll */
+    background-size: cover;  /* Hace que la imagen cubra todo el fondo */
+    background-position: center center;  /* Centra la imagen */
+    background-attachment: fixed;  /* Fija la imagen mientras se hace scroll */
+}
+
+/* Pseudo-elemento para añadir el filtro negro sobre la imagen */
+.todo::before {
+    content: '';  /* Necesario para que el pseudo-elemento funcione */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);  /* Filtro negro con opacidad */
+    z-index: -1;  /* Asegura que esté detrás del contenido */
+}
+
+/* Imagen de fondo que permanece fija mientras se hace scroll */
+.pagePista {
+    position: fixed;  /* Mantén la imagen fija mientras se hace scroll */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /* Asegura que la imagen cubra toda el área */
+    z-index: -2;  /* Asegura que la imagen esté detrás del filtro negro */
+    background-attachment: fixed;  /* Hace que el fondo se quede fijo mientras se hace scroll */
+}
+
+/* Contenedor principal del modal */
+.modal-body {
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Contenedor de las dos columnas */
+.input-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Cada columna ocupa el 48% del ancho para dejar espacio entre ellas */
+.aerodinamica, .grupo-motor {
+    width: 48%;
+}
+
+/* Ajustes para los selects dentro de cada columna */
+.aerodinamica select, .grupo-motor select {
+    width: 100%;
+}
+
+/* Título de cada apartado (Aerodinámica y Grupo Motor) */
+.aerodinamica h5, .grupo-motor h5 {
+    margin: 15px;
+    font-size: 1.2rem;
+    color: white;
+    text-align: center;
+}
+
+/* Ajustes de los selects */
+select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    background-color: rgb(1, 1, 1 ,0.2);
+}
+
+.Modelito {
+    width: 680px;
+}
+
+.Modelo {
+    transform: translateX(-89px);
+}
+
+.listadoEstrategiaModal .modal-dialog {
+    left: -105px;
+    top: 40px;
+    transform: none;
+}
+.form-select:disabled {
+    background-color: black;
+}

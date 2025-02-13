@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Bar from "../Bar/Bar";
 import "./Solving.css";
 import Soporte from "./Modal"; 
@@ -7,7 +7,6 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Checkbox } from "@mui/material";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css"; 
-
 
 function ListadoTickets() {
   const darkTheme = createTheme({
@@ -19,15 +18,30 @@ function ListadoTickets() {
     },
   });
 
-  const [data, setData] = useState([
-    { Asunto: "Problema con la red", Prioridad: "Alta", Estado: false, "+Info": "Detalles", Mensaje: "La red no responde desde ayer.", Opcion: "" },
-    { Asunto: "Error en la aplicación", Prioridad: "Media", Estado: true, "+Info": "Detalles", Mensaje: "Al iniciar la app, da error en la pantalla de inicio.", Opcion: "" },
-    { Asunto: "Solicitud de acceso", Prioridad: "Baja", Estado: false, "+Info": "Detalles", Mensaje: "Necesito acceso a la plataforma.", Opcion: "" },
-    { Asunto: "Fallo en la base de datos", Prioridad: "Alta", Estado: true, "+Info": "Detalles", Mensaje: "No se puede acceder a la base de datos, está caída.", Opcion: "" },
-  ]);
-
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [showModal, setShowModal] = useState(false);
+
+  // Cargar tickets desde el backend
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/tickets/")  // Reemplaza con tu endpoint real
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al cargar los datos");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setData(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error.message);
+        setLoading(false);
+      });
+  }, []);
 
   const handleCheckboxChange = (index) => {
     const newData = [...data];
@@ -35,13 +49,11 @@ function ListadoTickets() {
     setData(newData);
   };
 
-  // Función para responder a un ticket existente
   const handleRespondButtonClick = (rowData) => {
     setSelectedTicket(rowData);
     setShowModal(true);
   };
 
-  // Función para abrir el modal de nuevo ticket
   const handleNewTicket = () => {
     setSelectedTicket(null);
     setShowModal(true);
@@ -50,7 +62,7 @@ function ListadoTickets() {
   const options = {
     selectableRows: "none",
     textLabels: {
-      body: { noMatch: "No se encontraron registros", toolTip: "Ordenar", columnHeaderTooltip: (column) => `Ordenar por ${column.label}`, },
+      body: { noMatch: "No se encontraron registros", toolTip: "Ordenar", columnHeaderTooltip: (column) => `Ordenar por ${column.label}` },
       pagination: { next: "Siguiente", previous: "Anterior", rowsPerPage: "Filas por página:", displayRows: "de" },
       toolbar: { search: "Buscar", downloadCsv: "Descargar CSV", print: "Imprimir", viewColumns: "Ver columnas", filterTable: "Filtrar" },
       filter: { all: "Todo", title: "FILTROS", reset: "REINICIAR" },
@@ -65,49 +77,55 @@ function ListadoTickets() {
         <Bar />
 
         <div className="ticketButtonContainer">
-          <Button  className="Ticket" size="lg" onClick={handleNewTicket}>
+          <Button className="Ticket" size="lg" onClick={handleNewTicket}>
             Escribir Ticket
           </Button>
         </div>
 
         <div className="ListadoTickets">
           <div className="tablaContainer">
-            <MuiDatatable
-              title="Listado de Tickets"
-              columns={[
-                { name: "Asunto" },
-                { name: "Prioridad" },
-                { 
-                  name: "Estado",
-                  options: {
-                    customBodyRender: (value, tableMeta) => (
-                      <Checkbox
-                        checked={value}
-                        onChange={() => handleCheckboxChange(tableMeta.rowIndex)}
-                        color="primary"
-                      />
-                    ),
+            {loading ? (
+              <p>Cargando tickets...</p>
+            ) : error ? (
+              <p>Error: {error}</p>
+            ) : (
+              <MuiDatatable
+                title="Listado de Tickets"
+                columns={[
+                  { name: "Asunto" },
+                  { name: "Prioridad" },
+                  { 
+                    name: "Estado",
+                    options: {
+                      customBodyRender: (value, tableMeta) => (
+                        <Checkbox
+                          checked={value}
+                          onChange={() => handleCheckboxChange(tableMeta.rowIndex)}
+                          color="primary"
+                        />
+                      ),
+                    },
                   },
-                },
-                { name: "Mensaje" },
-                { 
-                  name: "Opción", 
-                  options: {
-                    customBodyRender: (value, tableMeta) => (
-                      <Button
-                        color="primary"
-                        onClick={() => handleRespondButtonClick(data[tableMeta.rowIndex])}
-                      >
-                        Responder
-                      </Button>
-                    ),
+                  { name: "Mensaje" },
+                  { 
+                    name: "Opción", 
+                    options: {
+                      customBodyRender: (value, tableMeta) => (
+                        <Button
+                          color="primary"
+                          onClick={() => handleRespondButtonClick(data[tableMeta.rowIndex])}
+                        >
+                          Responder
+                        </Button>
+                      ),
+                    },
                   },
-                },
-                { name: "+Info" },
-              ]}
-              data={data}
-              options={options}
-            />
+                  { name: "+Info" },
+                ]}
+                data={data}
+                options={options}
+              />
+            )}
           </div>
         </div>
 

@@ -4,6 +4,7 @@ import "./listados.css";
 import MuiDatatable from "mui-datatables";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Modal, Button, TextField, Select, MenuItem, Box, InputLabel, FormControl } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 function ListadoPiezas() {
   const API_URL = "http://127.0.0.1:8000/api/piezas/";
@@ -14,6 +15,28 @@ function ListadoPiezas() {
   const [editedData, setEditedData] = useState({ id: null, Nombre: "", Categoria: "" });
   const [categories, setCategories] = useState([]);
   const [departmentId] = useState(1); // Aquí estableces el ID del departamento
+  const [userDepartment, setUserDepartment] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch user department from API or local storage
+    const fetchUserDepartment = async () => {
+      // Replace with actual API call or local storage retrieval
+      const department = await getUserDepartment();
+      setUserDepartment(department);
+      if (department !== "aerodinamica") {
+        navigate("/"); // Redirect to home if not in aerodinamica department
+      }
+    };
+
+    fetchUserDepartment();
+  }, []);
+
+  const getUserDepartment = async () => {
+    // Mock function to get user department
+    // Replace with actual implementation
+    return "aerodinamica"; // Example department
+  };
 
   useEffect(() => {
     fetchData();
@@ -108,6 +131,12 @@ function ListadoPiezas() {
     setIsModalOpen(true);
   };
 
+  const handleOpenModal = () => {
+    setEditedData({ id: null, Nombre: "", Categoria: "" });
+    setSelectedRow(null);
+    setIsModalOpen(true);
+  };
+
   const darkTheme = createTheme({
     palette: { mode: "dark" },
     components: {
@@ -169,7 +198,7 @@ function ListadoPiezas() {
             options={options}
           />
           <div className="altaPieza">
-            <Button onClick={() => setIsModalOpen(true)} variant="contained" color="primary">
+            <Button onClick={handleOpenModal} variant="contained" color="primary">
               Agregar pieza
             </Button>
           </div>

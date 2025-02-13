@@ -4,6 +4,7 @@ import "./listados.css";
 import MuiDatatable from "mui-datatables";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Modal, Button, TextField, Select, MenuItem, Box, InputLabel, FormControl } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 function ListadoPiezas() {
   const API_URL = "http://127.0.0.1:8000/api/piezas/";
@@ -13,7 +14,29 @@ function ListadoPiezas() {
   const [selectedRow, setSelectedRow] = useState(null);
   const [editedData, setEditedData] = useState({ id: null, Nombre: "", Categoria: "" });
   const [categories, setCategories] = useState([]);
-  const [departmentId] = useState(2); // Aquí estableces el ID del departamento
+  const [departmentId] = useState(1); // Aquí estableces el ID del departamento
+  const [userDepartment, setUserDepartment] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch user department from API or local storage
+    const fetchUserDepartment = async () => {
+      // Replace with actual API call or local storage retrieval
+      const department = await getUserDepartment();
+      setUserDepartment(department);
+      if (department !== "aerodinamica") {
+        navigate("/"); // Redirect to home if not in aerodinamica department
+      }
+    };
+
+    fetchUserDepartment();
+  }, []);
+
+  const getUserDepartment = async () => {
+    // Mock function to get user department
+    // Replace with actual implementation
+    return "aerodinamica"; // Example department
+  };
 
   useEffect(() => {
     fetchData();
@@ -22,7 +45,7 @@ function ListadoPiezas() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`${API_URL}?departamento_id=${2}`);
+      const response = await fetch(`${API_URL}?departamento_id=${1}`);
       if (response.ok) {
         const piezas = await response.json();
         console.log("Piezas recibidas:", piezas);
@@ -43,7 +66,7 @@ function ListadoPiezas() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch(`${CATEGORY_URL}?departamento_id=${2}`);
+      const response = await fetch(`${CATEGORY_URL}?departamento_id=${1}`);
       if (response.ok) {
         const categories = await response.json();
         console.log("Categorías recibidas:", categories);
@@ -108,6 +131,13 @@ function ListadoPiezas() {
     setIsModalOpen(true);
   };
 
+  // Función para abrir el modal y reiniciar el estado editedData
+  const handleOpenModal = () => {
+    setEditedData({ id: null, Nombre: "", Categoria: "" }); // Reiniciar el estado
+    setSelectedRow(null); // Reiniciar la fila seleccionada
+    setIsModalOpen(true); // Abrir el modal
+  };
+
   const darkTheme = createTheme({
     palette: { mode: "dark" },
     components: {
@@ -169,7 +199,7 @@ function ListadoPiezas() {
             options={options}
           />
           <div className="altaPieza">
-            <Button onClick={() => setIsModalOpen(true)} variant="contained" color="primary">
+            <Button onClick={handleOpenModal} variant="contained" color="primary">
               Agregar pieza
             </Button>
           </div>

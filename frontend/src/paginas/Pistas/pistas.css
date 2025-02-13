@@ -1,48 +1,36 @@
 .todo {
     background-color: rgb(65, 65, 65);
-    position: relative; /* Permite el posicionamiento absoluto de elementos hijos */
-    z-index: 0; /* Asegura que el contenido esté por encima */
+    position: relative;
+    z-index: 0;
 }
-.card-title , .CartaTextoPist{
-  text-align: center;
+
+.card-title , .CartaTextoPist {
+    text-align: center;
 }
+
 .pagePista {
-    backdrop-filter:blur(25px) ;
-    position: fixed; /* Posiciona la imagen de manera absoluta */
-    top: 0; /* Coloca la imagen en la parte superior */
-    left: 0; /* Alinea la imagen a la izquierda */
-    width: 100%; /* La imagen ocupa todo el ancho */
-    height: 100%; /* La imagen ocupa todo el alto */
-    object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
-    z-index: -1; /* Coloca la imagen detrás del contenido */
+    backdrop-filter: blur(25px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
 }
 
 .botonAnadir {
     display: flex;
-    align-items: center; /* Cambia a align-items para alinear verticalmente */
+    align-items: center;
     justify-content: center;
     margin-top: 20px;
-    position: relative; /* Asegúrate de que esté en el contexto del contenedor */
-    z-index: 1; /* Asegúrate de que esté por encima de la imagen de fondo */
+    position: relative;
+    z-index: 1;
 }
 
 .class {
     width: 18rem;
-    margin-left: 40px;/* Estilos para los inputs transparentes con texto blanco */
-    /* También aseguramos que los campos de selección tengan el mismo estilo */
-    select {
-      background-color: transparent !important;
-      color: white !important;
-      border: 2px solid white !important;
-      border-radius: 8px;
-      padding: 5px;
-    }
-    
-    /* Opcionales: añadir un poco de espacio alrededor de los inputs */
-    .mb-3 {
-      margin-bottom: 15px;
-    }
-    
+    margin-left: 40px;
     margin-top: 50px;
     display: inline-block;
     align-items: center;
@@ -52,77 +40,124 @@
 
 .card {
     color: white;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo blanco con 50% de opacidad */
+    background-color: rgba(0, 0, 0, 0.5);
     border: 1px solid white;
-    border-radius: 8px; /* Opcional: bordes redondeados */
-    backdrop-filter:blur(25px) ;
+    border-radius: 8px;
+    backdrop-filter: blur(25px);
 }
-
-
 
 .boton {
-  position: relative;
-  background: #ff000000;
-  color: white;
-  justify-content: space-between;
-  display: flex;
-  margin: 20px;
-  left: 60px;
-  top: -2px;
+    position: relative;
+    background: #ff000000;
+    color: white;
+    justify-content: space-between;
+    display: flex;
+    margin: 20px;
+    left: 60px;
+    top: -2px;
 }
-.Cerrar{
+
+.Cerrar {
     background-color: red;
-  border-color: rgb(255, 255, 255);
-  }
-  .Guardar{
+    border-color: white;
+}
+
+.Guardar {
     background-color: #46a346;
     border-color: white;
-  
-  }
-  
-  .Cerrar:hover{
+}
+
+.Cerrar:hover {
     background-color: rgb(156, 0, 0);
-  
-  }
-  
-  .Guardar:hover{
+}
+
+.Guardar:hover {
     background-color: #388338;
-  
-  
-  }.Añadir{
+}
+
+.Añadir {
     background-color: #FF8000;
     border-color: white;
-  }
-  /* Estilos para los inputs transparentes con texto blanco */
-.form-control {
-    background-color: transparent !important; /* Hace el fondo transparente */
-    color: white !important; /* Hace que el texto sea blanco */
-    border: 2px solid white !important; /* Borde blanco */
-    border-radius: 8px; /* Bordes redondeados */
-    height: 35px; /* Puedes ajustar la altura según lo necesites */
-    padding: 5px; /* Espaciado interno para un mejor diseño */
-  }
-  input::placeholder {
-    color: white; /* Hace que los placeholders también sean blancos */
-  }
-  
-  /* También aseguramos que los campos de selección tengan el mismo estilo */
-  /* Estilo para los botones dentro del modal */
-.custom-modal .modal-content  {
-      color: white;
-      background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
-      backdrop-filter:blur(25px) ;
-      border-radius: 8px; 
-      border: 2px solid white;
-  }
-  
-  /* Opcionales: añadir un poco de espacio alrededor de los inputs */
-  .mb-3 {
-    margin-bottom: 15px;
-  }
+}
 
-  .Añadir:hover{
+.Añadir:hover {
     background-color: #a55301;
     border-color: white;
-  
-  }
+}
+
+.form-control {
+    background-color: transparent !important;
+    color: white !important;
+    border: 2px solid white !important;
+    border-radius: 8px;
+    height: 35px;
+    padding: 5px;
+}
+
+input::placeholder {
+    color: white;
+}
+
+.custom-modal .modal-content {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(25px);
+    border-radius: 8px;
+    border: 2px solid white;
+}
+
+.mb-3 {
+    margin-bottom: 15px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .todo {
+        padding: 10px;
+    }
+
+    .botonAnadir {
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    .class {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    .card {
+        margin: 10px auto;
+    }
+
+    .pagePista {
+        height: auto;
+    }
+
+    .custom-modal .modal-footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .custom-modal .Cerrar,
+    .custom-modal .Guardar {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+@media (min-width: 769px) {
+    .custom-modal .modal-footer {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+    }
+    
+    .custom-modal .Cerrar,
+    .custom-modal .Guardar {
+        width: auto;
+        margin-bottom: 0;
+    }
+}

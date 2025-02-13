@@ -33,57 +33,56 @@ export default function Bar() {
 
       {/* Contenido principal, siempre cargándose */}
       <div className={`bar ${!introFinished ? 'hidden-content' : ''}`}>
-        {/* Menú principal a la izquierda */}
-        <div className="logoMenú">
-          <nav>
-            <ul className="menuHorizontal">
+          <div className="logoMenú">
+            <nav>
+              <ul className="menuHorizontal">
+                <li>
+            <Link>
+              <img className="Logo" src={Logo} alt="logo de la pagina" />
+            </Link>
+            <ul className="menuVertical">
               <li>
-                <Link>
-                  <img className="Logo" src={Logo} alt="logo de la pagina" />
+                <Link to="/">
+                  <button><b>Home</b></button>
                 </Link>
-                <ul className="menuVertical">
-                  <li>
-                    <Link to="/">
-                      <button><b>Home</b></button>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/empleados">
-                      <button><b>Empleados</b></button>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/carreras">
-                      <button><b>Carreras</b></button>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/pistas">
-                      <button><b>Pistas</b></button>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/ListadoEstrategia">
-                      <button><b>Estrategia</b></button>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/Departamentos">
-                      <button><b>Departamento</b></button>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/Soporte">
-                      <button><b>Soporte</b></button>
-                    </Link>
-                  </li>
-                </ul>
+              </li>
+              <li>
+                <Link to="/Empleados">
+                  <button><b>Empleados</b></button>
+                </Link>
+              </li>
+              <li>
+                <Link to="/Carreras">
+                  <button><b>Carreras</b></button>
+                </Link>
+              </li>
+              <li>
+                <Link to="/Pistas">
+                  <button><b>Pistas</b></button>
+                </Link>
+              </li>
+              <li>
+                <Link to="/ListadoEstrategia">
+                  <button><b>Estrategia</b></button>
+                </Link>
+              </li>
+              <li>
+                <Link to="/Departamentos">
+                  <button><b>Departamento</b></button>
+                </Link>
+              </li>
+              <li>
+                <Link to="/Soporte">
+                  <button><b>Soporte</b></button>
+                </Link>
               </li>
             </ul>
-          </nav>
-        </div>
+                </li>
+              </ul>
+            </nav>
+          </div>
 
-        {/* Logo central */}
+          {/* Logo central */}
         <Link to="/">
           <img className="Logo_central" src={Logocentral} alt="Logo de en medio" />
         </Link>

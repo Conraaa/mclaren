@@ -5,6 +5,8 @@ import MuiDatatable from "mui-datatables";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import Footer from '../Footer/Footer.jsx';
+import { fetchEmpleados } from '../Funciones.js';
+
 function ListadoLugar() {
   const columns = [
     { name: "Nombre", options: { setCellProps: () => ({ style: { paddingLeft: "40px" } }) } },
@@ -17,28 +19,7 @@ function ListadoLugar() {
 
   // Obtener los datos de la API
   useEffect(() => {
-    const fetchEmpleados = async () => {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/usuarios/");
-        if (response.ok) {
-          const empleados = await response.json();
-          // Transformar los datos para la tabla
-          const formattedData = empleados.map((empleado) => [
-            empleado.nombre,
-            empleado.apellido,
-            empleado.legajo,
-            empleado.departamento,
-          ]);
-          setData(formattedData);
-        } else {
-          console.error("Error al obtener los empleados:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error al conectar con el servidor:", error);
-      }
-    };
-
-    fetchEmpleados();
+    fetchEmpleados(setData);
   }, []);
 
   // Crear un tema oscuro personalizado

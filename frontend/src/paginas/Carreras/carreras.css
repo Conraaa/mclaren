@@ -90,15 +90,30 @@
   width: 100%; /* Asegura que los inputs ocupen todo el ancho disponible */
 }
 
+/* Estilos para el modal */
+.custom-modalCarreras {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  position: fixed; /* Fija el modal en la pantalla */
+  top: 0;
+  left: 0;
+  width: 100vw; /* Ocupa todo el ancho de la pantalla */
+  height: 100vh; /* Ocupa todo el alto de la pantalla */
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  z-index: 1050; /* Asegura que esté por encima de otros elementos */
+}
 
-/* Modal personalizado */
+/* Estilos para el contenido del modal */
 .custom-modalCarreras .modal-content {
   border: 2px solid white;
-  top: 90px;
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(25px);
   border-radius: 8px;
   color: white;
+  width: auto; /* Ancho automático según el contenido */
+  max-width: 90%; /* Limita el ancho máximo para que no sea demasiado grande */
+  margin: 0 auto; /* Centra el contenido dentro del modal */
 }
 .field-container3 p{
   width: 100px;
@@ -197,7 +212,6 @@ select{
   border-radius: 8px;
  color: white;
   outline: 0;
-  left: -25%;
 }
 
 .Telemetrias{
