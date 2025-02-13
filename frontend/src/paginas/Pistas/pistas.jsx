@@ -1,4 +1,4 @@
-import Carta from "./Carta.jsx";
+import Carta from "./carta.jsx";
 import './pistas.css';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
