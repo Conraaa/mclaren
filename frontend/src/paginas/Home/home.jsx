@@ -12,9 +12,9 @@ import soporte from "../Imagenes/Carrusel/soporte.jpg";
 
 const HomeCarousel = () => {
   const [items] = useState([
-    { id: 1, background: empleados, name: "Empleados", route: "/empleados" },
-    { id: 2, background: carreras, name: "Carreras", route: "/carreras" },
-    { id: 3, background: pistas, name: "Pistas", route: "/pistas" },
+    { id: 1, background: empleados, name: "Empleados", route: "/Empleados" },
+    { id: 2, background: carreras, name: "Carreras", route: "/Carreras" },
+    { id: 3, background: pistas, name: "Pistas", route: "/Pistas" },
     { id: 4, background: estrategias, name: "Estrategias", route: "/ListadoEstrategia" },
     { id: 5, background: departamentos, name: "Departamentos", route: "/Departamentos" },
     { id: 6, background: soporte, name: "Soporte", route: "/Soporte" },
