@@ -4,17 +4,9 @@
 
 +Utilizando Visual Studio Code, agregar la extension de React: "_ES7+ React/Redux/React-Native snippets_".
 
-_C:\...>_ npm install create-react-app
++Instalar todos los paquetes necesarios:
 
-_C:\...>_ npm install react-player
-
-_C:\...>_ npm install react-router-dom
-
-_C:\...>_ npm install react-bootstrap bootstrap
-
-_C:\...>_ npm install axios
-
-_C:\...>_ npm install @mui/material @emotion/react @emotion/styled 
+_C:\...>_ npm install
 
 +Una vez instalado todo, "_C:\...>_ npm start" ejecutará la aplicación en el modo de desarrollo.
 
@@ -55,15 +47,15 @@ _(venv) C:...\mclaren\backend>_ python manage.py runserver
 
 ### Base de Datos
 
++Instalar _Version 17_ del controlador ODBC:
+
+https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver16
+
 +Con una base de datos creda en SSMS con nombre "mclaren", migrar los modelos definidos:
 
 _C:...\mclaren\backend>_ python manage.py makemigrations
 
 _C:...\mclaren\backend>_ python manage.py migrate
-
-+Instalar _Version 17_ del controlador ODBC:
-
-https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver16
 
 
 
