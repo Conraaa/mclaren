@@ -2,8 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 from django.contrib.auth.hashers import check_password
-from .models import Departamento, Usuario, Ticket, Categoria, Pieza, Pista, Estrategia, EstrategiaPieza, Carrera, Telemetria, Registro
-from .serializers import DepartamentoSerializer, UsuarioSerializer, TicketSerializer, CategoriaSerializer, PiezaSerializer, PistaSerializer, EstrategiaSerializer, EstrategiaPiezaSerializer, CarreraSerializer, TelemetriaSerializer, RegistroSerializer, LoginSerializer 
+from .models import Departamento, Usuario, Categoria, Pieza, Pista, Estrategia, EstrategiaPieza, Carrera, Telemetria, Registro
+from .serializers import DepartamentoSerializer, UsuarioSerializer, CategoriaSerializer, PiezaSerializer, PistaSerializer, EstrategiaSerializer, EstrategiaPiezaSerializer, CarreraSerializer, TelemetriaSerializer, RegistroSerializer, LoginSerializer 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -15,10 +15,6 @@ class DepartamentoViewSet(viewsets.ModelViewSet):
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
-    
-class TicketViewSet(viewsets.ModelViewSet):
-    queryset = Ticket.objects.all()
-    serializer_class = TicketSerializer
 
 class CategoriaViewSet(viewsets.ModelViewSet):
     queryset = Categoria.objects.all()

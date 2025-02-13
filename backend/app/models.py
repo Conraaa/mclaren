@@ -40,9 +40,6 @@ class Usuario(BaseModel):
     def check_contrasenia(self, contrasenia):       #Verifica contraseña en el login con el hash
         return check_password(contrasenia, self.contrasenia)
 
-class Ticket(BaseModel):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='tickets')
-
 class Categoria(BaseModel):
     nombre = models.CharField(max_length=500)
     departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, related_name='categorias')

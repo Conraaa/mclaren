@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Departamento, Usuario, Ticket, Categoria, Pieza, Pista, Estrategia, EstrategiaPieza, Carrera, Telemetria, Registro 
+from .models import Departamento, Usuario, Categoria, Pieza, Pista, Estrategia, EstrategiaPieza, Carrera, Telemetria, Registro 
 from datetime import timedelta
 
 class BaseModelSerializer(serializers.ModelSerializer):                         #Serializador Base
@@ -44,15 +44,6 @@ class UsuarioSerializer(BaseModelSerializer):
             instance.set_contrasenia(contrasenia)        #Si se cambia la contraseña, se cifra
         instance.save()
         return instance
-        
-class TicketSerializer(BaseModelSerializer):
-    usuario_dni = serializers.ReadOnlyField(source='usuario.dni')
-    usuario_legajo = serializers.ReadOnlyField(source='usuario.legajo')
-    usuario_departamento = serializers.ReadOnlyField(source='usuario.departamento.nombre')
-
-    class Meta:
-        model = Ticket
-        fields = '__all__'
 
 class CategoriaSerializer(BaseModelSerializer):
     departamento_nombre = serializers.ReadOnlyField(source='departamento.nombre')
