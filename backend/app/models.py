@@ -3,10 +3,12 @@ from .utils import format_char_field
 from django.utils.deconstruct import deconstructible
 from django.contrib.auth.hashers import make_password, check_password
 
-class BaseModel(models.Model):                  #Modelo Base
+class BaseModel(models.Model):                  #Modelo 
+    excluded_fields = ['contrasenia', 'valor']
+    
     def save(self, *args, **kwargs):
         for field in self._meta.fields:         #Itero sobre los campos que usen este modelo base, y si es un CharField aplico el formateo
-            if isinstance(field, models.CharField):
+            if isinstance(field, models.CharField) and field.name not in self.excluded_fields:
                 value = getattr(self, field.name, "")
                 setattr(self, field.name, format_char_field(value))
         super().save(*args, **kwargs)
@@ -32,13 +34,17 @@ class Usuario(BaseModel):
     apellido = models.CharField(max_length=500, null=True, blank=True)
     legajo = models.BigIntegerField(null=True, blank=True, unique=True)
     departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, related_name='usuarios')
-    contrasenia = models.CharField(max_length=500, null=True, blank=True)
+    contrasenia = models.TextField(db_column='contrasenia', blank=True, null=True)
+    
+    def save(self, *args, **kwargs):
+        if self.pk:                 #Verifica si ese usuario ya existe en la bd
+            usuario_anterior = Usuario.objects.filter(pk=self.pk).first()
+            if usuario_anterior and usuario_anterior.contrasenia != self.contrasenia:   #Si existe y cambio su contraseña, se guarda la nueva hasheada
+                self.contrasenia = make_password(self.contrasenia)
+        else:
+            self.contrasenia = make_password(self.contrasenia)          #Si es un nuevo usuario, se guarda su contraseña hasheada
 
-    def set_contrasenia(self, contrasenia):         #Cifra contraseña
-        self.contrasenia = make_password(contrasenia)
-
-    def check_contrasenia(self, contrasenia):       #Verifica contraseña en el login con el hash
-        return check_password(contrasenia, self.contrasenia)
+        super().save(*args, **kwargs)
 
 class Categoria(BaseModel):
     nombre = models.CharField(max_length=500)

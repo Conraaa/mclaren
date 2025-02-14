@@ -29,21 +29,6 @@ class UsuarioSerializer(BaseModelSerializer):
     class Meta:
         model = Usuario
         fields = '__all__'
-        
-    def create(self, validated_data):
-        contrasenia = validated_data.pop('contrasenia')  #Obtengo la contraseña de los datos validados
-        usuario = Usuario(**validated_data)
-        usuario.set_contrasenia(contrasenia)             #Cifro la contraseña antes de guardar
-        usuario.save()
-        return usuario
-
-    def update(self, instance, validated_data):
-        contrasenia = validated_data.pop('contrasenia', None)
-        instance = super().update(instance, validated_data)
-        if contrasenia:
-            instance.set_contrasenia(contrasenia)        #Si se cambia la contraseña, se cifra
-        instance.save()
-        return instance
 
 class CategoriaSerializer(BaseModelSerializer):
     departamento_nombre = serializers.ReadOnlyField(source='departamento.nombre')
