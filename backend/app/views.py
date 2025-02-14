@@ -106,15 +106,9 @@ class LoginView(APIView):
             
             # Buscar el usuario por legajo
             try:
-                usuario = Usuario.objects.get(legajo=legajo)
-
-                # Depuración: imprime los datos del usuario
-                print(f"Usuario: {usuario}")
-                print(f"Nombre: {usuario.nombre}")
-                print(f"Departamento: {usuario.departamento.nombre}")
-                
+                usuario = Usuario.objects.get(legajo=legajo)             
                 # Verificar la contraseña
-                if contrasenia == usuario.contrasenia:
+                if check_password(contrasenia, usuario.contrasenia):
                     return Response({
                         "message": "Login exitoso",
                         "access": "fake_access_token",
