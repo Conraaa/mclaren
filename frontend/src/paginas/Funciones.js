@@ -1,7 +1,6 @@
 import pistaImages from "./Carreras/imports.js";
 export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handleClose) => {
   const nuevaPista = { nombre, kilometros, pais, ciudad, foto };
-  console.log(nuevaPista);
   try {
     const formData = new FormData();
     formData.append("nombre", nuevaPista.nombre);
@@ -14,8 +13,6 @@ export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handl
       body: formData,
     });
     if (!response.ok) throw new Error("Error al enviar la pista");
-    const data = await response.json();
-    console.log("Pista guardada exitosamente:", data);
     handleClose();
   } catch (error) {
     console.error("Error al enviar la pista:", error);
@@ -147,7 +144,7 @@ export const handleSubmitCarrera = async (
     return;
   }
 
-  if (!Array.isArray(pistas) || !Array.isArray(estrategias)) {
+  if (!Array.isArray(pistas) || !Array.isArray(estrategias) || !pistas || !estrategias || pistas.length === 0) {
     alert("Error al cargar pistas o estrategias");
     return;
   }
@@ -236,7 +233,6 @@ export const handleSubmitCarrera = async (
     }
 
     const dataCarrera = await responseCarrera.json();
-    console.log("Carrera creada:", dataCarrera);
 
     const carreraId = dataCarrera.id;
 
@@ -257,8 +253,6 @@ export const handleSubmitCarrera = async (
       }
 
       const dataTelemetria = await responseTelemetria.json();
-      console.log(`Telemetría creada para ${piloto}:`, dataTelemetria);
-
       telemetriaIds[piloto] = dataTelemetria.id;
     }
 
@@ -274,8 +268,6 @@ export const handleSubmitCarrera = async (
       if (t.piloto === "norris") telemetriaIds["norris"] = t.id;
       if (t.piloto === "piastri") telemetriaIds["piastri"] = t.id;
     });
-
-    console.log("Telemetrías obtenidas:", telemetriaIds);
 
     // 4. Guardar registros de vueltas
     const registros = [];
@@ -305,8 +297,6 @@ export const handleSubmitCarrera = async (
     );
 
     await Promise.all(registrosRequests);
-
-    console.log("Registros de telemetría guardados");
 
     // Actualizar estado y cerrar modal
     setCarreras([...carreras, { id: carreraId, ...dataCarrera }]);

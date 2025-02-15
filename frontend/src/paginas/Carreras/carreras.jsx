@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import Bar from "../Bar/Bar.jsx";
 import Fondo from '../Imagenes/Carreras.jpg';
 import Footer from '../Footer/Footer.jsx';
-import { fetchPistasYEstrategias, handleSubmitCarrera, checkTelemetria } from '../Funciones.js';
+import { fetchPistasYEstrategias, handleSubmitCarrera } from '../Funciones.js';
 
 function Carrera() {
     const [show, setShow] = useState(false);
@@ -15,12 +15,10 @@ function Carrera() {
     const [pista, setPista] = useState("");
     const [cantVueltas, setVueltas] = useState("");
     const [estrategia, setEstrategia] = useState("");
-    const [telemetriaStatus, setTelemetriaStatus] = useState(null);
     const [carreras, setCarreras] = useState([]);
     const [pistas, setPistas] = useState([]);
     const [estrategias, setEstrategias] = useState([]);
     const [estrategiasFiltradas, setEstrategiasFiltradas] = useState([]);
-    const [isTelemetriaChecked, setIsTelemetriaChecked] = useState(false);
 
     useEffect(() => {
         const savedCarreras = JSON.parse(localStorage.getItem("carreras")) || [];
@@ -90,7 +88,10 @@ function Carrera() {
                         </Modal.Body>
                         <Modal.Footer>
                             <Button className="Cerrar" onClick={handleClose}>Cerrar</Button>
-                            <Button className="Guardar" onClick={() => handleSubmitCarrera(anio, pista, cantVueltas, estrategia, setCarreras, carreras, handleClose, telemetriaStatus, pistas, estrategias)}>Guardar</Button>
+                            <Button className="Guardar" onClick={() => {
+                                console.log("Botón Guardar presionado");
+                                handleSubmitCarrera(anio, pista, cantVueltas, estrategia, setCarreras, carreras, handleClose, pistas, estrategias)
+                            }}>Guardar</Button>
                         </Modal.Footer>
                     </Modal>
                 </div>
