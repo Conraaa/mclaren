@@ -89,7 +89,6 @@ function Carrera() {
                         <Modal.Footer>
                             <Button className="Cerrar" onClick={handleClose}>Cerrar</Button>
                             <Button className="Guardar" onClick={() => {
-                                console.log("Botón Guardar presionado");
                                 handleSubmitCarrera(anio, pista, cantVueltas, estrategia, setCarreras, carreras, handleClose, pistas, estrategias)
                             }}>Guardar</Button>
                         </Modal.Footer>
