@@ -176,7 +176,7 @@ function Estrategia() {
 
             {/* Botón para abrir el modal */}
             <div className="botonAnadir">
-                <Button className="Añadir" variant="primary" size="lg" onClick={handleAdd}>Añadir +</Button> 
+                <Button className="Añadir" variant="primary" size="lg" onClick={handleAdd}>Añadir </Button> 
             </div>
 
             {/* Mostrar estrategias en cartas */}
@@ -193,7 +193,7 @@ function Estrategia() {
                         <Form.Group controlId="formPista" className="mt-3">
                             <Form.Label>Pista</Form.Label>
                             <Form.Select className="inputCarrera" name="pista" value={estrategia.pista} onChange={handleChange} disabled={isEditMode}>
-                                <option value="">Seleccione una pista</option>
+                                <option value="">Seleccionar una pista</option>
                                 {pistas.map(pista => (
                                     <option key={pista.id} value={pista.nombre}>{pista.nombre}</option>
                                 ))}
@@ -203,7 +203,7 @@ function Estrategia() {
                         <Form.Group controlId="formTipo">
                             <Form.Label>Tipo de Estrategia</Form.Label>
                             <Form.Select name="tipo" className="inputCarrera" value={estrategia.tipo} onChange={handleChange} disabled={isEditMode}>
-                                <option value="" disabled>Seleccione el tipo</option>
+                                <option value="" disabled>Seleccionar el tipo de estrategia</option>
                                 <option value="Seco">Seco</option>
                                 <option value="Lluvia">Lluvia</option>
                                 <option value="Viento">Viento</option>
@@ -218,7 +218,7 @@ function Estrategia() {
                                 <Form.Group>
                                     <Form.Label>Alerón Delantero</Form.Label>
                                     <Form.Select className="inputCarrera" name="aleronDelantero" value={estrategia.aleronDelantero} onChange={handleChange}>
-                                        <option value="" disabled>Selecciona</option>
+                                        <option value="" disabled>Seleccionar</option>
                                         {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Aleron Delantero").map(pieza => (
                                             <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
                                         ))}
@@ -228,7 +228,7 @@ function Estrategia() {
                                 <Form.Group>
                                     <Form.Label>Alerón Trasero</Form.Label>
                                     <Form.Select className="inputCarrera" name="aleronTrasero" value={estrategia.aleronTrasero} onChange={handleChange}>
-                                        <option value="" disabled>Selecciona</option>
+                                        <option value="" disabled>Seleccionar</option>
                                         {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Aleron Trasero").map(pieza => (
                                             <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
                                         ))}
@@ -238,7 +238,7 @@ function Estrategia() {
                                 <Form.Group>
                                     <Form.Label>Pontones</Form.Label>
                                     <Form.Select className="inputCarrera" name="pontones" value={estrategia.pontones} onChange={handleChange}>
-                                        <option value="" disabled>Selecciona</option>
+                                        <option value="" disabled>Seleccionar</option>
                                         {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Pontones").map(pieza => (
                                             <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
                                         ))}
@@ -248,7 +248,7 @@ function Estrategia() {
                                 <Form.Group>
                                     <Form.Label>Fondo Plano</Form.Label>
                                     <Form.Select className="inputCarrera" name="fondoPlano" value={estrategia.fondoPlano} onChange={handleChange}>
-                                        <option value="" disabled>Selecciona</option>
+                                        <option value="" disabled>Seleccionar</option>
                                         {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Fondo Plano").map(pieza => (
                                             <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
                                         ))}
@@ -258,7 +258,7 @@ function Estrategia() {
                                 <Form.Group>
                                     <Form.Label>Difusor</Form.Label>
                                     <Form.Select className="inputCarrera" name="difusor" value={estrategia.difusor} onChange={handleChange}>
-                                        <option value="" disabled>Selecciona</option>
+                                        <option value="" disabled>Seleccionar</option>
                                         {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Difusor").map(pieza => (
                                             <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
                                         ))}
@@ -272,7 +272,7 @@ function Estrategia() {
                                 <Form.Group>
                                     <Form.Label>Motor</Form.Label>
                                     <Form.Select className="inputCarrera" name="motor" value={estrategia.motor} onChange={handleChange}>
-                                        <option value="" disabled>Selecciona</option>
+                                        <option value="" disabled>Seleccionar</option>
                                         {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Motor").map(pieza => (
                                             <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
                                         ))}
@@ -282,7 +282,7 @@ function Estrategia() {
                                 <Form.Group>
                                     <Form.Label>Caja de Cambios</Form.Label>
                                     <Form.Select className="inputCarrera" name="cajaCambios" value={estrategia.cajaCambios} onChange={handleChange}>
-                                        <option value="" disabled>Selecciona</option>
+                                        <option value="" disabled>Seleccionar</option>
                                         {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Caja De Cambios").map(pieza => (
                                             <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
                                         ))}
@@ -293,7 +293,7 @@ function Estrategia() {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="Cerrar" variant="secondary" onClick={() => setShow(false)}>Cancelar</Button>
+                    <Button className="Cerrar" variant="secondary" onClick={() => setShow(false)}>Cerrar</Button>
                     <Button className='Guardar' variant="primary" onClick={handleSave}>Guardar</Button>
                 </Modal.Footer>
             </Modal>

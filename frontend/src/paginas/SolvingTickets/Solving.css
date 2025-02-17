@@ -6,7 +6,7 @@
   background-size: cover; 
   background-position: center; 
   background-attachment: fixed; 
-  color: white; 
+  color: white;
 }
 
 .ListadoTickets {
@@ -90,13 +90,14 @@
   border-color: white !important;
 }
 
-.custom-modal .modal-content  {
+.custom-modal .modal-content { 
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter:blur(25px) ;
   border-radius: 8px; 
   border: 2px solid white;
   margin-top: 15%;
+  transform: translate(-15%, 0%);
 }
 
 .mb-3 {
@@ -109,4 +110,80 @@
 
 .inputTicket option{
   background-color: rgb(0 0 0);
+}
+
+/* Quitar margen inferior entre los acordeones */
+.custom-modal .accordion .card {
+  margin-bottom: 0;
+  border: none !important;
+}
+
+/* Asegurar borde blanco en cada acordeón */
+.accordion-item {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(25px);
+  border: 2px solid white;
+  border-radius: 8px;
+  box-shadow: none !important;
+  overflow: hidden; /* Evita que sobresalga el contenido */
+}
+
+/* Borde blanco en los headers del acordeón */
+.accordion-button {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(25px);
+  color: white !important;
+  border: none !important; /* Borde blanco en los headers */
+  border-radius: 8px;
+}
+
+/* Mantener borde blanco en el botón incluso cuando está expandido */
+.accordion-button:not(.collapsed) {
+  border: none!important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+/* Estilo del contenido del acordeón */
+.accordion-body {
+  background-color: rgba(1, 0, 0, 0.5) !important;
+  backdrop-filter: blur(25px);
+  color: white !important;
+  
+  border-radius: 0%; /* Borde blanco en la parte superior del contenido */
+}
+
+/* Eliminar borde interno entre header y body */
+.accordion-item .accordion-collapse {
+  border-top: none !important;
+}
+
+/* Eliminar el hover celeste en botones del acordeón */
+.accordion-button:hover,
+.accordion-button:focus {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  color: white !important;
+  border-color: none !important; /* Mantener borde blanco */
+  box-shadow: none !important;
+}
+
+/* Eliminar el hover celeste en inputs dentro del modal */
+.modal .form-control:focus,
+.modal .form-control:hover {
+  background-color: transparent !important;
+  border-color: none !important;
+  box-shadow: none !important;
+  border-radius: 8px;
+}
+
+/* Eliminar la flecha de los acordeones */
+.accordion-button::after {
+  display: none !important;
+}
+
+.btn:hover, .btn:focus, .btn:active {
+  /* Elimina el cambio de color de fondo */
+  border-color: transparent !important;      /* Elimina el cambio de color del borde */
+  box-shadow: none !important;               /* Elimina el efecto de sombra */
+  color: inherit !important;                 /* Mantiene el color del texto original */
 }

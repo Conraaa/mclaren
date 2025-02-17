@@ -26,7 +26,7 @@ function Pistas() {
             <img className="pagePista" src={PagePista} alt="Fondo de Pista" />
             <Bar />
             <div className="botonAnadir">
-                <Button className="Añadir" variant="primary" size="lg" onClick={handleShow}>Añadir +</Button>
+                <Button className="Añadir" variant="primary" size="lg" onClick={handleShow}>Añadir </Button>
                 <Modal
                         show={show}
                         onHide={handleClose}

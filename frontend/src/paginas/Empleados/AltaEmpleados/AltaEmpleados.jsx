@@ -45,6 +45,9 @@ function ListadoLugar() {
     palette: {
       mode: 'dark',
     },
+    typography: {
+      fontFamily: 'noto sans, sans-serif', // Cambia la fuente aquí
+    },
     components: {
       MuiPaper: {
         styleOverrides: {

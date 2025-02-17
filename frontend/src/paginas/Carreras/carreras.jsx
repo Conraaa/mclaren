@@ -51,7 +51,7 @@ function Carrera() {
                 <img className="pageCarrera" src={Fondo} alt="Fondo de Pista" />
                 <Bar />
                 <div className="botonAnadir">
-                    <Button className="Añadir" variant="primary" size="lg" onClick={handleShow}>Añadir +</Button>
+                    <Button className="Añadir" variant="primary" size="lg" onClick={handleShow}>Añadir</Button>
                     <Modal show={show} onHide={handleClose} animation={false} className="custom-modalCarreras" backdrop="static">
                         <Modal.Header closeButton>
                             <Modal.Title>Añadir una nueva Carrera</Modal.Title>
@@ -65,7 +65,7 @@ function Carrera() {
                                 <div className="field-container2">
                                     <label>Pista</label>
                                     <select value={pista} onChange={(e) => setPista(e.target.value)} className="inputCarrera">
-                                        <option value="">Selecciona una pista</option>
+                                        <option value="">Seleccionar una pista</option>
                                         {pistas.map((p, index) => (
                                             <option key={index} value={p.nombre}>{p.nombre}</option>
                                         ))}
@@ -78,7 +78,7 @@ function Carrera() {
                                 <div className="field-container4">
                                     <label>Estrategia</label>
                                     <select value={estrategia} onChange={(e) => setEstrategia(e.target.value)} className="inputCarrera">
-                                        <option value="">Selecciona una estrategia</option>
+                                        <option value="">Seleccionar una estrategia</option>
                                         {estrategiasFiltradas.map((estrategia, index) => (
                                             <option key={index} value={estrategia.nombre}>{estrategia.nombre}</option>
                                         ))}

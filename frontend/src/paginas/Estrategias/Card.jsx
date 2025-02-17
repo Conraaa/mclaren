@@ -36,7 +36,7 @@ function ListaDeEstrategias({ onEdit, onDelete }) {
       .then(data => {
         setEstrategias(data);
       })
-      .catch(error => console.error("Error fetching strategies:", error));
+      .catch(error => console.error("Error cargando estrategias:", error));
   }, []);
 
   // Obtener todas las piezas disponibles
@@ -44,7 +44,7 @@ function ListaDeEstrategias({ onEdit, onDelete }) {
     fetch("http://127.0.0.1:8000/api/estrategiapiezas/")
       .then(response => response.json())
       .then(data => setPiezas(data))
-      .catch(error => console.error("Error fetching piezas:", error));
+      .catch(error => console.error("Error cargando piezas:", error));
   }, []);
 
   const handleCardClick = (estrategia) => {
@@ -112,7 +112,7 @@ function ListaDeEstrategias({ onEdit, onDelete }) {
             Eliminar
           </Button>
           <Button variant="primary" onClick={() => onEdit(selectedEstrategia)}>
-            Modificar
+            Editar
           </Button>
         </Modal.Footer>
       </Modal>

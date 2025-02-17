@@ -51,7 +51,7 @@
 
 .carousel-content h2 {
   font-size: 80px;
-  font-family: "Comic sans", sans-serif;
+  font-family: "Montserrat", sans-serif;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -65,7 +65,7 @@
   color: #ffffff;
   text-decoration: none;
   border-radius: 2px;
-  font-family: "Comic sans", sans-serif;
+  font-family: "Noto sans", sans-serif;
   font-weight: bold;
 }
 

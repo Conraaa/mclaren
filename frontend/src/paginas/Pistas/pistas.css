@@ -148,11 +148,11 @@ input::placeholder {
     }
 }
 
-@media (min-width: 769px) {
+@media (max-width: 769px) {
     .custom-modal .modal-footer {
         display: flex;
-        justify-content: space-between;
         flex-direction: row;
+        justify-content: space-between;
     }
     
     .custom-modal .Cerrar,
