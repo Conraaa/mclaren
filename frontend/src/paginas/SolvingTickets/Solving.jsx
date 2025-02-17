@@ -104,7 +104,7 @@ function ListadoTickets() {
                 { name: "Asunto" },
                 { name: "Prioridad" },
                 {
-                  name: "Estado",
+                  name: "Resuelto",
                   options: {
                     customBodyRender: (value, tableMeta) => (
                       <Checkbox checked={value} onChange={() => handleCheckboxChange(tableMeta.rowIndex)} color="primary" />
@@ -112,7 +112,7 @@ function ListadoTickets() {
                   },
                 },
                 {
-                  name: "+Info",
+                  name: "Información",
                   options: {
                     customBodyRender: (_, tableMeta) => (
                       <Button color="primary" onClick={() => handleRespondButtonClick(data[tableMeta.rowIndex])}>

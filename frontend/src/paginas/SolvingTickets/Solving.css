@@ -125,15 +125,15 @@
   border: 2px solid white;
   border-radius: 8px;
   box-shadow: none !important;
-  overflow: hidden; /* Evita que sobresalga el contenido */
+  overflow: hidden; 
 }
 
 /* Borde blanco en los headers del acordeón */
 .accordion-button {
-  background-color: rgba(0, 0, 0, 0.5) !important;
+  background-color: rgba(0, 0, 0, 1) !important;
   backdrop-filter: blur(25px);
   color: white !important;
-  border: none !important; /* Borde blanco en los headers */
+  border: none !important; 
   border-radius: 8px;
 }
 
@@ -150,7 +150,7 @@
   backdrop-filter: blur(25px);
   color: white !important;
   
-  border-radius: 0%; /* Borde blanco en la parte superior del contenido */
+  border-radius: 0%; 
 }
 
 /* Eliminar borde interno entre header y body */
@@ -182,8 +182,7 @@
 }
 
 .btn:hover, .btn:focus, .btn:active {
-  /* Elimina el cambio de color de fondo */
-  border-color: transparent !important;      /* Elimina el cambio de color del borde */
-  box-shadow: none !important;               /* Elimina el efecto de sombra */
-  color: inherit !important;                 /* Mantiene el color del texto original */
+  border-color: transparent !important;     
+  box-shadow: none !important;               
+  color: inherit !important;                
 }
