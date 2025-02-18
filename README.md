@@ -59,5 +59,8 @@ _C:...\mclaren\backend>_ python manage.py migrate
 
 
 
-## Reglas de Negocio
+## Interacciones:
 
+# _JellyJobs_
+
++Se debe estar corriendo su backend en el puerto 8001.
