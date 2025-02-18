@@ -12,6 +12,10 @@
     background-attachment: fixed;  /* Fija la imagen mientras se hace scroll */
 }
 
+.form-label{
+    margin-top: 2%;
+    margin-bottom: 1%;
+}
 /* Pseudo-elemento para añadir el filtro negro sobre la imagen */
 .todo::before {
     content: '';  /* Necesario para que el pseudo-elemento funcione */
@@ -69,7 +73,7 @@
 
 /* Ajustes de los selects */
 select {
-    padding: 8px;
+    padding: 5px;
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 1rem;

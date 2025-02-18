@@ -1,4 +1,17 @@
 /* Barra de progreso */
+.todoHome{
+  padding-top: 0%;
+  padding-left: 0%;
+  padding-right: 0%;
+  position: fixed;
+  width: 100%;
+  height: 100vh;  /* O 100% si prefieres que sea relativo a su contenedor padre */
+  overflow: auto;  /* Permite el scroll */
+  background-size: cover;  /* Hace que la imagen cubra todo el fondo */
+  background-position: center center;  /* Centra la imagen */
+  background-attachment: fixed;  /* Fija la imagen mientras se hace scroll */
+}
+
 
 .progress-bar-group {
   display: flex;
@@ -51,7 +64,7 @@
 
 .carousel-content h2 {
   font-size: 80px;
-  font-family: "Comic sans", sans-serif;
+  font-family: "Montserrat", sans-serif;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -65,7 +78,7 @@
   color: #ffffff;
   text-decoration: none;
   border-radius: 2px;
-  font-family: "Comic sans", sans-serif;
+  font-family: "Noto sans", sans-serif;
   font-weight: bold;
 }
 

@@ -86,7 +86,7 @@ export default function Empleados() {
       {isPopupVisible && (
         <div className="popup-overlay">
           <div className="popup">
-            <h2>Ingrese su Legajo</h2>
+            <h2>Ingresar Legajo</h2>
             <form onSubmit={handleLegajoSubmit}>
               <input
                 type="text"

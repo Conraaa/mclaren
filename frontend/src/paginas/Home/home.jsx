@@ -48,47 +48,49 @@ const HomeCarousel = () => {
   };
 
   return (
-    <div className="carousel-container">
-      <Bar />
-      <div className="carousel-slide">
-        {items.map((item, index) => (
-          <div
-            key={item.id}
-            className={`carousel-item ${index === activeIndex ? "active" : ""}`}
-          >
-            <img
-              src={item.background}
-              alt={item.name}
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
-            <div className="carousel-content">
-              <h2>{item.name}</h2>
-              <Link to={item.route} className="carousel-link">
-                Explorar
-              </Link>
+    <div className="todoHome">
+      <div className="carousel-container">
+        <Bar />
+        <div className="carousel-slide">
+          {items.map((item, index) => (
+            <div
+              key={item.id}
+              className={`carousel-item ${index === activeIndex ? "active" : ""}`}
+            >
+              <img
+                src={item.background}
+                alt={item.name}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+              <div className="carousel-content">
+                <h2>{item.name}</h2>
+                <Link to={item.route} className="carousel-link">
+                  Explorar
+                </Link>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      <div className="carousel-navigation">
-        <button onClick={handlePrev} className="nav-button left">&#x276E;</button>
-        <button onClick={handleNext} className="nav-button right">&#x276F;</button>
-      </div>
+        <div className="carousel-navigation">
+          <button onClick={handlePrev} className="nav-button left">&#x276E;</button>
+          <button onClick={handleNext} className="nav-button right">&#x276F;</button>
+        </div>
 
-      <div className="progress-bar-group">
-        {items.map((_, index) => {
-          const isActive = index === activeIndex;
-          const barWidth = isActive ? `${progress}%` : index < activeIndex ? "100%" : "0%";
-          return (
-            <div key={index} className={`progress-bar ${isActive ? "active" : ""}`}>
-              <div
-                className="progress"
-                style={{ width: barWidth }}
-              ></div>
-            </div>
-          );
-        })}
+        <div className="progress-bar-group">
+          {items.map((_, index) => {
+            const isActive = index === activeIndex;
+            const barWidth = isActive ? `${progress}%` : index < activeIndex ? "100%" : "0%";
+            return (
+              <div key={index} className={`progress-bar ${isActive ? "active" : ""}`}>
+                <div
+                  className="progress"
+                  style={{ width: barWidth }}
+                ></div>
+              </div>
+            );
+          })}
+        </div>
       </div>
       <Footer />
     </div>

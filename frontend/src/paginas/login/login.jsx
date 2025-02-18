@@ -57,7 +57,7 @@ function App() {
       </div>
       <div className="Envoltura2">
         <form className="Formulario" onSubmit={handleLogin}>
-          <h1>Log in</h1>
+          <h1>Ingresar</h1>
           {error && <p style={{ color: 'red' }}>{error}</p>}
           <div className="log_caja">
             <input
@@ -80,12 +80,12 @@ function App() {
             <img className="ImagenLog" src={lock} alt="Imagen de Seguro" />
           </div>
           <button className="Boton" type="submit" disabled={loading}>
-            {loading ? 'Cargando...' : 'Log in'}
+            {loading ? 'Cargando...' : 'Iniciar sesión'}
           </button>
         </form>
         <div className="registro">
           <Link to="/Registro">
-            <button className="Boton">Iniciar registro</button>
+            <button className="Boton">Registrarse</button>
           </Link>
         </div>
       </div>

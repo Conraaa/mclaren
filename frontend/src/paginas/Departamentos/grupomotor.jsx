@@ -3,8 +3,8 @@ import Bar from "../Bar/Bar";
 import "./listados.css";
 import MuiDatatable from "mui-datatables";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Modal, Button, TextField, Select, MenuItem, Box, InputLabel, FormControl } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Modal, Form, FormControl, Button } from "react-bootstrap";
 
 function ListadoPiezas() {
   const API_URL = "http://127.0.0.1:8000/api/piezas/";
@@ -14,29 +14,7 @@ function ListadoPiezas() {
   const [selectedRow, setSelectedRow] = useState(null);
   const [editedData, setEditedData] = useState({ id: null, Nombre: "", Categoria: "" });
   const [categories, setCategories] = useState([]);
-  const [departmentId] = useState(1); // Aquí estableces el ID del departamento
-  const [userDepartment, setUserDepartment] = useState(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Fetch user department from API or local storage
-    const fetchUserDepartment = async () => {
-      // Replace with actual API call or local storage retrieval
-      const department = await getUserDepartment();
-      setUserDepartment(department);
-      if (department !== "aerodinamica") {
-        navigate("/"); // Redirect to home if not in aerodinamica department
-      }
-    };
-
-    fetchUserDepartment();
-  }, []);
-
-  const getUserDepartment = async () => {
-    // Mock function to get user department
-    // Replace with actual implementation
-    return "aerodinamica"; // Example department
-  };
+  const [departmentId] = useState(2);
 
   useEffect(() => {
     fetchData();
@@ -45,19 +23,9 @@ function ListadoPiezas() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`${API_URL}?departamento_id=${1}`);
+      const response = await fetch(`${API_URL}?departamento_id=${2}`);
       if (response.ok) {
-        const piezas = await response.json();
-        console.log("Piezas recibidas:", piezas);
-
-        const formattedData = piezas.map((pieza) => [
-          pieza.id,
-          pieza.nombre,
-          pieza.categoria_nombre || "Sin categoría",
-        ]);
-        setData(formattedData);
-      } else {
-        console.error("Error al obtener las piezas:", response.statusText);
+        setData(await response.json());
       }
     } catch (error) {
       console.error("Error al conectar con la API:", error);
@@ -66,13 +34,9 @@ function ListadoPiezas() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch(`${CATEGORY_URL}?departamento_id=${1}`);
+      const response = await fetch(`${CATEGORY_URL}?departamento_id=${2}`);
       if (response.ok) {
-        const categories = await response.json();
-        console.log("Categorías recibidas:", categories);
-        setCategories(categories);
-      } else {
-        console.error("Error al obtener las categorías:", response.statusText);
+        setCategories(await response.json());
       }
     } catch (error) {
       console.error("Error al conectar con la API de categorías:", error);
@@ -80,11 +44,7 @@ function ListadoPiezas() {
   };
 
   const handleSaveChanges = async () => {
-    const pieza = {
-      nombre: editedData.Nombre,
-      categoria: editedData.Categoria,
-    };
-
+    const pieza = { nombre: editedData.Nombre, categoria: editedData.Categoria };
     try {
       if (selectedRow !== null) {
         await fetch(`${API_URL}${editedData.id}/`, {
@@ -99,7 +59,6 @@ function ListadoPiezas() {
           body: JSON.stringify(pieza),
         });
       }
-
       setIsModalOpen(false);
       fetchData();
     } catch (error) {
@@ -107,39 +66,37 @@ function ListadoPiezas() {
     }
   };
 
-  const handleDeleteRow = async (rowIndex) => {
-    const piezaId = data[rowIndex][0];
+  const handleDelete = async (id) => {
     try {
-      await fetch(`${API_URL}${piezaId}/`, { method: "DELETE" });
+      await fetch(`${API_URL}${id}/`, { method: "DELETE" });
       fetchData();
     } catch (error) {
       console.error("Error al eliminar la pieza:", error);
     }
   };
 
-  const handleEditRow = (rowIndex) => {
-    setSelectedRow(rowIndex);
-    const pieza = data[rowIndex];
+  const handleEdit = (id) => {
+    const pieza = data.find((item) => item.id === id);
+    if (pieza) {
+      setEditedData({ id: pieza.id, Nombre: pieza.nombre, Categoria: pieza.categoria });
+      setSelectedRow(pieza.id);
+      setIsModalOpen(true);
+    }
+  };
 
-    const selectedCategoryId = pieza[2] === "Sin categoría" ? null : pieza[2];
-
-    setEditedData({
-      id: pieza[0],
-      Nombre: pieza[1],
-      Categoria: selectedCategoryId,
-    });
+  const handleAdd = () => {
+    setEditedData({ id: null, Nombre: "", Categoria: "" });
+    setSelectedRow(null);
     setIsModalOpen(true);
   };
 
-  // Función para abrir el modal y reiniciar el estado editedData
-  const handleOpenModal = () => {
-    setEditedData({ id: null, Nombre: "", Categoria: "" }); // Reiniciar el estado
-    setSelectedRow(null); // Reiniciar la fila seleccionada
-    setIsModalOpen(true); // Abrir el modal
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   const darkTheme = createTheme({
     palette: { mode: "dark" },
+    typography: { fontFamily: 'noto sans, sans-serif' },
     components: {
       MuiPaper: { styleOverrides: { root: { backgroundColor: "rgba(18, 18, 18, 0.8)", color: "#ffffff", borderRadius: "8px" } } },
       MuiTableCell: { styleOverrides: { root: { color: "#ffffff", borderBottom: "1px solid #333" } } },
@@ -173,67 +130,65 @@ function ListadoPiezas() {
               {
                 name: "Opciones",
                 options: {
-                  customBodyRender: (_, tableMeta) => (
-                    <>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => handleEditRow(tableMeta.rowIndex)}
-                        style={{ marginRight: "8px" }}
-                      >
-                        Editar
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => handleDeleteRow(tableMeta.rowIndex)}
-                      >
-                        Eliminar
-                      </Button>
-                    </>
-                  ),
+                  customBodyRender: (_, tableMeta) => {
+                    const piezaId = tableMeta.rowData[0]; // Ahora obtiene el ID correctamente
+                    return (
+                      <>
+                        <Button className="editar" onClick={() => handleEdit(piezaId)}>Editar</Button>
+                        <Button className="btn btn-danger" onClick={() => handleDelete(piezaId)}>Eliminar</Button>
+                      </>
+                    );
+                  },
                 },
               },
             ]}
-            data={data}
+            data={data.map((pieza) => [pieza.id, pieza.nombre, pieza.categoria_nombre || "Sin categoría"])}
             options={options}
           />
           <div className="altaPieza">
-            <Button onClick={handleOpenModal} variant="contained" color="primary">
+            <Button 
+              onClick={handleAdd} 
+            >
               Agregar pieza
             </Button>
           </div>
         </div>
 
-        <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-          <Box sx={{
-            position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
-            width: 400, bgcolor: "background.paper", boxShadow: 24, p: 4, borderRadius: 2
-          }}>
-            <h2 className="TituloCRUD">{selectedRow !== null ? "Editar Pieza" : "Agregar Pieza"}</h2>
-            <TextField fullWidth margin="normal" label="Nombre" value={editedData.Nombre}
-              onChange={(e) => setEditedData({ ...editedData, Nombre: e.target.value })} />
-            <FormControl fullWidth margin="normal">
-              <InputLabel>Categoría</InputLabel>
-              <Select
-                value={editedData.Categoria}
-                onChange={(e) => setEditedData({ ...editedData, Categoria: e.target.value })}
-              >
-                {categories.length > 0 ? (
-                  categories.map((category) => (
-                    <MenuItem key={category.id} value={category.id}>
-                      {category.nombre}
-                    </MenuItem>
-                  ))
-                ) : (
-                  <MenuItem disabled>Cargando categorías...</MenuItem>
-                )}
-              </Select>
-            </FormControl>
-            <Button variant="contained" color="primary" onClick={handleSaveChanges} style={{ marginTop: "10px" }}>
-              {selectedRow !== null ? "Guardar Cambios" : "Agregar"}
+        <Modal show={isModalOpen} onHide={handleCloseModal} className="custom-modal">
+          <Modal.Header closeButton>
+            <Modal.Title>{selectedRow !== null ? "Editar Pieza" : "Agregar Pieza"}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group controlId="nombre">
+                <Form.Label>Nombre</Form.Label>
+                <FormControl
+                  type="text"
+                  value={editedData.Nombre}
+                  onChange={(e) => setEditedData({ ...editedData, Nombre: e.target.value })}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Categoría</Form.Label>
+                <Form.Select
+                  className="inputTicket"
+                  value={editedData.Categoria}
+                  onChange={(e) => setEditedData({ ...editedData, Categoria: e.target.value })}
+                >
+                  <option value="" disabled>Seleccionar una categoría</option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>{category.nombre}</option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button className="Cerrar" onClick={handleCloseModal}>Cerrar</Button>
+            <Button className="Guardar" onClick={handleSaveChanges}>
+              {selectedRow !== null ? "Editar" : "Agregar"}
             </Button>
-          </Box>
+          </Modal.Footer>
         </Modal>
       </div>
     </ThemeProvider>

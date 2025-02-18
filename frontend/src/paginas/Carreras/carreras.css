@@ -81,9 +81,7 @@
 }
 /* Input de vueltas - Ajuste para el botón al lado derecho */
 .field-container3 {
-  display: flex;
-  justify-content: space-between; /* Separar el input de vueltas y el botón */
-  align-items: center; /* Centrar verticalmente el input y el botón */
+  width: 111%; /* Centrar verticalmente el input y el botón */
 }
 
 .input {
@@ -96,7 +94,7 @@
   justify-content: center; /* Centra horizontalmente */
   align-items: center; /* Centra verticalmente */
   position: fixed; /* Fija el modal en la pantalla */
-  top: 0;
+  top: 10%;
   left: 0;
   width: 100vw; /* Ocupa todo el ancho de la pantalla */
   height: 100vh; /* Ocupa todo el alto de la pantalla */
@@ -117,9 +115,9 @@
 }
 .field-container3 p{
   width: 100px;
+}
 
-
-}.buttonTele {
+.buttonTele {
   width: 40%;
   border: 2px solid white;
   border-radius: 8px;
