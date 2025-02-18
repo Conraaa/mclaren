@@ -59,7 +59,7 @@ _C:...\mclaren\backend>_ python manage.py migrate
 
 
 
-## Interacciones:
+## Interacciones
 
 ### _JellyJobs_
 
