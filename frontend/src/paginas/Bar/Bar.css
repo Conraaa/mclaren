@@ -49,8 +49,7 @@
 }
 
 .menuHorizontal li:hover .menuVertical {
-    background-color: transparent;
-    backdrop-filter: blur(250px);
+    backdrop-filter: blur(30px);
     padding-left: 40px;
     width: 320px;
     display: block;

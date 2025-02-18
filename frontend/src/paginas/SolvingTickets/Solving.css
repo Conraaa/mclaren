@@ -182,7 +182,7 @@
 }
 
 .btn:hover, .btn:focus, .btn:active {
-  border-color: transparent !important;     
+  border-color: transparent ;     
   box-shadow: none !important;               
   color: inherit !important;                
 }
