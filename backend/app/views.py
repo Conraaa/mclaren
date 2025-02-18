@@ -115,7 +115,7 @@ class LoginView(APIView):
                         "refresh": "fake_refresh_token",
                         "nombre": usuario.nombre,
                         "departamento": usuario.departamento.nombre,
-                        "legajo": usuario.legajo,  # Agregamos el departamento
+                        "legajo": usuario.legajo,
                     }, status=status.HTTP_200_OK)
                 else:
                     return Response({"error": "Contraseña incorrecta"}, status=status.HTTP_401_UNAUTHORIZED)
@@ -148,7 +148,7 @@ def verificar_legajo(request):
                 "status": "success",
                 "nombre": usuario.nombre,
                 "apellido": usuario.apellido,
-                "departamento": usuario.departamento.nombre,  # Accede al nombre del departamento relacionado
+                "departamento": usuario.departamento.nombre,
             })
 
         except json.JSONDecodeError:
@@ -157,11 +157,6 @@ def verificar_legajo(request):
             return JsonResponse({"status": "error", "message": str(e)}, status=500)
 
     return JsonResponse({"status": "error", "message": "Método no permitido."}, status=405)
-
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-import json
-from .models import Usuario, Departamento
 
 @csrf_exempt
 def registrar_usuario(request):

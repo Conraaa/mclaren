@@ -4,7 +4,6 @@ import Bar from "../Bar/Bar.jsx";
 import MuiDatatable from "mui-datatables";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
-import Footer from '../Footer/Footer.jsx';
 import { fetchEmpleados } from '../Funciones.js';
 
 function ListadoLugar() {

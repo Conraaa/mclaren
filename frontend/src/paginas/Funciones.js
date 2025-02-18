@@ -1,6 +1,7 @@
 import pistaImages from "./Carreras/imports.js";
 export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handleClose) => {
   const nuevaPista = { nombre, kilometros, pais, ciudad, foto };
+  console.log(nuevaPista);
   try {
     const formData = new FormData();
     formData.append("nombre", nuevaPista.nombre);
@@ -13,6 +14,8 @@ export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handl
       body: formData,
     });
     if (!response.ok) throw new Error("Error al enviar la pista");
+    const data = await response.json();
+    console.log("Pista guardada exitosamente:", data);
     handleClose();
   } catch (error) {
     console.error("Error al enviar la pista:", error);
@@ -136,6 +139,7 @@ export const handleSubmitCarrera = async (
   setCarreras,
   carreras,
   handleClose,
+  telemetriaStatus,
   pistas,
   estrategias
 ) => {
@@ -144,11 +148,13 @@ export const handleSubmitCarrera = async (
     return;
   }
 
-  if (!Array.isArray(pistas) || !Array.isArray(estrategias) || !pistas || !estrategias || pistas.length === 0) {
+  // Verificar que pistas y estrategias sean arrays
+  if (!Array.isArray(pistas) || !Array.isArray(estrategias)) {
     alert("Error al cargar pistas o estrategias");
     return;
   }
 
+  // Buscar los IDs correctos de la pista y la estrategia
   const pistaSeleccionada = pistas.find(p => p.nombre === pistaNombre);
   const estrategiaSeleccionada = estrategias.find(e => e.nombre === estrategiaNombre);
 
@@ -180,6 +186,7 @@ export const handleSubmitCarrera = async (
         continue;
       }
 
+      // Determinar cuántas vueltas realmente existen y ajustar la cantidad de vueltas
       const vueltasDisponibles = laps.length;
       cantVueltas = Math.min(cantVueltas, vueltasDisponibles);
 
@@ -199,6 +206,7 @@ export const handleSubmitCarrera = async (
       }
     }
 
+    // Buscar la imagen de la pista en imports.js
     const nombrePistaLimpio = pistaNombre.replace(/\s+/g, '').toLowerCase();
     const imagenKey = Object.keys(pistaImages).find(key => key.toLowerCase() === nombrePistaLimpio);
 
@@ -212,13 +220,32 @@ export const handleSubmitCarrera = async (
     const imagenBlob = await respuestaImagen.blob();
     const imagenArchivo = new File([imagenBlob], `${imagenKey}.jpg`, { type: "image/jpeg" });
 
-    // 1. Crear la carrera
+    // Construcción del objeto de la carrera con IDs en lugar de nombres
+    const nuevaCarrera = {
+      anio,
+      pista: pistaSeleccionada.id, // Usar el ID de la pista
+      cantVueltas,
+      estrategia: estrategiaSeleccionada.id, // Usar el ID de la estrategia
+      imagen: imagenArchivo, // Asignar la imagen
+      telemetrias: [
+        ...telemetriaNorris.map(t => ({ piloto: "norris", ...t })),
+        ...telemetriaPiastri.map(t => ({ piloto: "piastri", ...t }))
+      ]
+    };
+
+    console.log("Enviando carrera al backend:", nuevaCarrera);
+
     const formData = new FormData();
-    formData.append("anio", anio);
-    formData.append("pista", pistaSeleccionada.id);
-    formData.append("cantVueltas", cantVueltas);
-    formData.append("estrategia", estrategiaSeleccionada.id);
-    formData.append("imagen", imagenArchivo);
+    formData.append("anio", nuevaCarrera.anio);
+    formData.append("pista", nuevaCarrera.pista);
+    formData.append("cantVueltas", nuevaCarrera.cantVueltas);
+    formData.append("estrategia", nuevaCarrera.estrategia);
+    formData.append("imagen", nuevaCarrera.imagen);
+    nuevaCarrera.telemetrias.forEach((telemetria, index) => {
+      formData.append(`telemetrias[${index}][piloto]`, telemetria.piloto);
+      formData.append(`telemetrias[${index}][vuelta]`, telemetria.vuelta);
+      formData.append(`telemetrias[${index}][tiempo]`, telemetria.tiempo);
+    });
 
     const responseCarrera = await fetch("http://localhost:8000/api/carreras/", {
       method: "POST",
@@ -227,85 +254,31 @@ export const handleSubmitCarrera = async (
 
     if (!responseCarrera.ok) {
       const errorResponse = await responseCarrera.json();
-      console.error("Error al guardar la carrera:", errorResponse);
+      console.error("Error del backend:", errorResponse);
       alert(`Error al guardar la carrera: ${JSON.stringify(errorResponse)}`);
       return;
     }
 
     const dataCarrera = await responseCarrera.json();
+    console.log("Carrera guardada exitosamente:", dataCarrera);
 
-    const carreraId = dataCarrera.id;
+    const carreraCompleta = {
+      ...nuevaCarrera,
+      id: dataCarrera.id,
+      telemetrias: [
+        ...telemetriaNorris.map(t => ({ piloto: "norris", ...t })),
+        ...telemetriaPiastri.map(t => ({ piloto: "piastri", ...t }))
+      ]
+    };
 
-    // 2. Crear telemetrías
-    let telemetriaIds = {};
-    for (const piloto of pilotos) {
-      const responseTelemetria = await fetch("http://localhost:8000/api/telemetrias/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ carrera: carreraId })
-      });
+    console.log("Carrera completa con telemetría:", carreraCompleta);
 
-      if (!responseTelemetria.ok) {
-        const errorTelemetria = await responseTelemetria.json();
-        console.error(`Error al guardar la telemetría de ${piloto}:`, errorTelemetria);
-        alert(`Error al guardar la telemetría de ${piloto}: ${JSON.stringify(errorTelemetria)}`);
-        return;
-      }
-
-      const dataTelemetria = await responseTelemetria.json();
-      telemetriaIds[piloto] = dataTelemetria.id;
-    }
-
-    // 3. Obtener IDs de las telemetrías creadas
-    const responseGetTelemetrias = await fetch(`http://localhost:8000/api/telemetrias/?carrera=${carreraId}`);
-    if (!responseGetTelemetrias.ok) {
-      console.error("Error al obtener telemetrías");
-      return;
-    }
-    const telemetrias = await responseGetTelemetrias.json();
-
-    telemetrias.forEach(t => {
-      if (t.piloto === "norris") telemetriaIds["norris"] = t.id;
-      if (t.piloto === "piastri") telemetriaIds["piastri"] = t.id;
-    });
-
-    // 4. Guardar registros de vueltas
-    const registros = [];
-    ["norris", "piastri"].forEach(piloto => {
-      const telemetriaId = telemetriaIds[piloto];
-      if (!telemetriaId) {
-        console.warn(`No se encontró ID de telemetría para ${piloto}`);
-        return;
-      }
-
-      const telemetria = piloto === "norris" ? telemetriaNorris : telemetriaPiastri;
-      telemetria.forEach(({ vuelta, tiempo }) => {
-        registros.push({
-          numVuelta: vuelta,
-          valor: tiempo,
-          telemetria: telemetriaId
-        });
-      });
-    });
-
-    const registrosRequests = registros.map(registro =>
-      fetch("http://localhost:8000/api/registros/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(registro)
-      })
-    );
-
-    await Promise.all(registrosRequests);
-
-    // Actualizar estado y cerrar modal
-    setCarreras([...carreras, { id: carreraId, ...dataCarrera }]);
-    localStorage.setItem("carreras", JSON.stringify([...carreras, { id: carreraId, ...dataCarrera }]));
+    setCarreras([...carreras, carreraCompleta]);
+    localStorage.setItem("carreras", JSON.stringify([...carreras, carreraCompleta]));
     handleClose();
-
   } catch (error) {
-    console.error("Error en el proceso de carga:", error);
-    alert(`Hubo un error: ${error.message}`);
+    console.error("Error al obtener la telemetría:", error);
+    alert(`Hubo un error al obtener la telemetría: ${error.message}`);
   }
 };
 

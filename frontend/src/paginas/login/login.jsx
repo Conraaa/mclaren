@@ -5,15 +5,17 @@ import video from '../Videos/mclarenf1.mp4';
 import ReactPlayer from 'react-player';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../../Context/AuthProvider';
 import './login.css';
 
-function App() {
+function Login() {
   const [legajo, setLegajo] = useState('');
   const [contraseña, setContraseña] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -35,6 +37,13 @@ function App() {
       localStorage.setItem('userLegajo', response.data.legajo);
       localStorage.setItem('userName', response.data.nombre);
       localStorage.setItem('userDepartment', response.data.departamento);
+
+      // Establecer el usuario en el contexto
+      login({
+        legajo: response.data.legajo,
+        nombre: response.data.nombre,
+        departamento: response.data.departamento,
+      });
 
       // Navegar de vuelta a la página previa o al home si no hay una previa
       const previousPath = location.state?.from || '/';
@@ -93,4 +102,4 @@ function App() {
   );
 }
 
-export default App;
+export default Login;
