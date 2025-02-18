@@ -26,7 +26,7 @@ function App() {
                 <Route path="AltaEmpleados" element={<AltaEmpleados />} />
                 <Route path="Registro" element={<Registro />} />
 
-                <Route element={<ProtectedRoute allowedDepartments={['Aerodinamica', 'Administracion', 'Grupo Motor', 'Estrategias']} />}>
+                <Route element={<ProtectedRoute allowedDepartments={['Aerodinamica', 'Administracion', 'Grupo Motor', 'Estrategia']} />}>
                     <Route path="Soporte" element={<Soporte />} />
                 </Route>
                 {/* Ruta protegida para Aerodinamica */}

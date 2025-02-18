@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./home.css";
-import Bar from "../BarIntro/BarIntro";
+import Bar from "../Bar/Bar";
 import Footer from "../Footer/Footer.jsx";
 import empleados from "../Imagenes/Carrusel/empleados.jpg";
 import carreras from "../Imagenes/Carrusel/carreras.jpg";

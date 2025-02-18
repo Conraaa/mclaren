@@ -12,7 +12,7 @@
 }
 
 .FondoDepar{
-  filter:brightness(100%)  blur(5px);
+  filter:blur(5px);
   opacity: 0.5;
   position: fixed;
 }
@@ -42,8 +42,8 @@ body {
   padding: 20px;
   color: #000000;
   font-family: "Noto sans", sans-serif;
-  z-index: 2; /* Asegura que el texto esté sobre la imagen */
-  position: relative; /* Para posicionar el texto encima */
+  z-index: 2;
+  position: relative;
   transform: translate(160px, 10px);
 
 }
@@ -100,7 +100,7 @@ body {
   background-position: center;
   transition: 0.5s;
   opacity: 0.1;
-  z-index: 1; /* Mantener la imagen en el fondo */
+  z-index: 1;
 }
 
 .item.active {

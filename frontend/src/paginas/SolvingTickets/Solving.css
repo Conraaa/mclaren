@@ -2,11 +2,23 @@
   display: flex;
   flex-direction: column;
   height: 100vh; 
-  background-image: url("../Imagenes/tickets.png"); 
+  position: relative;
+  overflow: hidden;
+}
+
+.pantallaCompleta::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../Imagenes/tickets.png");
+  filter:blur(5px);
   background-size: cover; 
   background-position: center; 
-  background-attachment: fixed; 
-  color: white;
+  background-attachment: fixed;
+  z-index: -1;
 }
 
 .ListadoTickets {

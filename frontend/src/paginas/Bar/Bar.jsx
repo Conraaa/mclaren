@@ -6,6 +6,7 @@ import UsuarioBar from '../Imagenes/UsuarioBar.png';
 import Logocentral from '../Imagenes/Logo_Central.png';
 import { Link } from 'react-router-dom';
 import Intro from './intro/Intro';
+import IntroPrimera from '../BarIntro/intro/IntroPrimera';
 
 export default function BarBar() {
   const [userName, setUserName] = useState('');
