@@ -1,18 +1,17 @@
 import React from 'react';
 import './Footer.css';
+import logoFooter from "../Imagenes/LogoFooter.png";
 
 export default function FooterComponent() {
   return (
     <footer className="footer">
       <div className="footer-content">
         <div className="footer-logo">
-          <img src="https://www.mclaren.com/racing/assets/images/global/mclaren-logo.svg" alt="McLaren Logo" />
+          <img src={logoFooter} alt="McLaren Logo" />
         </div>
         <div className="footer-links">
-          <a href="https://www.mclaren.com/racing/">Home</a>
-          <a href="https://www.mclaren.com/racing/our-cars/">Our Cars</a>
-          <a href="https://www.mclaren.com/racing/partners/">Partners</a>
-          <a href="https://www.mclaren.com/racing/contact/">Contact</a>
+          <a href="http://localhost:3000/">Home</a>
+          <a href="http://localhost:3000/Soporte">Soporte</a>
         </div>
         <div className="footer-social">
           <a href="https://www.facebook.com/McLaren.Racing" target="_blank" rel="noopener noreferrer">Facebook</a>

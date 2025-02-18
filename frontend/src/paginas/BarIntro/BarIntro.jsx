@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import './BarIntro.css';
-import './intro/Intro.css';
+import './intro/IntroPrimera.css';
 import Logo from '../Imagenes/Logo.png';
 import Logocentral from '../Imagenes/Logo_Central.png';
 import { Link } from 'react-router-dom';
-import Intro from './intro/Intro';
+import Intro from './intro/IntroPrimera';
+import IntroSegunda from '../Bar/intro/Intro';
 
 export default function Bar() {
   const [userName, setUserName] = useState('');
   const [userDepartment, setUserDepartment] = useState('');
   const [userLegajo, setUserLegajo] = useState('');
-  const [introFinished, setIntroFinished] = useState(false); // Controla si el video de introducción terminó
+  const [introCount, setIntroCount] = useState(null);
 
   useEffect(() => {
+    const storedCount = parseInt(sessionStorage.getItem('introCount') || '0', 10);
+    setIntroCount(storedCount);
+
     // Obtener los datos del usuario desde localStorage
     const storedName = localStorage.getItem('userName');
     const storedDepartment = localStorage.getItem('userDepartment');
     const storedLegajo = localStorage.getItem('userLegajo');
 
-    // Actualizar el estado si los datos existen
     if (storedName && storedDepartment && storedLegajo) {
       setUserName(storedName);
       setUserDepartment(storedDepartment);
@@ -26,57 +29,42 @@ export default function Bar() {
     }
   }, []);
 
+  const handleIntroFinish = () => {
+    const newCount = (introCount ?? 0) + 1;
+    sessionStorage.setItem('introCount', newCount.toString());      //Mantiene una cuenta en sessionStorage de cuantas veces se visitó home para asi saber que video mostrar
+    setIntroCount(newCount);
+  };
+
+  if (introCount === null) {
+    return null;
+  }
+
   return (
     <>
-      {/* Clip de introducción */}
-      {!introFinished && <Intro onFinish={() => setIntroFinished(true)} />}
+      {introCount === 0 ? (
+        <Intro onFinish={handleIntroFinish} />
+      ) : (
+        <IntroSegunda onFinish={handleIntroFinish} />
+      )}
 
-      {/* Contenido principal, siempre cargándose */}
-      <div className={`bar ${!introFinished ? 'hidden-content' : ''}`}>
+      {/* Contenido principal */}
+      <div className="bar hidden-content">
           <div className="logoMenú">
             <nav>
               <ul className="menuHorizontal">
                 <li>
-            <Link>
-              <img className="Logo" src={Logo} alt="logo de la pagina" />
-            </Link>
-            <ul className="menuVertical">
-              <li>
-                <Link to="/">
-                  <button><b>Home</b></button>
-                </Link>
-              </li>
-              <li>
-                <Link to="/Empleados">
-                  <button><b>Empleados</b></button>
-                </Link>
-              </li>
-              <li>
-                <Link to="/Carreras">
-                  <button><b>Carreras</b></button>
-                </Link>
-              </li>
-              <li>
-                <Link to="/Pistas">
-                  <button><b>Pistas</b></button>
-                </Link>
-              </li>
-              <li>
-                <Link to="/ListadoEstrategia">
-                  <button><b>Estrategia</b></button>
-                </Link>
-              </li>
-              <li>
-                <Link to="/Departamentos">
-                  <button><b>Departamento</b></button>
-                </Link>
-              </li>
-              <li>
-                <Link to="/Soporte">
-                  <button><b>Soporte</b></button>
-                </Link>
-              </li>
-            </ul>
+                  <Link>
+                    <img className="Logo" src={Logo} alt="logo de la pagina" />
+                  </Link>
+                  <ul className="menuVertical">
+                    <li><Link to="/"><button><b>Home</b></button></Link></li>
+                    <li><Link to="/Empleados"><button><b>Empleados</b></button></Link></li>
+                    <li><Link to="/Carreras"><button><b>Carreras</b></button></Link></li>
+                    <li><Link to="/Pistas"><button><b>Pistas</b></button></Link></li>
+                    <li><Link to="/ListadoEstrategia"><button><b>Estrategia</b></button></Link></li>
+                    <li><Link to="/Departamentos"><button><b>Departamento</b></button></Link></li>
+                    <li><Link to="/Soporte"><button><b>Soporte</b></button></Link></li>
+                  </ul>
                 </li>
               </ul>
             </nav>
@@ -101,6 +89,7 @@ export default function Bar() {
                 <li>
                   <button className="logoutButton" onClick={() => {
                     localStorage.clear();
+                    sessionStorage.clear();
                     window.location.reload();
                   }}>
                     Cerrar sesión

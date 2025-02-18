@@ -42,10 +42,10 @@
     position: absolute; 
     display: none;
     list-style: none;
-    width: 300px; /* Cambiado a 300px o el tamaño que desees */
+    width: 300px;
     z-index: 1000; 
     border-radius: 5px;
-    overflow: hidden; /* Evita que el contenido sobresalga */
+    overflow: hidden;
 }
 
 .menuHorizontal li:hover .menuVertical {
@@ -91,7 +91,7 @@
 .menuHorizontal li .menuVertical button:hover {
     color: black;
     background-color: #ffffff;
-    overflow: hidden; /* Asegúrate de que no haya desbordamiento */
+    overflow: hidden;
     border-radius: 5px;
 }
   .menuHorizontal li:hover .menuVertical {
@@ -172,5 +172,5 @@
 }
 .bar.fade-out {
   opacity: 0;
-  transition: opacity 0.5s ease-out; /* Rápido desvanecimiento al cambiar página */
+  transition: opacity 0.5s ease-out;
 }

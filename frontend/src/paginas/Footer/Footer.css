@@ -1,18 +1,23 @@
 .footer {
-    border-top: 1px solid #FF8000;
-    background-color: #000;
+    border-top: 1px solid #ff800042;
+    background-color: #000000;
     color: #fff;
-    padding: 20px 0;
+    padding: 10px 0;
     text-align: center;
     position: relative;
     width: 100%;
     bottom: 0;
 }
 
+.footer-logo img {
+    width: 50px;
+    height: auto;
+}
+
 .footer a {
     color: #fff;
     text-decoration: none;
-    margin: 0 10px;
+    margin: 0 8px;
 }
 
 .footer a:hover {
@@ -20,11 +25,12 @@
 }
 
 .footer .footer-social {
-    margin-top: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .footer .footer-social a {
-    margin: 0 5px;
+    margin: 0 8px;
     display: inline-block;
 }
 
