@@ -26,10 +26,14 @@ export default function Empleados() {
 
         const data = await response.json();
         if (data.status === "success") {
-          setNombre(data.nombre); // Asigna el nombre recibido
-          setApellido(data.apellido); // Asigna el apellido recibido
-          setDepartamento(data.departamento); // Asigna el departamento recibido
-          setIsPopupVisible(false); // Oculta el popup si el legajo es válido
+          if (data.dni !== null) {
+            alert("Ese usuario ya está registrado.");
+          } else {
+            setNombre(data.nombre); // Asigna el nombre recibido
+            setApellido(data.apellido); // Asigna el apellido recibido
+            setDepartamento(data.departamento); // Asigna el departamento recibido
+            setIsPopupVisible(false); // Oculta el popup si el legajo es válido
+          }
         } else {
           alert(data.message);
         }

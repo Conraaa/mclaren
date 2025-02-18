@@ -1,0 +1,30 @@
+
+
+/* 🔹 Fondo negro para la alerta (popup) */
+.swal-dark {
+    background: #000000 !important; /* Fondo completamente negro */
+    color: #ffffff !important; /* Texto blanco */
+    border-radius: 10px; /* Bordes redondeados */
+    border: 2px solid #ffffff !important; /* 🔥 Borde naranja */
+}
+
+/* 🔹 Fondo de la capa que cubre la pantalla (backdrop) */
+/* Definir variables globales */
+:root {
+    --swal2-container-padding: 0.625em;
+    --swal2-backdrop: rgb(0, 0, 0); /* 🔴 Fondo rojo para el backdrop */
+}
+
+/* 🔹 Botón de Confirmación (Iniciar sesión / Volver al Home) */
+.swal-button-orange {
+    background-color: #FF8000 !important; /* Botón naranja */
+    color: #ffffff !important; /* Texto blanco */
+    border-radius: 5px;
+    padding: 8px 16px;
+    font-weight: bold;
+    border: none;
+}
+
+.swal-button-orange:hover {
+    background-color: #e67300 !important; /* Naranja más oscuro al pasar el mouse */
+}
