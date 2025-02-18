@@ -25,8 +25,10 @@ function App() {
                 <Route path="Departamentos" element={<Departamentos />} />
                 <Route path="AltaEmpleados" element={<AltaEmpleados />} />
                 <Route path="Registro" element={<Registro />} />
-                <Route path="Soporte" element={<Soporte />} />
 
+                <Route element={<ProtectedRoute allowedDepartments={['Aerodinamica', 'Administracion', 'Grupo Motor', 'Estrategias']} />}>
+                    <Route path="Soporte" element={<Soporte />} />
+                </Route>
                 {/* Ruta protegida para Aerodinamica */}
                 <Route element={<ProtectedRoute allowedDepartments={['Aerodinamica', 'Administracion']} />}>
                     <Route path="Departamentos/Aerodinamica" element={<Aerodinamica />} />

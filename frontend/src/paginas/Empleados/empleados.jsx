@@ -6,7 +6,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import { fetchEmpleados } from '../Funciones.js';
 
-function ListadoLugar() {
+function ListadoEmpleados() {
   const columns = [
     { name: "Nombre", options: { setCellProps: () => ({ style: { paddingLeft: "40px" } }) } },
     { name: "Apellido", options: { setCellProps: () => ({ style: { paddingLeft: "40px" } }) } },
@@ -121,4 +121,4 @@ function ListadoLugar() {
   );
 }
 
-export default ListadoLugar;
+export default ListadoEmpleados;

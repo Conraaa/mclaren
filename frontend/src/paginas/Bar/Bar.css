@@ -8,6 +8,7 @@
   color: white;
 }
 
+<<<<<<< HEAD
 /* Logo izquierda */
 .LogoBar {
   width: 60px;
@@ -23,6 +24,15 @@
 .Logo_centralBar {
   width: 200px;
   cursor: pointer;
+=======
+.menuHorizontal li:hover .menuVertical {
+    backdrop-filter: blur(30px);
+    padding-left: 40px;
+    width: 320px;
+    display: block;
+    transform: translateX(-25%);
+    border: 2px solid white;
+>>>>>>> b64b48c9062ba65784fa27e40ed3b83fbff9f539
 }
 
 /* Menú vertical izquierdo */

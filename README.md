@@ -7,7 +7,7 @@
 +Instalar todos los paquetes necesarios:
 
 _C:\...>_ npm install
-
+npm install sweetalert2 para la alerta
 +Una vez instalado todo, "_C:\...>_ npm start" ejecutará la aplicación en el modo de desarrollo.
 
 

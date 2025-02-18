@@ -1,9 +1,10 @@
-/* General - Contenedor para los inputs */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;700&family=Audiowide&display=swap');
+
+/* General - Contenedor para los inputs */
 .containerCarrera {
   display: flex;
-  flex-direction: column; /* Apilar los inputs */
-  gap: 20px; /* Espacio entre los inputs */
+  flex-direction: column;
+  gap: 20px;
 }
 
 /* Ajuste para cada campo de input */
@@ -14,20 +15,22 @@
   display: flex;
   flex-direction: column;
 }
-.card-body{
-  height:278px;
 
+.card-body {
+  height: 278px;
 }
+
 .pageCarrera {
-  backdrop-filter:blur(25px) ;
-  position: fixed; /* Posiciona la imagen de manera absoluta */
-  top: 0; /* Coloca la imagen en la parte superior */
-  left: 0; /* Alinea la imagen a la izquierda */
-  width: 100%; /* La imagen ocupa todo el ancho */
-  height: 100%; /* La imagen ocupa todo el alto */
-  object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
-  z-index: -1; /* Coloca la imagen detrás del contenido */
+  backdrop-filter: blur(25px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
 }
+
 .imagenCarrera {
   position: absolute;
   top: 0;
@@ -36,11 +39,12 @@
   height: 100%;
   background-size: cover;
   background-position: center;
-  z-index: -1; /* Coloca la imagen detrás del contenido */
+  z-index: -1;
   border-radius: 12px;
-  filter:brightness(60%)
+  filter: brightness(60%);
 }
-.botonCar{
+
+.botonCar {
   position: relative;
   background: #ff000000;
   color: white;
@@ -50,56 +54,59 @@
   left: 48px;
   top: 44px;
 }
-.Pilotos{
+
+.Pilotos {
   font-family: 'Poppins', sans-serif;
   position: relative;
   font-weight: bold;
   left: 81px;
   top: 44px;
-  margin: 0px;
+  margin: 0;
   background: rgb(0, 0, 0);
   text-align: center;
   color: #ffffff;
   width: 154px;
 }
-.inputCarrera option{
-  background-color: rgb(0 0 0);
-}
-.CartaTexto{
-  font-weight: bold; 
 
+.inputCarrera option {
+  background-color: rgb(0, 0, 0);
+}
+
+.CartaTexto {
+  font-weight: bold;
   font-family: 'Audiowide', sans-serif;
   position: relative;
   top: -4px;
   left: 21px;
   text-align: center;
   color: #000000;
-  background-color:#FF8000;
-  margin: 0px;
+  background-color: #FF8000;
+  margin: 0;
   width: 60px;
   filter: brightness(120%);
 }
+
 /* Input de vueltas - Ajuste para el botón al lado derecho */
 .field-container3 {
-  width: 111%; /* Centrar verticalmente el input y el botón */
+  width: 111%;
 }
 
 .input {
-  width: 100%; /* Asegura que los inputs ocupen todo el ancho disponible */
+  width: 100%;
 }
 
 /* Estilos para el modal */
 .custom-modalCarreras {
   display: flex;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente */
-  position: fixed; /* Fija el modal en la pantalla */
+  justify-content: center;
+  align-items: center;
+  position: fixed;
   top: 10%;
   left: 0;
-  width: 100vw; /* Ocupa todo el ancho de la pantalla */
-  height: 100vh; /* Ocupa todo el alto de la pantalla */
-  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
-  z-index: 1050; /* Asegura que esté por encima de otros elementos */
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1050;
 }
 
 /* Estilos para el contenido del modal */
@@ -109,11 +116,12 @@
   backdrop-filter: blur(25px);
   border-radius: 8px;
   color: white;
-  width: auto; /* Ancho automático según el contenido */
-  max-width: 90%; /* Limita el ancho máximo para que no sea demasiado grande */
-  margin: 0 auto; /* Centra el contenido dentro del modal */
+  width: auto;
+  max-width: 90%;
+  margin: 0 auto;
 }
-.field-container3 p{
+
+.field-container3 p {
   width: 100px;
 }
 
@@ -126,11 +134,12 @@
   position: absolute;
   bottom: 94px;
   right: 25px;
-  margin-left: 10px; /* Separar el botón del input */
+  margin-left: 10px;
   background: transparent;
   display: flex;
   color: white;
 }
+
 .buttonTele:hover {
   cursor: pointer;
 }
@@ -148,55 +157,52 @@
   background-color: red;
 }
 
-.field-container3 input{
+.field-container3 input {
   width: 90%;
-
-
 }
 
-.Cerrar{
+.Cerrar {
   background-color: red;
-border-color: rgb(255, 255, 255);
+  border-color: rgb(255, 255, 255);
 }
-.Guardar{
+
+.Guardar {
   background-color: #46a346;
   border-color: white;
-
 }
 
-.Cerrar:hover{
+.Cerrar:hover {
   background-color: rgb(156, 0, 0);
-
 }
 
-.Guardar:hover{
+.Guardar:hover {
   background-color: #388338;
-
-
 }
 
-.inputCarrera{
-  background-color: rgb(0,0,0,0.1);
+.inputCarrera {
+  background-color: rgba(0, 0, 0, 0.1);
   border: 2px solid white;
   border-radius: 8px;
   height: 35px;
   color: white;
 }
-select{
-  background-color: rgb(0,0,0,0.1);
+
+select {
+  background-color: rgba(0, 0, 0, 0.1);
   color: white;
   border: 2px solid white;
   border-radius: 8px;
   height: 35px;
 }
-.Añadir{
+
+.Añadir {
   background-color: #FF8000;
   border-color: white;
 }
-.Añadir:hover{
+
+.Añadir:hover {
   background-color: #a55301;
   border-color: white;
-
 }
 
 .modal-content {
@@ -204,15 +210,93 @@ select{
   width: 137%;
   pointer-events: auto;
   backdrop-filter: blur(20px);
-  background-color:rgba(0, 0, 0, 0.534);
+  background-color: rgba(0, 0, 0, 0.534);
   background-clip: padding-box;
   border: 2px solid white;
   border-radius: 8px;
- color: white;
+  color: white;
   outline: 0;
 }
 
-.Telemetrias{
+.Telemetrias {
   color: white;
+}
 
+/* Responsividad */
+@media (max-width: 768px) {
+  .containerCarrera {
+    padding: 10px;
+  }
+
+  .botonCar {
+    left: 0;
+    top: 0;
+    margin: 10px;
+  }
+
+  .Pilotos {
+    font-size: 14px;
+    left: 0;
+    top: 10px;
+    width: auto;
+  }
+
+  /* Modificar la disposición del formulario */
+  .field-container1,
+  .field-container2,
+  .field-container4,
+  .field-container5 {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card-body {
+    height: auto;
+  }
+
+  .inputCarrera,
+  select {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  /* Modal */
+  .custom-modalCarreras .modal-content {
+    max-width: 95%;
+    margin: 0 10px;
+  }
+
+  .buttonTele {
+    width: 80%;
+    position: relative;
+    bottom: 50px;
+  }
+
+  .modal-content {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .buttonTele {
+    width: 90%;
+    bottom: 60px;
+  }
+
+  .Pilotos {
+    font-size: 12px;
+    width: 100%;
+  }
+
+  .modal-content {
+    width: 100%;
+  }
+
+  .buttonTele.verified {
+    background-color: #28a745;
+  }
+
+  .buttonTele.failed {
+    background-color: #dc3545;
+  }
 }

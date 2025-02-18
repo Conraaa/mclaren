@@ -37,7 +37,7 @@ function Login() {
       localStorage.setItem('userLegajo', response.data.legajo);
       localStorage.setItem('userName', response.data.nombre);
       localStorage.setItem('userDepartment', response.data.departamento);
-
+      console.log('accessToken', response.data.access);
       // Establecer el usuario en el contexto
       login({
         legajo: response.data.legajo,

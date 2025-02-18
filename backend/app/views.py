@@ -7,6 +7,9 @@ from .serializers import DepartamentoSerializer, UsuarioSerializer, CategoriaSer
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+import jwt
+from datetime import datetime, timedelta
+from django.conf import settings
 
 class DepartamentoViewSet(viewsets.ModelViewSet):
     queryset = Departamento.objects.all()
@@ -109,10 +112,21 @@ class LoginView(APIView):
                 usuario = Usuario.objects.get(legajo=legajo)             
                 # Verificar la contraseña
                 if check_password(contrasenia, usuario.contrasenia):
+                    # Generar tokens de acceso y refresco
+                    access_token = jwt.encode({
+                        'user_id': usuario.id,
+                        'exp': datetime.utcnow() + timedelta(hours=1)
+                    }, settings.SECRET_KEY, algorithm='HS256')
+
+                    refresh_token = jwt.encode({
+                        'user_id': usuario.id,
+                        'exp': datetime.utcnow() + timedelta(days=7)
+                    }, settings.SECRET_KEY, algorithm='HS256')
+
                     return Response({
                         "message": "Login exitoso",
-                        "access": "fake_access_token",
-                        "refresh": "fake_refresh_token",
+                        "access": access_token,
+                        "refresh": refresh_token,
                         "nombre": usuario.nombre,
                         "departamento": usuario.departamento.nombre,
                         "legajo": usuario.legajo,
@@ -149,6 +163,7 @@ def verificar_legajo(request):
                 "nombre": usuario.nombre,
                 "apellido": usuario.apellido,
                 "departamento": usuario.departamento.nombre,
+                "dni": usuario.dni
             })
 
         except json.JSONDecodeError:
