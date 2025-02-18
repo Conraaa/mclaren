@@ -62,19 +62,30 @@ export const fetchClasificacionConstructores = async (setClasificacionConstructo
 // Funciones de /c:/Users/Pcstore/OneDrive/Documentos/mclaren/mclaren/frontend/src/paginas/Empleados/empleados.jsx
 export const fetchEmpleados = async (setData) => {
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/usuarios/");
-    if (response.ok) {
-      const empleados = await response.json();
-      const formattedData = empleados.map((empleado) => [
+    const [empleadosRes, departamentosRes] = await Promise.all([
+      fetch("http://127.0.0.1:8000/api/usuarios/"),
+      fetch("http://127.0.0.1:8000/api/departamentos/")
+    ]);
+    
+    if (!empleadosRes.ok || !departamentosRes.ok) {
+      console.error("Error al obtener datos:", empleadosRes.statusText, departamentosRes.statusText);
+      return;
+    }
+    
+    const empleados = await empleadosRes.json();
+    const departamentos = await departamentosRes.json();
+    
+    const formattedData = empleados.map((empleado) => {
+      const departamento = departamentos.find(dept => dept.id === empleado.departamento);
+      return [
         empleado.nombre,
         empleado.apellido,
         empleado.legajo,
-        empleado.departamento,
-      ]);
-      setData(formattedData);
-    } else {
-      console.error("Error al obtener los empleados:", response.statusText);
-    }
+        departamento ? departamento.nombre : "Desconocido"
+      ];
+    });
+    
+    setData(formattedData);
   } catch (error) {
     console.error("Error al conectar con el servidor:", error);
   }

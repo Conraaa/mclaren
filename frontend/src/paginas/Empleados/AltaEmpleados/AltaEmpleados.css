@@ -86,3 +86,22 @@
   scrollbar-color: #636363 #1f1f1f; /* Barra deslizante y fondo */
   scrollbar-width: thin; /* Tamaño reducido */
 }
+
+.inputSelector option{
+  background-color: rgb(0 0 0);
+  position: relative;
+}
+
+.custom-modalEmpleado .modal-content { 
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter:blur(25px) ;
+  border-radius: 8px; 
+  border: 2px solid white;
+  margin-top: 15%;
+  transform: translate(-15%, 0%);
+}
+
+.mb-empleado {
+  margin-bottom: 5%;
+}
