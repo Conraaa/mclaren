@@ -104,6 +104,10 @@ export default function Empleados() {
                 Aceptar
               </button>
             </form>
+
+            <Link to="/login">
+              <button className="go-login-btn">Volver al Ingreso</button>
+            </Link>
           </div>
         </div>
       )}
@@ -198,7 +202,7 @@ export default function Empleados() {
             </div>
 
             <div className="form-actions">
-              <Link to="/">
+              <Link to="/login">
                 <button type="button" className="cancel-btn">
                   Cancelar
                 </button>

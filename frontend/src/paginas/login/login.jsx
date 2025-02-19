@@ -96,6 +96,9 @@ function Login() {
           <Link to="/Registro">
             <button className="Boton">Registrarse</button>
           </Link>
+          <Link to="/">
+            <button className="BotonVolverHome">Volver al Home</button>
+          </Link>
         </div>
       </div>
     </div>
