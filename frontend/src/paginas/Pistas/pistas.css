@@ -34,36 +34,48 @@
 }
 
 /* Estilos para las tarjetas */
-.class {
-    width: 18rem;
+.classPista{
+    width: 18rem; /* Mantiene el tamaño del card */
     margin-left: 40px;
     margin-top: 50px;
     display: inline-block;
-    align-items: center;
+    text-align: center;
     max-width: 300px;
-    min-height: 300px;
+    min-height: 350px; /* Aumentamos la altura mínima */
+    overflow: hidden;  
 }
 
-.card {
+.cardPista{
     color: white;
     background-color: rgba(0, 0, 0, 0.5);
     border: 1px solid white;
     border-radius: 8px;
     backdrop-filter: blur(25px);
+    display: flex;
+    flex-direction: column; /* Organiza los elementos verticalmente */
+    align-items: center; /* Centra los elementos */
+    justify-content: space-between; /* Espacia los elementos correctamente */
+    height: 100%; /* Ocupa toda la altura disponible */
+    padding: 15px;
 }
 
 /* Botones de la tarjeta */
-.boton {
-    position: relative;
+.botonPista{
     background: #ff000000;
     color: white;
-    justify-content: space-between;
-    display: flex;
-    margin: 20px;
-    left: 60px;
-    top: -2px;
+    display:block;
+    position: absolute; /* Lo coloca siempre en la parte inferior */
+    bottom: 10px; /* Separación desde abajo */
+    left: 50%;
+    transform: translateX(-50%); 
 }
 
+.card img{
+    width: 100%; /* Se ajusta al ancho de la tarjeta */
+    max-height: 150px; /* Limita la altura para que no desplace otros elementos */
+    object-fit: cover; /* Mantiene la proporción sin distorsionar */
+    border-radius: 5px;
+}
 /* Estilos para los botones */
 .Cerrar {
     background-color: red;

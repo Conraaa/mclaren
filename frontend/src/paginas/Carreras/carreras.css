@@ -233,6 +233,33 @@ select {
   color: white;
 }
 
+.class {
+  width: 18rem;
+  margin-left: 40px;
+  margin-top: 50px;
+  display: inline-block;
+  align-items: center;
+  max-width: 300px;
+  min-height: 300px;
+}
+.card {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid white;
+  border-radius: 8px;
+  backdrop-filter: blur(25px);
+}
+.boton {
+  position: relative;
+  background: #ff000000;
+  color: white;
+  justify-content: space-between;
+  display: flex;
+  margin: 20px;
+  left: 60px;
+  top: -2px;
+}
+
 /* Responsividad */
 @media (max-width: 768px) {
   .containerCarrera {
