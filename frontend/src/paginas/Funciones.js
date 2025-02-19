@@ -99,22 +99,72 @@ export const fetchCarreras = async (setCarreras) => {
 };
 
 export const handleShowDetails = async (circuito, setSelectedCircuito) => {
+  console.log("Fetching telemetry data for circuito:", circuito);
+
   try {
-    const response = await fetch(``);
+    // Obtener todas las telemetrías de la carrera
+    const response = await fetch(`http://localhost:8000/api/telemetrias/?carrera=${circuito.id}`);
+    console.log("Response status:", response.status);
+
     if (!response.ok) {
       throw new Error("Error fetching telemetria data");
     }
-    const data = await response.json();
-    const telemetriaNorris = data.MRData.RaceTable.Races[0].Laps.map(lap => ({ vuelta: lap.number, tiempo: lap.Timings[0].time }));
-    const telemetriaPiastri = data.MRData.RaceTable.Races[0].Laps.map(lap => ({ vuelta: lap.number, tiempo: lap.Timings[1].time }));
-    setSelectedCircuito({ ...circuito, telemetriaNorris, telemetriaPiastri });
+
+    const telemetrias = await response.json();
+    console.log("Telemetry data received:", telemetrias);
+
+    if (!Array.isArray(telemetrias) || telemetrias.length < 2) {
+      throw new Error("No hay suficientes datos de telemetría para mostrar");
+    }
+
+    // Determinar cuál es Norris y cuál es Piastri
+    const sortedTelemetrias = telemetrias.sort((a, b) => a.id - b.id);
+    const telemetriaNorris = sortedTelemetrias[0]; // ID menor
+    const telemetriaPiastri = sortedTelemetrias[1]; // ID mayor
+
+    console.log("Telemetria Norris ID:", telemetriaNorris.id);
+    console.log("Telemetria Piastri ID:", telemetriaPiastri.id);
+
+    // Obtener los registros en paralelo
+    const [registrosNorris, registrosPiastri] = await Promise.all([
+      fetch(`http://localhost:8000/api/registros/?telemetria=${telemetriaNorris.id}`)
+        .then(res => res.ok ? res.json() : Promise.reject("Error fetching registros de Norris")),
+      fetch(`http://localhost:8000/api/registros/?telemetria=${telemetriaPiastri.id}`)
+        .then(res => res.ok ? res.json() : Promise.reject("Error fetching registros de Piastri"))
+    ]);
+
+    console.log("Registros Norris:", registrosNorris);
+    console.log("Registros Piastri:", registrosPiastri);
+
+    // Formatear datos y convertir tiempos a números
+    const formattedNorris = registrosNorris.map(registro => ({
+      vuelta: registro.numVuelta,
+      tiempo: parseFloat(registro.valor.replace(':', ''))
+    }));
+
+    const formattedPiastri = registrosPiastri.map(registro => ({
+      vuelta: registro.numVuelta,
+      tiempo: parseFloat(registro.valor.replace(':', ''))
+    }));
+
+    // Guardar en el estado
+    setSelectedCircuito({ 
+      ...circuito, 
+      telemetriaNorris: formattedNorris, 
+      telemetriaPiastri: formattedPiastri 
+    });
+
+    console.log("Selected circuito updated:", { 
+      ...circuito, 
+      telemetriaNorris: formattedNorris, 
+      telemetriaPiastri: formattedPiastri 
+    });
+
   } catch (error) {
     console.error("Error fetching telemetria data:", error);
     alert("Error fetching telemetria data. Please try again later.");
   }
 };
-
-
 
 
 // Importa las imágenes de las pistas
