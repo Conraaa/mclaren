@@ -70,7 +70,7 @@
     transform: translateX(-50%); 
 }
 
-.card img{
+.card .pista img{
     width: 100%; /* Se ajusta al ancho de la tarjeta */
     max-height: 150px; /* Limita la altura para que no desplace otros elementos */
     object-fit: cover; /* Mantiene la proporción sin distorsionar */

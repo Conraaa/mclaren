@@ -12,7 +12,7 @@ function Cartita({ nombre, imagen, kilometros, pais, ciudad, onInfoClick }) {
       <Card className="cardPista">
         <Card.Body>
           <Card.Title>{nombre}</Card.Title>
-          <Card.Img variant="topPista" src={imagen} />
+          <Card.Img variant="topPista" className='Pista' src={imagen} />
           <Card.Text className="CartaTextoPist">
             País: {pais}
           </Card.Text>

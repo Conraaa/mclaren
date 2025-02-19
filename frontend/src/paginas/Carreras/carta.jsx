@@ -26,12 +26,11 @@ function formatTiempo(tiempo) {
 function Cartita({ nombre, imagen, kilometros, vueltas, estrategia, Piloto1, Piloto2, onShowDetails }) {
   return (
     <div className="class">
-      <Card className="card">
+      <Card className="cardCarreras">
         <Card.Img className="imagenCarrera" variant="top" src={imagen} />
         <Card.Body>
           <Card.Title className="CartaTitulo">{nombre}</Card.Title>
-          <p className="Pilotos">Lando Norris</p>  
-          <p className="Pilotos">Oscar Piastri</p>
+          <p><strong>Pista:</strong> {nombre}</p>
           <p><strong>Vueltas:</strong> {vueltas}</p>
           <p><strong>Estrategia:</strong> {estrategia}</p>
           <div className="botonCar">
