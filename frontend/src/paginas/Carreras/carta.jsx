@@ -15,6 +15,14 @@ import {
 } from "recharts";
 import { fetchCarreras, handleShowDetails } from '../Funciones.js';
 
+function formatTiempo(tiempo) {
+  const totalMilisegundos = Math.round(tiempo * 1000);
+  const minutos = Math.floor(totalMilisegundos / 60000);
+  const segundos = Math.floor((totalMilisegundos % 60000) / 1000);
+  const milisegundos = totalMilisegundos % 1000;
+  return `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}:${String(milisegundos).padStart(3, '0')}`;
+}
+
 function Cartita({ nombre, imagen, kilometros, vueltas, estrategia, Piloto1, Piloto2, onShowDetails }) {
   return (
     <div className="class">
@@ -89,25 +97,27 @@ function ListaDeCircuitos() {
               <div style={{ marginBottom: "20px" }}>
                 <p><strong>Piloto 1: Lando Norris</strong></p>
                 <ResponsiveContainer width="100%" height={200}>
-                  <LineChart data={selectedCircuito.telemetriaNorris}>
-                    <CartesianGrid stroke="#ccc" />
-                    <XAxis dataKey="vuelta" label={{ value: "Vuelta", position: "insideBottomRight", offset: -10 }} />
-                    <YAxis label={{ value: "Tiempo (s)", angle: -90, position: "insideLeft" }} />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="tiempo" stroke="#8884d8" />
-                  </LineChart>
+                <LineChart data={selectedCircuito.telemetriaPiastri.sort((a, b) => a.vuelta - b.vuelta)}>
+                  <CartesianGrid stroke="#ccc" />
+                  <XAxis dataKey="vuelta" label={{ value: "Vuelta", position: "insideBottomRight", offset: -10 }} />
+                  <YAxis tickFormatter={formatTiempo} label={{ value: "Tiempo (MM:SS:SSS)", angle: -90, position: "insideLeft" }} />
+                  <Tooltip formatter={(value) => formatTiempo(value)} />
+                  <Line type="basis" dataKey="tiempo" stroke="#82ca9d" dot={{ r: 3 }} />
+                </LineChart>
+
                 </ResponsiveContainer>
               </div>
               <div>
                 <p><strong>Piloto 2: Oscar Piastri</strong></p>
                 <ResponsiveContainer width="100%" height={200}>
-                  <LineChart data={selectedCircuito.telemetriaPiastri}>
-                    <CartesianGrid stroke="#ccc" />
-                    <XAxis dataKey="vuelta" label={{ value: "Vuelta", position: "insideBottomRight", offset: -10 }} />
-                    <YAxis label={{ value: "Tiempo (s)", angle: -90, position: "insideLeft" }} />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="tiempo" stroke="#82ca9d" />
-                  </LineChart>
+                <LineChart data={selectedCircuito.telemetriaNorris.sort((a, b) => a.vuelta - b.vuelta)}>
+                  <CartesianGrid stroke="#ccc" />
+                  <XAxis dataKey="vuelta" label={{ value: "Vuelta", position: "insideBottomRight", offset: -10 }} />
+                  <YAxis tickFormatter={formatTiempo} label={{ value: "Tiempo (MM:SS:SSS)", angle: -90, position: "insideLeft" }} />
+                  <Tooltip formatter={(value) => formatTiempo(value)} />
+                  <Line type="basis" dataKey="tiempo" stroke="#8884d8" dot={{ r: 3 }} />
+                </LineChart>
+
                 </ResponsiveContainer>
               </div>
             </div>

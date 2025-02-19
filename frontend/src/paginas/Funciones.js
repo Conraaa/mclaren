@@ -137,15 +137,19 @@ export const handleShowDetails = async (circuito, setSelectedCircuito) => {
     console.log("Registros Piastri:", registrosPiastri);
 
     // Formatear datos y convertir tiempos a números
-    const formattedNorris = registrosNorris.map(registro => ({
-      vuelta: registro.numVuelta,
-      tiempo: parseFloat(registro.valor.replace(':', ''))
-    }));
+    const formattedNorris = registrosNorris
+      .map(registro => ({
+        vuelta: registro.numVuelta,
+        tiempo: parseFloat(registro.valor.replace(':', ''))
+      }))
+      .sort((a, b) => a.vuelta - b.vuelta); // Ordenar por número de vuelta
 
-    const formattedPiastri = registrosPiastri.map(registro => ({
-      vuelta: registro.numVuelta,
-      tiempo: parseFloat(registro.valor.replace(':', ''))
-    }));
+    const formattedPiastri = registrosPiastri
+      .map(registro => ({
+        vuelta: registro.numVuelta,
+        tiempo: parseFloat(registro.valor.replace(':', ''))
+      }))
+      .sort((a, b) => a.vuelta - b.vuelta); // Ordenar por número de vuelta
 
     // Guardar en el estado
     setSelectedCircuito({ 
@@ -165,6 +169,7 @@ export const handleShowDetails = async (circuito, setSelectedCircuito) => {
     alert("Error fetching telemetria data. Please try again later.");
   }
 };
+
 
 
 // Importa las imágenes de las pistas
