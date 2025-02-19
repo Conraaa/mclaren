@@ -25,4 +25,33 @@ const pistaImages = {
     "Zandvoort": require("../Imagenes/Imagenes carreras/Zandvoort.jpg")
 };
 
-export default pistaImages;
+export { pistaImages };
+
+const pistaToRound = {
+    "Abu dhabi": "Yas Marina Circuit",
+    "Austria": "Red Bull Ring",
+    "Baku": "Baku City Circuit",
+    "Barcelona": "Circuit de Barcelona-Catalunya",
+    "Barein": "Bahrain International Circuit",
+    "Canada": "Circuit Gilles Villeneuve",
+    "Catar": "Losail International Circuit",
+    "Hungria": "Hungaroring",
+    "Imola": "Autodromo Enzo e Dino Ferrari",
+    "Interlagos": "Autódromo José Carlos Pace",
+    "Las Vegas": "Las Vegas Grand Prix Circuit",
+    "Melbourne": "Melbourne Grand Prix Circuit",
+    "Mexico": "Autódromo Hermanos Rodríguez",
+    "Miami": "Miami International Autodrome",
+    "Monaco": "Circuit de Monaco",
+    "Monza": "Autodromo Nazionale Monza",
+    "Shanghai": "Shanghai International Circuit",
+    "Silverstone": "Silverstone Circuit",
+    "Singapur": "Marina Bay Street Circuit",
+    "Spa": "Circuit de Spa-Francorchamps",
+    "Suzuka": "Suzuka Circuit",
+    "Texas": "Circuit of the Americas",
+    "Yeda": "Jeddah Street Circuit",
+    "Zandvoort": "Circuit Zandvoort"
+};
+
+export { pistaToRound };
