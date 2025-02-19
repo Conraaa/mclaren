@@ -57,15 +57,6 @@ function ListaDeCircuitos() {
     setSelectedCircuito(null);
   };
 
-  // Función para calcular el dominio dinámico del eje Y
-  const calculateDomain = (data, key) => {
-    if (!data || data.length === 0) return [0, 1]; // Valores predeterminados si no hay datos
-    const values = data.map(item => parseFloat(item[key]));
-    const minValue = Math.min(...values);
-    const maxValue = Math.max(...values);
-    return [minValue, maxValue];
-  };
-
   return (
     <div>
       {carreras.map((circuito, index) => (
@@ -103,39 +94,30 @@ function ListaDeCircuitos() {
               style={{ width: "100%", borderRadius: "8px", marginBottom: "20px" }}
             />
             <div className="Telemetrias">
-              {/* Gráfica de Lando Norris */}
               <div style={{ marginBottom: "20px" }}>
                 <p><strong>Piloto 1: Lando Norris</strong></p>
                 <ResponsiveContainer width="100%" height={200}>
-                  <LineChart data={selectedCircuito.telemetriaNorris.sort((a, b) => a.vuelta - b.vuelta)}>
-                    <CartesianGrid stroke="#ccc" />
-                    <XAxis dataKey="vuelta" label={{ value: "Vuelta", position: "insideBottomRight", offset: -10 }} />
-                    <YAxis 
-                      tickFormatter={formatTiempo} 
-                      domain={calculateDomain(selectedCircuito.telemetriaNorris, "tiempo")} 
-                      label={{ value: "Tiempo (MM:SS:SSS)", angle: -90, position: "insideLeft" }} 
-                    />
-                    <Tooltip formatter={(value) => formatTiempo(value)} />
-                    <Line type="basis" dataKey="tiempo" stroke="#8884d8" dot={{ r: 3 }} />
-                  </LineChart>
+                <LineChart data={selectedCircuito.telemetriaPiastri.sort((a, b) => a.vuelta - b.vuelta)}>
+                  <CartesianGrid stroke="#ccc" />
+                  <XAxis dataKey="vuelta" label={{ value: "Vuelta", position: "insideBottomRight", offset: -10 }} />
+                  <YAxis tickFormatter={formatTiempo} label={{ value: "Tiempo (MM:SS:SSS)", angle: -90, position: "insideLeft" }} />
+                  <Tooltip formatter={(value) => formatTiempo(value)} />
+                  <Line type="basis" dataKey="tiempo" stroke="#82ca9d" dot={{ r: 3 }} />
+                </LineChart>
+
                 </ResponsiveContainer>
               </div>
-
-              {/* Gráfica de Oscar Piastri */}
               <div>
                 <p><strong>Piloto 2: Oscar Piastri</strong></p>
                 <ResponsiveContainer width="100%" height={200}>
-                  <LineChart data={selectedCircuito.telemetriaPiastri.sort((a, b) => a.vuelta - b.vuelta)}>
-                    <CartesianGrid stroke="#ccc" />
-                    <XAxis dataKey="vuelta" label={{ value: "Vuelta", position: "insideBottomRight", offset: -10 }} />
-                    <YAxis 
-                      tickFormatter={formatTiempo} 
-                      domain={calculateDomain(selectedCircuito.telemetriaPiastri, "tiempo")} 
-                      label={{ value: "Tiempo (MM:SS:SSS)", angle: -90, position: "insideLeft" }} 
-                    />
-                    <Tooltip formatter={(value) => formatTiempo(value)} />
-                    <Line type="basis" dataKey="tiempo" stroke="#82ca9d" dot={{ r: 3 }} />
-                  </LineChart>
+                <LineChart data={selectedCircuito.telemetriaNorris.sort((a, b) => a.vuelta - b.vuelta)}>
+                  <CartesianGrid stroke="#ccc" />
+                  <XAxis dataKey="vuelta" label={{ value: "Vuelta", position: "insideBottomRight", offset: -10 }} />
+                  <YAxis tickFormatter={formatTiempo} label={{ value: "Tiempo (MM:SS:SSS)", angle: -90, position: "insideLeft" }} />
+                  <Tooltip formatter={(value) => formatTiempo(value)} />
+                  <Line type="basis" dataKey="tiempo" stroke="#8884d8" dot={{ r: 3 }} />
+                </LineChart>
+
                 </ResponsiveContainer>
               </div>
             </div>

@@ -30,7 +30,7 @@ function Pistas() {
                 <Modal
                         show={show}
                         onHide={handleClose}
-                        className="custom-modal"
+                        className="custom-modalPistas"
                     >
 
                     <Modal.Header closeButton>

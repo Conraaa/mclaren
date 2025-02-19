@@ -68,7 +68,7 @@ function ListaDeCircuitos() {
       )}
 
       {/* Modal de información */}
-      <Modal show={showModal} onHide={handleCloseModal} centered>
+      <Modal className='modal-customdetallesPistas' show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>Detalles del Circuito</Modal.Title>
         </Modal.Header>

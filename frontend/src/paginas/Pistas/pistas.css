@@ -118,9 +118,15 @@
 input::placeholder {
     color: white;
 }
-
-/* Estilos del modal */
-.custom-modal .modal-content {
+.modal-customdetallesPistas .modal-content{
+    color: white;
+    left: -13px;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(25px);
+    border-radius: 8px;
+    border: 2px solid white;
+}
+.custom-modalPistas .modal-content {
     color: white;
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(25px);
@@ -163,14 +169,14 @@ input::placeholder {
     }
 
     /* Ajustes para el modal */
-    .custom-modal .modal-footer {
+    .custom-modalPistas .modal-footer {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
 
-    .custom-modal .Cerrar,
-    .custom-modal .Guardar {
+    .custom-modalPistas.Cerrar,
+    .custom-modalPistas .Guardar {
         width: 100%;
         margin-bottom: 10px;
     }
@@ -188,7 +194,7 @@ input::placeholder {
         margin-left: 0;
     }
 
-    .custom-modal .modal-content {
+    .custom-modalPistas .modal-content {
         left: 87px;
         width: 83%;
     }
@@ -204,14 +210,14 @@ input::placeholder {
 
 @media (max-width: 769px) {
     /* Ajustes para pantallas medianas (tablets) */
-    .custom-modal .modal-footer {
+    .custom-modalPistas .modal-footer {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
     }
 
-    .custom-modal .Cerrar,
-    .custom-modal .Guardar {
+    .custom-modalPistas .Cerrar,
+    .custom-modalPistas .Guardar {
         width: auto;
         margin-bottom: 0;
     }
