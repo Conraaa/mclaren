@@ -69,7 +69,11 @@
     left: 50%;
     transform: translateX(-50%); 
 }
-
+::-webkit-scrollbar {
+  width: 12px; /* Ancho de la barra vertical */
+  height: 12px;
+  display: none; /* Altura de la barra horizontal */
+  }
 .card .pista img{
     width: 100%; /* Se ajusta al ancho de la tarjeta */
     max-height: 150px; /* Limita la altura para que no desplace otros elementos */
