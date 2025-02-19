@@ -57,6 +57,11 @@ function ListaDeEstrategias({ onEdit, onDelete }) {
     setSelectedEstrategia(null);
   };
 
+  const handleDelete = (id) => {
+    onDelete(id);
+    window.location.reload();
+  };
+
   // Agrupar estrategias por pista
   const groupedEstrategias = estrategias.reduce((acc, estrategia) => {
     if (!acc[estrategia.pista_nombre]) acc[estrategia.pista_nombre] = [];
@@ -88,7 +93,7 @@ function ListaDeEstrategias({ onEdit, onDelete }) {
       ))}
 
       {/* Modal */}
-      <Modal show={showModal} onHide={handleCloseModal} centered>
+      <Modal className='ModalEstrategia'show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>{selectedEstrategia?.nombre}</Modal.Title>
         </Modal.Header>
@@ -108,7 +113,7 @@ function ListaDeEstrategias({ onEdit, onDelete }) {
           <Button variant="secondary" onClick={handleCloseModal}>
             Cerrar
           </Button>
-          <Button variant="danger" onClick={() => onDelete(selectedEstrategia.id)}>
+          <Button variant="danger" onClick={() => handleDelete(selectedEstrategia.id)}>
             Eliminar
           </Button>
           <Button variant="primary" onClick={() => onEdit(selectedEstrategia)}>
