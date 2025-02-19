@@ -10,7 +10,7 @@ import Fondo from '../Imagenes/estrategiafondo.jpg';
 
 function Estrategia() {
     const [show, setShow] = useState(false);
-    const [editando, setEditando] = useState(false);
+    const [isEditMode, setIsEditMode] = useState(false);
     const [pistas, setPistas] = useState([]);
     const [piezasDisponibles, setPiezasDisponibles] = useState([]);
     const [estrategias, setEstrategias] = useState([]);
@@ -27,22 +27,23 @@ function Estrategia() {
     });
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [pistasRes, piezasRes, estrategiasRes] = await Promise.all([
-                    fetch("http://127.0.0.1:8000/api/pistas/").then(res => res.json()),
-                    fetch("http://127.0.0.1:8000/api/piezas/").then(res => res.json()),
-                    fetch("http://127.0.0.1:8000/api/estrategias/").then(res => res.json())
-                ]);
+        // Cargar pistas desde el backend
+        fetch("http://127.0.0.1:8000/api/pistas/")
+            .then(response => response.json())
+            .then(data => setPistas(data))
+            .catch(error => console.error("Error cargando pistas:", error));
 
-                setPistas(pistasRes);
-                setPiezasDisponibles(piezasRes);
-                setEstrategias(estrategiasRes);
-            } catch (error) {
-                console.error("Error cargando datos:", error);
-            }
-        };
-        fetchData();
+        // Cargar piezas disponibles desde el backend
+        fetch("http://127.0.0.1:8000/api/piezas/")
+            .then(response => response.json())
+            .then(data => setPiezasDisponibles(data))
+            .catch(error => console.error("Error cargando piezas:", error));
+
+        // Cargar estrategias desde el backend
+        fetch("http://127.0.0.1:8000/api/estrategias/")
+            .then(response => response.json())
+            .then(data => setEstrategias(data))
+            .catch(error => console.error("Error cargando estrategias:", error));
     }, []);
 
     const handleChange = (e) => {
@@ -52,68 +53,34 @@ function Estrategia() {
         });
     };
 
-    const handleEditClick = (estrategiaExistente) => {
-        setEstrategia({
-            id: estrategiaExistente.id,
-            tipo: estrategiaExistente.nombre,
-            pista: estrategiaExistente.pista,
-            aleronDelantero: estrategiaExistente.aleronDelantero || '',
-            aleronTrasero: estrategiaExistente.aleronTrasero || '',
-            pontones: estrategiaExistente.pontones || '',
-            fondoPlano: estrategiaExistente.fondoPlano || '',
-            difusor: estrategiaExistente.difusor || '',
-            motor: estrategiaExistente.motor || '',
-            cajaCambios: estrategiaExistente.cajaCambios || ''
-        });
-        setEditando(true);
-        setShow(true);
-    };
-
     const handleSave = async () => {
         try {
+            // Find the selected pista object
             const selectedPista = pistas.find(p => p.nombre === estrategia.pista);
-            let estrategiaId = estrategia.id;
 
-            if (!editando) {
-                // Verificar si ya existe una estrategia con el mismo tipo en la misma pista
-                const existingEstrategia = estrategias.find(e => e.pista === selectedPista.id && e.nombre === estrategia.tipo);
-                if (existingEstrategia) {
-                    alert("Ya existe una estrategia para esta pista con el mismo tipo.");
-                    return;
-                }
+            // Fetch existing strategies to check for duplicate
+
+
+            // Create the strategy
+            const estrategiaResponse = await fetch("http://127.0.0.1:8000/api/estrategias/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    nombre: estrategia.tipo,
+                    pista: selectedPista ? selectedPista.id : null
+                })
+            });
+
+            if (!estrategiaResponse.ok) {
+                const errorData = await estrategiaResponse.json();
+                console.error("Error al crear la estrategia:", errorData);
+                return;
             }
 
-            if (editando) {
-                // Actualizar estrategia (PUT)
-                const updateResponse = await fetch(`http://127.0.0.1:8000/api/estrategias/${estrategiaId}/`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        nombre: estrategia.tipo,
-                        pista: selectedPista ? selectedPista.id : null
-                    })
-                });
+            const estrategiaData = await estrategiaResponse.json();
+            const estrategiaId = estrategiaData.id;
 
-                if (!updateResponse.ok) throw new Error("Error al actualizar la estrategia");
-
-            } else {
-                // Crear nueva estrategia (POST)
-                const estrategiaResponse = await fetch("http://127.0.0.1:8000/api/estrategias/", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        nombre: estrategia.tipo,
-                        pista: selectedPista ? selectedPista.id : null
-                    })
-                });
-
-                if (!estrategiaResponse.ok) throw new Error("Error al crear la estrategia");
-
-                const estrategiaData = await estrategiaResponse.json();
-                estrategiaId = estrategiaData.id;
-            }
-
-            // Asociar piezas a la estrategia
+            // Create the associations with pieces
             const piezas = [
                 estrategia.aleronDelantero,
                 estrategia.aleronTrasero,
@@ -137,10 +104,9 @@ function Estrategia() {
                 }
             }
 
-            console.log(editando ? "Estrategia actualizada" : "Estrategia creada");
+            console.log("Estrategia guardada:", estrategia);
             setShow(false);
-            setEditando(false);
-            window.location.reload();
+            window.location.reload(); // Recargar la página después de guardar
         } catch (error) {
             console.error("Error al guardar la estrategia:", error);
         }
@@ -152,13 +118,33 @@ function Estrategia() {
                 method: "DELETE"
             });
 
-            if (!response.ok) throw new Error("Error al eliminar la estrategia");
+            if (!response.ok) {
+                console.error("Error al eliminar la estrategia");
+                return;
+            }
 
             setEstrategias(estrategias.filter(e => e.id !== estrategiaId));
             console.log("Estrategia eliminada");
         } catch (error) {
             console.error("Error al eliminar la estrategia:", error);
         }
+    };
+
+    const handleEdit = (estrategia) => {
+        const piezas = estrategia.piezas || [];
+        setEstrategia({
+            tipo: estrategia.nombre,
+            pista: estrategia.pista_nombre,
+            aleronDelantero: piezas.find(p => p.categoria_nombre === "Aleron Delantero")?.id || '',
+            aleronTrasero: piezas.find(p => p.categoria_nombre === "Aleron Trasero")?.id || '',
+            pontones: piezas.find(p => p.categoria_nombre === "Pontones")?.id || '',
+            fondoPlano: piezas.find(p => p.categoria_nombre === "Fondo Plano")?.id || '',
+            difusor: piezas.find(p => p.categoria_nombre === "Difusor")?.id || '',
+            motor: piezas.find(p => p.categoria_nombre === "Motor")?.id || '',
+            cajaCambios: piezas.find(p => p.categoria_nombre === "Caja De Cambios")?.id || ''
+        });
+        setIsEditMode(true);
+        setShow(true);
     };
 
     const handleAdd = () => {
@@ -173,31 +159,136 @@ function Estrategia() {
             motor: '',
             cajaCambios: ''
         });
-        setEditando(false);
+        setIsEditMode(false);
         setShow(true);
     };
 
     return (
         <div className="todo">
             <Bar />
-            <img className="pagePista" src={Fondo} alt="Fondo de Pista" />
+            <img className="pagePista" src={Fondo} alt="Fondo de Pista" /> 
 
+            {/* Botón para abrir el modal */}
             <div className="botonAnadir">
-                <Button className="Añadir" variant="primary" size="lg" onClick={handleAdd}>Añadir</Button>
+                <Button className="Añadir" variant="primary" size="lg" onClick={handleAdd}>Añadir </Button> 
             </div>
 
-            <ListaDeEstrategias estrategias={estrategias} onEdit={handleEditClick} onDelete={handleDelete} />
+            {/* Mostrar estrategias en cartas */}
+            <ListaDeEstrategias estrategias={estrategias} onEdit={handleEdit} onDelete={handleDelete} />
 
-            <Modal show={show} onHide={() => setShow(false)} centered>
+            {/* Modal para agregar estrategia */}
+            <Modal className="listadoEstrategiaModal" show={show} onHide={() => setShow(false)} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>{editando ? "Modificar Estrategia" : "Añadir Estrategia"}</Modal.Title>
+                    <Modal.Title>{isEditMode ? "Modificar Estrategia" : "Añadir Estrategia"}</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    {/* Formulario aquí */}
+                <Modal.Body className='Modelito'>
+                    <Form>
+                        {/* Selector de Pista */}
+                        <Form.Group controlId="formPista" className="mt-3">
+                            <Form.Label>Pista</Form.Label>
+                            <Form.Select className="inputCarrera" name="pista" value={estrategia.pista} onChange={handleChange} disabled={isEditMode}>
+                                <option value="">Seleccionar una pista</option>
+                                {pistas.map(pista => (
+                                    <option key={pista.id} value={pista.nombre}>{pista.nombre}</option>
+                                ))}
+                            </Form.Select>
+                        </Form.Group>
+                        {/* Selector de Tipo de Estrategia */}
+                        <Form.Group controlId="formTipo">
+                            <Form.Label>Tipo de Estrategia</Form.Label>
+                            <Form.Select name="tipo" className="inputCarrera" value={estrategia.tipo} onChange={handleChange} disabled={isEditMode}>
+                                <option value="" disabled>Seleccionar el tipo de estrategia</option>
+                                <option value="Seco">Seco</option>
+                                <option value="Lluvia">Lluvia</option>
+                                <option value="Viento">Viento</option>
+                            </Form.Select>
+                        </Form.Group>
+
+                        {/* Contenedor con las dos columnas */}
+                        <div className="input-container">
+                            {/* Columna Aerodinámica */}
+                            <div className="aerodinamica">
+                                <h5>Aerodinámica</h5>
+                                <Form.Group>
+                                    <Form.Label>Alerón Delantero</Form.Label>
+                                    <Form.Select className="inputCarrera" name="aleronDelantero" value={estrategia.aleronDelantero} onChange={handleChange}>
+                                        <option value="" disabled>Seleccionar</option>
+                                        {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Aleron Delantero").map(pieza => (
+                                            <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+
+                                <Form.Group>
+                                    <Form.Label>Alerón Trasero</Form.Label>
+                                    <Form.Select className="inputCarrera" name="aleronTrasero" value={estrategia.aleronTrasero} onChange={handleChange}>
+                                        <option value="" disabled>Seleccionar</option>
+                                        {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Aleron Trasero").map(pieza => (
+                                            <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+
+                                <Form.Group>
+                                    <Form.Label>Pontones</Form.Label>
+                                    <Form.Select className="inputCarrera" name="pontones" value={estrategia.pontones} onChange={handleChange}>
+                                        <option value="" disabled>Seleccionar</option>
+                                        {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Pontones").map(pieza => (
+                                            <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+
+                                <Form.Group>
+                                    <Form.Label>Fondo Plano</Form.Label>
+                                    <Form.Select className="inputCarrera" name="fondoPlano" value={estrategia.fondoPlano} onChange={handleChange}>
+                                        <option value="" disabled>Seleccionar</option>
+                                        {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Fondo Plano").map(pieza => (
+                                            <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+
+                                <Form.Group>
+                                    <Form.Label>Difusor</Form.Label>
+                                    <Form.Select className="inputCarrera" name="difusor" value={estrategia.difusor} onChange={handleChange}>
+                                        <option value="" disabled>Seleccionar</option>
+                                        {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Difusor").map(pieza => (
+                                            <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+                            </div>
+
+                            {/* Columna Grupo Motor */}
+                            <div className="grupo-motor">
+                                <h5>Grupo Motor</h5>
+                                <Form.Group>
+                                    <Form.Label>Motor</Form.Label>
+                                    <Form.Select className="inputCarrera" name="motor" value={estrategia.motor} onChange={handleChange}>
+                                        <option value="" disabled>Seleccionar</option>
+                                        {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Motor").map(pieza => (
+                                            <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+
+                                <Form.Group>
+                                    <Form.Label>Caja de Cambios</Form.Label>
+                                    <Form.Select className="inputCarrera" name="cajaCambios" value={estrategia.cajaCambios} onChange={handleChange}>
+                                        <option value="" disabled>Seleccionar</option>
+                                        {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Caja De Cambios").map(pieza => (
+                                            <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+                            </div>
+                        </div>
+                    </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShow(false)}>Cerrar</Button>
-                    <Button variant="primary" onClick={handleSave}>Guardar</Button>
+                    <Button className="Cerrar" variant="secondary" onClick={() => setShow(false)}>Cerrar</Button>
+                    <Button className='Guardar' variant="primary" onClick={handleSave}>Guardar</Button>
                 </Modal.Footer>
             </Modal>
         </div>

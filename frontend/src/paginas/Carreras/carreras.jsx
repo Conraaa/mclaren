@@ -83,7 +83,7 @@ function Carrera() {
                         <Modal.Body>
                             <div className="containerCarrera">
                                 <div className="field-container1">
-                                    <label>Fecha</label>
+                                    <label>Año</label>
                                     <input type="int" value={anio} onChange={(e) => setFecha(e.target.value)} className="inputCarrera" />
                                 </div>
                                 <div className="field-container2">
