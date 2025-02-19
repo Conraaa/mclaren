@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Registro.css";
 import Registro from "../../Imagenes/Registro.jpeg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Empleados() {
   const [legajo, setLegajo] = useState(""); // Almacena el legajo ingresado
@@ -10,6 +10,7 @@ export default function Empleados() {
   const [apellido, setApellido] = useState(""); // Almacena el apellido del usuario
   const [departamento, setDepartamento] = useState(""); // Almacena el departamento del usuario
   const [dni, setDni] = useState(""); // Almacena el DNI del usuario
+  const navigate = useNavigate();
 
   // Verificar el legajo
   const handleLegajoSubmit = async (e) => {
@@ -74,7 +75,7 @@ export default function Empleados() {
       const data = await response.json();
       if (data.status === "success") {
         alert(data.message);
-        // Redirigir o limpiar el formulario (opcional)
+        navigate("/login");
       } else {
         alert(data.message);
       }
