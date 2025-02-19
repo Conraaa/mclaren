@@ -1,4 +1,5 @@
-import {pistaImages, pistaToRound} from "./Carreras/imports.js";
+import { pistaImages, pistaToRound } from "./Carreras/imports.js";
+
 export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handleClose) => {
   const nuevaPista = { nombre, kilometros, pais, ciudad, foto };
   console.log(nuevaPista);
@@ -35,7 +36,6 @@ export const fetchCircuitos = async (setCircuitos, setLoading) => {
   }
 };
 
-
 export const fetchEmpleados = async (setData) => {
   try {
     const [empleadosRes, departamentosRes] = await Promise.all([
@@ -68,88 +68,114 @@ export const fetchEmpleados = async (setData) => {
 };
 
 export const fetchCarreras = async (setCarreras) => {
+  console.log("Fetching carreras...");
   try {
-    const response = await fetch("http://localhost:8000/api/carreras/");
-    const data = await response.json();
-    setCarreras(data);
+    // Obtener datos de carreras
+    const responseCarreras = await fetch("http://localhost:8000/api/carreras/");
+    if (!responseCarreras.ok) {
+      throw new Error(`Error en la solicitud de carreras: ${responseCarreras.status} ${responseCarreras.statusText}`);
+    }
+    const dataCarreras = await responseCarreras.json();
+    console.log("Carreras fetched:", dataCarreras);
+
+    // Obtener datos de pistas
+    const responsePistas = await fetch("http://localhost:8000/api/pistas/");
+    if (!responsePistas.ok) {
+      throw new Error(`Error en la solicitud de pistas: ${responsePistas.status} ${responsePistas.statusText}`);
+    }
+    const dataPistas = await responsePistas.json();
+    console.log("Pistas fetched:", dataPistas);
+
+    // Combinar datos de carreras con datos de pistas
+    const carrerasConPais = dataCarreras.map(carrera => {
+      const pista = dataPistas.find(p => p.id === carrera.pista);
+      return {
+        ...carrera,
+        pista_nombre: pista?.nombre || "Nombre no disponible",
+        pais: pista?.pais || "País no disponible",
+        estrategia_nombre: carrera.estrategia_nombre || "Estrategia no disponible",
+      };
+    });
+
+    // Validar que los datos sean un array
+    if (!Array.isArray(carrerasConPais)) {
+      throw new Error("Los datos combinados no son un array válido.");
+    }
+
+    // Actualizar el estado con los datos combinados
+    setCarreras(carrerasConPais);
   } catch (error) {
-    console.error("Error al obtener las carreras:", error);
+    console.error("Error al obtener las carreras o pistas:", error.message);
+    setCarreras([]); // Establecer un estado predeterminado en caso de error
   }
 };
 
 export const handleShowDetails = async (circuito, setSelectedCircuito) => {
   console.log("Fetching telemetry data for circuito:", circuito);
-
   try {
-    // Obtener todas las telemetrías de la carrera
-    const response = await fetch(`http://localhost:8000/api/telemetrias/?carrera=${circuito.id}`);
-    console.log("Response status:", response.status);
+    if (!circuito || !circuito.id) {
+      throw new Error("La carrera seleccionada no es válida o no tiene un ID.");
+    }
 
-    if (!response.ok) {
+    const responseTelemetrias = await fetch(`http://localhost:8000/api/telemetrias/${circuito.id}/`);
+    console.log("Response status for telemetrias:", responseTelemetrias.status);
+    if (!responseTelemetrias.ok) {
       throw new Error("Error fetching telemetria data");
     }
 
-    const telemetrias = await response.json();
+    const telemetrias = await responseTelemetrias.json();
     console.log("Telemetry data received:", telemetrias);
 
     if (!Array.isArray(telemetrias) || telemetrias.length < 2) {
-      throw new Error("No hay suficientes datos de telemetría para mostrar");
+      throw new Error("No hay suficientes datos de telemetría para esta carrera.");
     }
 
-    // Determinar cuál es Norris y cuál es Piastri
-    const sortedTelemetrias = telemetrias.sort((a, b) => a.id - b.id);
-    const telemetriaNorris = sortedTelemetrias[0]; // ID menor
-    const telemetriaPiastri = sortedTelemetrias[1]; // ID mayor
+    const [telemetriaNorris, telemetriaPiastri] = telemetrias;
 
     console.log("Telemetria Norris ID:", telemetriaNorris.id);
     console.log("Telemetria Piastri ID:", telemetriaPiastri.id);
 
-    // Obtener los registros en paralelo
     const [registrosNorris, registrosPiastri] = await Promise.all([
-      fetch(`http://localhost:8000/api/registros/?telemetria=${telemetriaNorris.id}`)
+      fetch(`http://localhost:8000/api/registros/${telemetriaNorris.id}/`)
         .then(res => res.ok ? res.json() : Promise.reject("Error fetching registros de Norris")),
-      fetch(`http://localhost:8000/api/registros/?telemetria=${telemetriaPiastri.id}`)
+      fetch(`http://localhost:8000/api/registros/${telemetriaPiastri.id}/`)
         .then(res => res.ok ? res.json() : Promise.reject("Error fetching registros de Piastri"))
     ]);
 
     console.log("Registros Norris:", registrosNorris);
     console.log("Registros Piastri:", registrosPiastri);
 
-    // Formatear datos y convertir tiempos a números
     const formattedNorris = registrosNorris
       .map(registro => ({
         vuelta: registro.numVuelta,
-        tiempo: parseFloat(registro.valor.replace(':', ''))
+        tiempo: parseFloat(registro.valor.replace(':', '.'))
       }))
-      .sort((a, b) => a.vuelta - b.vuelta); // Ordenar por número de vuelta
+      .sort((a, b) => a.vuelta - b.vuelta);
 
     const formattedPiastri = registrosPiastri
       .map(registro => ({
         vuelta: registro.numVuelta,
-        tiempo: parseFloat(registro.valor.replace(':', ''))
+        tiempo: parseFloat(registro.valor.replace(':', '.'))
       }))
-      .sort((a, b) => a.vuelta - b.vuelta); // Ordenar por número de vuelta
+      .sort((a, b) => a.vuelta - b.vuelta);
 
-    // Guardar en el estado
-    setSelectedCircuito({ 
-      ...circuito, 
-      telemetriaNorris: formattedNorris, 
-      telemetriaPiastri: formattedPiastri 
+    setSelectedCircuito({
+      ...circuito,
+      telemetriaNorris: formattedNorris,
+      telemetriaPiastri: formattedPiastri
     });
 
-    console.log("Selected circuito updated:", { 
-      ...circuito, 
-      telemetriaNorris: formattedNorris, 
-      telemetriaPiastri: formattedPiastri 
+    console.log("Selected circuito updated:", {
+      ...circuito,
+      telemetriaNorris: formattedNorris,
+      telemetriaPiastri: formattedPiastri
     });
 
   } catch (error) {
     console.error("Error fetching telemetria data:", error);
-    alert("Error fetching telemetria data. Please try again later.");
+    alert(`Hubo un error al obtener los datos de telemetría: ${error}`);
   }
 };
-
-
 
 // Importa las imágenes de las pistas
 
@@ -441,7 +467,6 @@ export const handleSubmitCarrera = async (
     alert(`Hubo un error al procesar la carrera: ${error.message}`);
   }
 };
-
 
 export const checkTelemetria = async (setTelemetriaStatus, setIsTelemetriaChecked) => {
   setIsTelemetriaChecked(true);

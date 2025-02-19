@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/AuthProvider";
 import Swal from "sweetalert2";
 import "./sweetalert.css"; // Importamos el CSS
