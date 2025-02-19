@@ -10,7 +10,8 @@ export const AuthProvider = ({ children }) => {
         const userLegajo = localStorage.getItem("userLegajo");
         const userName = localStorage.getItem("userName");
         const userDepartment = localStorage.getItem("userDepartment");
-    
+        const access = localStorage.getItem('access');
+        const refresh= localStorage.getItem('refresh');
         return userLegajo && userName && userDepartment
             ? { legajo: userLegajo, nombre: userName, departamento: userDepartment }
             : null;
@@ -22,8 +23,9 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("userLegajo", userData.legajo);
         localStorage.setItem("userName", userData.nombre);
         localStorage.setItem("userDepartment", userData.departamento);
-        localStorage.setItem("accessToken", userData.access);
+        localStorage.setItem("access", userData.access);
         localStorage.setItem("refreshToken", userData.refresh);
+        console.log(userData);
     };
 
     // Función para cerrar sesión

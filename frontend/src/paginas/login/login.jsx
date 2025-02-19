@@ -32,17 +32,18 @@ function Login() {
         contrasenia: contraseña,
       });
       // Guardar tokens y datos en localStorage
-      localStorage.setItem('accessToken', response.data.access);
-      localStorage.setItem('refreshToken', response.data.refresh);
+      localStorage.setItem('access', response.data.access);
       localStorage.setItem('userLegajo', response.data.legajo);
       localStorage.setItem('userName', response.data.nombre);
       localStorage.setItem('userDepartment', response.data.departamento);
-      console.log('accessToken', response.data.access);
+      localStorage.setItem('refresh', response.data.refresh);
       // Establecer el usuario en el contexto
       login({
         legajo: response.data.legajo,
         nombre: response.data.nombre,
         departamento: response.data.departamento,
+        access: response.data.access,
+        refresh: response.data.refresh
       });
 
       // Navegar de vuelta a la página previa o al home si no hay una previa
