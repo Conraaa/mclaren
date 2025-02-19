@@ -1,9 +1,19 @@
-/* Barra principal */
+/* Barra principal (para todas las pestañas salvo el home y departamentos) */
 .barBar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.8);
+  padding: 1px 9px;
+  color: white;
+}
+
+/* Barra para deptos y home */
+.homeBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.9);
   padding: 1px 9px;
   color: white;
 }

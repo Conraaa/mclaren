@@ -22,7 +22,7 @@ function Pistas() {
     const handleShow = () => setShow(true);
 
     return (
-        <div className="todo">
+        <div className="todoPistas">
             <img className="pagePista" src={PagePista} alt="Fondo de Pista" />
             <Bar />
             <div className="botonAnadir">
@@ -30,7 +30,7 @@ function Pistas() {
                 <Modal
                         show={show}
                         onHide={handleClose}
-                        className="custom-modal" // Ya tiene la clase para aplicar los estilos
+                        className="custom-modal"
                     >
 
                     <Modal.Header closeButton>

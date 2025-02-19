@@ -6,6 +6,7 @@ import UsuarioBar from '../Imagenes/UsuarioBar.png';
 import Logocentral from '../Imagenes/Logo_Central.png';
 import { Link } from 'react-router-dom';
 import Intro from './intro/Intro';
+import { useLocation } from 'react-router-dom';
 
 export default function BarBar() {
   const [userName, setUserName] = useState('');
@@ -38,13 +39,16 @@ export default function BarBar() {
     }
   };
 
+  const location = useLocation();
+  const isHome = location.pathname === "/" || location.pathname === "/Departamentos";
+
   return (
     <>
       {/* Clip de introducción */}
       {!introFinished && <Intro onFinish={() => setIntroFinished(true)} />}
   
-      {/* Contenido principal, siempre cargándose */}
-      <div className={`barBar ${!introFinished ? 'hidden-content' : ''}`}>
+      {/* Contenido principal */}
+      <div className={`barBar ${isHome ? 'homeBar' : ''} ${!introFinished ? 'hidden-content' : ''}`}>
         <div className="logoMenúBar">
           <nav>
             <ul className="menuHorizontalBar">

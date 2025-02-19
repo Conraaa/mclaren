@@ -46,8 +46,8 @@ function Carrera() {
     const handleShow = () => setShow(true);
 
     return (
-        <div className="todo">
-            <div className="contenido">
+        <div className="todoCarrera">
+            <div className="contenidoCarrera">
                 <img className="pageCarrera" src={Fondo} alt="Fondo de Pista" />
                 <Bar />
                 <div className="botonAnadir">

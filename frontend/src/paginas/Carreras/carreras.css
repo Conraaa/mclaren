@@ -7,6 +7,16 @@
   gap: 20px;
 }
 
+.todoCarrera {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.contenidoCarrera {
+  flex: 1;
+}
+
 /* Ajuste para cada campo de input */
 .field-container1,
 .field-container2,
