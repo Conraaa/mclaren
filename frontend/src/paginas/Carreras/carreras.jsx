@@ -118,8 +118,8 @@ function Carrera() {
                         </Modal.Footer>
                     </Modal>
                 </div>
-                <Carta carreras={carreras} />
             </div>
+            <Carta carreras={carreras} />
             <Footer />
         </div>
     );

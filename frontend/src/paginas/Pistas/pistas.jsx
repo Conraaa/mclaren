@@ -50,75 +50,77 @@ function Pistas() {
         <div className="todoPistas">
             <img className="pagePista" src={PagePista} alt="Fondo de Pista" />
             <Bar />
-            <div className="botonAnadir">
-                <Button className="Añadir" variant="primary" size="lg" onClick={handleShow}>Añadir </Button>
-                <Modal
-                        show={show}
-                        onHide={handleClose}
-                        className="custom-modalPistas"
-                    >
+            <div className="scroll">
+                <div className="botonAnadir">
+                    <Button className="Añadir" variant="primary" size="lg" onClick={handleShow}>Añadir </Button>
+                    <Modal
+                            show={show}
+                            onHide={handleClose}
+                            className="custom-modalPistas"
+                        >
 
-                    <Modal.Header closeButton>
-                        <Modal.Title>Añadir una nueva pista</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Nombre de la pista</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={nombre}
-                                    onChange={(e) => setNombre(e.target.value)}
-                                    autoFocus
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                                <Form.Label>Cantidad de Kilómetros</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={kilometros}
-                                    onChange={(e) => setKilometros(e.target.value)}
-                                    autoFocus
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
-                                <Form.Label>País</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={pais}
-                                    onChange={(e) => setPais(e.target.value)}
-                                    autoFocus
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                <Form.Label>Ciudad</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={ciudad}
-                                    onChange={(e) => setCiudad(e.target.value)}
-                                    autoFocus
-                                />
-                            </Form.Group>
-                            <Form.Group controlId="formFile" className="mb-3">
-                                <Form.Label>Agregar una foto</Form.Label>
-                                <Form.Control
-                                    type="file"
-                                    onChange={(e) => setFoto(e.target.files[0])}
-                                />
-                            </Form.Group>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button className="Cerrar" onClick={handleClose}>
-                            Cerrar
-                        </Button>
-                        <Button className="Guardar" onClick={() => handleSubmit(nombre, kilometros, pais, ciudad, foto, handleClose)}>
-                            Guardar
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Añadir una nueva pista</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                    <Form.Label>Nombre de la pista</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        value={nombre}
+                                        onChange={(e) => setNombre(e.target.value)}
+                                        autoFocus
+                                    />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                                    <Form.Label>Cantidad de Kilómetros</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        value={kilometros}
+                                        onChange={(e) => setKilometros(e.target.value)}
+                                        autoFocus
+                                    />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+                                    <Form.Label>País</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        value={pais}
+                                        onChange={(e) => setPais(e.target.value)}
+                                        autoFocus
+                                    />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+                                    <Form.Label>Ciudad</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        value={ciudad}
+                                        onChange={(e) => setCiudad(e.target.value)}
+                                        autoFocus
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="formFile" className="mb-3">
+                                    <Form.Label>Agregar una foto</Form.Label>
+                                    <Form.Control
+                                        type="file"
+                                        onChange={(e) => setFoto(e.target.files[0])}
+                                    />
+                                </Form.Group>
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button className="Cerrar" onClick={handleClose}>
+                                Cerrar
+                            </Button>
+                            <Button className="Guardar" onClick={() => handleSubmit(nombre, kilometros, pais, ciudad, foto, handleClose)}>
+                                Guardar
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
+                <Carta />
             </div>
-            <Carta />
             <Footer />
         </div>
     );
