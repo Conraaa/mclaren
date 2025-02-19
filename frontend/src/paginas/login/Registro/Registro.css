@@ -98,17 +98,17 @@ body, html {
   }
   
   .form-actions .cancel-btn {
-    background: red;
+    background: rgba(255, 0, 0, 0.5);
     color: white;
     border-radius: 8px;
     border: 1px solid white;
   }
   
   .form-actions .submit-btn {
-    background: green;
+    background: rgba(0, 128, 0, 0.5);
     color: white;
     border-radius: 8px;
-    border: 2px solid white;
+    border: 1px solid white;
   }
   
   .form-actions button:hover {
