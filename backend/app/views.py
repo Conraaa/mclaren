@@ -35,6 +35,25 @@ class PiezaViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(categoria__departamento_id=departamento_id)
 
         return queryset
+class TelemetriasDeCarrera(APIView):
+    def get(self, request, carrera_id):
+        try:
+            carrera = Carrera.objects.get(id=carrera_id)
+            telemetrias = carrera.telemetrias.all()  # Usamos 'telemetrias', no 'telemetrías'
+            serializer = TelemetriaSerializer(telemetrias, many=True)
+            return Response(serializer.data)
+        except Carrera.DoesNotExist:
+            return Response({"detail": "Carrera no encontrada"}, status=status.HTTP_404_NOT_FOUND)
+        
+class RegistrosDeTelemetria(APIView):
+    def get(self, request, telemetria_id):
+        try:
+            telemetria = Telemetria.objects.get(id=telemetria_id)
+            registros = telemetria.registros.all()  # Obtenemos todos los registros
+            serializer = RegistroSerializer(registros, many=True)
+            return Response(serializer.data)
+        except Telemetria.DoesNotExist:
+            return Response({"detail": "Telemetría no encontrada"}, status=status.HTTP_404_NOT_FOUND)
 
 class PistaViewSet(viewsets.ModelViewSet):
     queryset = Pista.objects.all()
