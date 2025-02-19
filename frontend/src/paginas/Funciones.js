@@ -23,7 +23,6 @@ export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handl
   }
 };
 
-// Funciones de /c:/Users/Pcstore/OneDrive/Documentos/mclaren/mclaren/frontend/src/paginas/Pistas/carta.jsx
 export const fetchCircuitos = async (setCircuitos, setLoading) => {
   try {
     const response = await fetch('http://localhost:8000/api/pistas/');
@@ -36,7 +35,6 @@ export const fetchCircuitos = async (setCircuitos, setLoading) => {
   }
 };
 
-// Funciones de /c:/Users/Pcstore/OneDrive/Documentos/mclaren/mclaren/frontend/src/paginas/Home/home.jsx
 export const fetchClasificacionPilotos = async (setClasificacionPilotos) => {
   try {
     const response = await fetch('https://ergast.com/api/f1/2024/driverStandings.json');
@@ -59,7 +57,6 @@ export const fetchClasificacionConstructores = async (setClasificacionConstructo
   }
 };
 
-// Funciones de /c:/Users/Pcstore/OneDrive/Documentos/mclaren/mclaren/frontend/src/paginas/Empleados/empleados.jsx
 export const fetchEmpleados = async (setData) => {
   try {
     const [empleadosRes, departamentosRes] = await Promise.all([
@@ -91,7 +88,6 @@ export const fetchEmpleados = async (setData) => {
   }
 };
 
-// Funciones de /c:/Users/Pcstore/OneDrive/Documentos/mclaren/mclaren/frontend/src/paginas/Carreras/carta.jsx
 export const fetchCarreras = async (setCarreras) => {
   try {
     const response = await fetch("http://localhost:8000/api/carreras/");
@@ -118,10 +114,10 @@ export const handleShowDetails = async (circuito, setSelectedCircuito) => {
   }
 };
 
-// Funciones de /c:/Users/Pcstore/OneDrive/Documentos/mclaren/mclaren/frontend/src/paginas/Carreras/carreras.jsx
 
 
- // Importa las imágenes de las pistas
+
+// Importa las imágenes de las pistas
 
 export const fetchPistasYEstrategias = async (setPistas, setEstrategias) => {
   try {

@@ -23,7 +23,7 @@ function ListadoPiezas() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`${API_URL}?departamento_id=${departmentId}`);
+      const response = await fetch(`${API_URL}?departamento_id=${1}`);
       if (response.ok) {
         setData(await response.json());
       }
@@ -34,7 +34,7 @@ function ListadoPiezas() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch(`${CATEGORY_URL}?departamento_id=${departmentId}`);
+      const response = await fetch(`${CATEGORY_URL}?departamento_id=${1}`);
       if (response.ok) {
         setCategories(await response.json());
       }

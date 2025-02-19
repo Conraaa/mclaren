@@ -1,7 +1,7 @@
 .cuerpoAltaPieza {
   position: relative;
-  height: 100vh; /* Ocupa toda la altura de la ventana */
-  width: 100%;/* Ocupa todo el ancho de la ventana */
+  height: 100vh;
+  width: 100%;
 }
 
 .TituloCRUD{
@@ -19,30 +19,30 @@
   background-image: url('../Imagenes/tallermecanico.jpg');
   background-size: cover;
   background-position: center center;
-  filter: brightness(110%) blur(0px); /* Aplica el desenfoque solo a la imagen */
-  z-index: -1; /* Asegura que la imagen quede detrás del contenido */
+  filter:blur(5px);
+  z-index: -1;
 }
 
 .Listado {
   position: relative;
-  z-index: 1; /* Mantiene el contenido encima del fondo */
+  z-index: 1;
   padding: 20px;
-  overflow: auto; /* Permite scroll si el contenido excede el tamaño */
+  overflow: auto;
   transform: translateY(15%);
-  height: calc(100vh - 150px); /* Altura fija para evitar movimiento */
-  max-height: calc(100vh - 150px); /* Limita el máximo tamaño */
+  height: calc(100vh - 150px);
+  max-height: calc(100vh - 150px);
 }
 
 .altaPieza {
-  position: absolute; /* Cambia a absolute para que no siga el scroll */
+  position: absolute;
   top: 23px;
-  right: 237px; /* Posición desde el borde derecho */
-  z-index: 2; /* Asegura que esté encima del contenido */
-  background-color: #1f1f1f; /* Fondo oscuro para el botón */
+  right: 237px;
+  z-index: 2;
+  background-color: #1f1f1f;
   padding: 8px 20px;
   border-radius: 5px;
-  outline: none;  /* Eliminar el contorno */
-  background-color: transparent; /* Revertir el color de fondo al original */
+  outline: none;
+  background-color: transparent;
   box-shadow: none;
   color: white;
 }
@@ -64,17 +64,17 @@
 }
 
 .altaPieza button:hover {
-  background-color: #1f1f1f; /* Fondo igual al estado normal */
-  color: white; /* Color de fondo al pasar el cursor */
+  background-color: #1f1f1f;
+  color: white;
   cursor: pointer;
-  z-index: 1; /* Asegura que esté encima del contenido */
+  z-index: 1;
   border: 1px solid #ffffff;
 }
 .altaPieza button:focus-visible,
 .altaPieza button:focus {
-  outline: none;  /* Eliminar el contorno */
-  background-color: #1f1f1f; /* Revertir el color de fondo al original */
-  box-shadow: none; /* Elimina el contorno cuando el botón está en foco */
+  outline: none;
+  background-color: #1f1f1f;
+  box-shadow: none;
   color: white;
   border: 1px solid white;
 }
@@ -85,36 +85,35 @@
 
 /* Personalizar la barra de scroll */
 ::-webkit-scrollbar {
-width: 12px; /* Ancho de la barra vertical */
+width: 12px;
 height: 12px;
-display: none; /* Altura de la barra horizontal */
+display: none;
 }
 
 .scroll-area {
   overflow-y: auto;
-  max-height: 500px; /* Ajusta según tu diseño */
+  max-height: 500px;
 }
 
 /* Fondo de la barra de scroll */
 ::-webkit-scrollbar-track {
-background: #1f1f1f; /* Fondo oscuro para el track */
+background: #1f1f1f;
 border-radius: 10px;
 }
 
-/* Barra deslizante */
 ::-webkit-scrollbar-thumb {
-background: #535353; /* Color de la barra deslizante */
+background: #535353;
 border-radius: 10px;
-border: 3px solid #1f1f1f; /* Espaciado con el fondo */
+border: 3px solid #1f1f1f;
 }
 
 /* Barra deslizante en hover */
 ::-webkit-scrollbar-thumb:hover {
-background: #a5a5a5; /* Color más claro al pasar el mouse */
+background: #a5a5a5;
 }
 
 /* Soporte para otros navegadores */
 .scrollbar-track {
-scrollbar-color: #636363 #1f1f1f; /* Barra deslizante y fondo */
-scrollbar-width: thin; /* Tamaño reducido */
+scrollbar-color: #636363 #1f1f1f;
+scrollbar-width: thin;
 }

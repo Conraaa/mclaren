@@ -1,7 +1,7 @@
 .cuerpoAltaEmpleado {
     position: relative;
-    height: 100vh; /* Ocupa toda la altura de la ventana */
-    width: 100%; /* Ocupa todo el ancho de la ventana */
+    height: 100vh;
+    width: 100%;
     overflow: hidden;
 }
   .cuerpoAltaEmpleado::before {
@@ -14,26 +14,27 @@
     background-image: url(https://external-preview.redd.it/using-cloth-simulation-for-a-jellyfish-v0-4LtusdKdQd5PBAW1-mcMV8YcpF_YkUiTekGg-laYZH0.png?format=pjpg&auto=webp&s=0f51f003ca45860a21017f67d8cf5679d10079ba);
     background-size: cover;
     background-position: center center;
-    filter: brightness(110%) blur(0px); /* Aplica el desenfoque solo a la imagen */
-    z-index: -1; /* Asegura que la imagen quede detrás del contenido */
+    filter: brightness(110%) blur(0px);
+    z-index: -1;
+    filter:blur(5px);
   }
   
   .Listado {
     position: relative;
-    z-index: 1; /* Mantiene el contenido encima del fondo */
+    z-index: 1;
     padding: 20px;
-    overflow: auto; /* Permite scroll si el contenido excede el tamaño */
+    overflow: auto;
     transform: translateY(15%);
-    height: calc(100vh - 150px); /* Altura fija para evitar movimiento */
-    max-height: calc(100vh - 150px); /* Limita el máximo tamaño */
+    height: calc(100vh - 150px);
+    max-height: calc(100vh - 150px);
   }
   
   .altaEmpleado {
-    position: absolute; /* Cambia a absolute para que no siga el scroll */
+    position: absolute;
     top: 23px;
-    right: 237px; /* Posición desde el borde derecho */
-    z-index: 2; /* Asegura que esté encima del contenido */
-    background-color: #1f1f1f; /* Fondo oscuro para el botón */
+    right: 237px;
+    z-index: 2;
+    background-color: #1f1f1f;
     padding: 8px 20px;
     border-radius: 5px;
   }
@@ -50,41 +51,39 @@
   }
   
   .altaEmpleado button:hover {
-    background-color: #444; /* Color de fondo al pasar el cursor */
+    background-color: #444;
   }
   
   .altaEmpleado button:focus {
-    outline: none; /* Elimina el contorno cuando el botón está en foco */
+    outline: none;
   }
   
-  /* Personalizar la barra de scroll */
+/* Personalizar la barra de scroll */
 ::-webkit-scrollbar {
-  width: 12px; /* Ancho de la barra vertical */
-  height: 12px; /* Altura de la barra horizontal */
+  width: 12px;
+  height: 12px;
 }
 
 /* Fondo de la barra de scroll */
 ::-webkit-scrollbar-track {
-  background: #1f1f1f; /* Fondo oscuro para el track */
+  background: #1f1f1f;
   border-radius: 10px;
 }
 
-/* Barra deslizante */
 ::-webkit-scrollbar-thumb {
-  background: #535353; /* Color de la barra deslizante */
+  background: #535353;
   border-radius: 10px;
-  border: 3px solid #1f1f1f; /* Espaciado con el fondo */
+  border: 3px solid #1f1f1f;
 }
 
-/* Barra deslizante en hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #a5a5a5; /* Color más claro al pasar el mouse */
+  background: #a5a5a5;
 }
 
 /* Soporte para otros navegadores */
 .scrollbar-track {
-  scrollbar-color: #636363 #1f1f1f; /* Barra deslizante y fondo */
-  scrollbar-width: thin; /* Tamaño reducido */
+  scrollbar-color: #636363 #1f1f1f;
+  scrollbar-width: thin;
 }
 
 .inputSelector option{

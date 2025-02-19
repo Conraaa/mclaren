@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button, Form } from 'react-bootstrap';
 import './Card.css';
 import Lluvia from "../Imagenes/lluvia.jfif";
-import Sol from "../Imagenes/soleado.webp";
+import Sol from "../Imagenes/soleado.jpg";
 import Viento from "../Imagenes/ventoso.jpg";
 
 function Cartita({ nombre, imagen, onClick }) {

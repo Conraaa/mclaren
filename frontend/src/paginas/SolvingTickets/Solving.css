@@ -118,6 +118,10 @@
   .Prioridad{
     height: 400px;
   }
+
+  .Prioridad::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
 }
 
 .inputTicket option{
@@ -197,4 +201,8 @@
   border-color: transparent ;     
   box-shadow: none !important;               
   color: inherit !important;                
+}
+
+.custom-inputTicket::placeholder {
+  color: rgba(255, 255, 255, 0.4);
 }

@@ -55,6 +55,7 @@ function Soporte({ show, handleClose, onCreate }) {
               value={asunto}
               onChange={(e) => setAsunto(e.target.value)}
               placeholder="Ingresa el asunto del ticket"
+              className="custom-inputTicket"
             />
           </Form.Group>
 
@@ -82,6 +83,7 @@ function Soporte({ show, handleClose, onCreate }) {
               onChange={(e) => setMensaje(e.target.value)}
               className="Prioridad"
               placeholder="Escribe tu mensaje aquí..."
+              
             />
           </Form.Group>
         </Form>
