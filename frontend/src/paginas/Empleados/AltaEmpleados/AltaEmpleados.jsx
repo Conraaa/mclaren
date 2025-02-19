@@ -8,11 +8,11 @@ import ModalEmpleado from "./ModalEmpleado";
 
 function AltaEmpleados() {
   const columns = [
-    { name: "Nombre", options: { setCellProps: () => ({ style: { paddingLeft: "40px" } }) } },
-    { name: "Apellido", options: { setCellProps: () => ({ style: { paddingLeft: "40px" } }) } },
-    { name: "Profesión", options: { setCellProps: () => ({ style: { paddingLeft: "40px" } }) } },
+    { name: "nombre", label: "Nombre", options: { setCellProps: () => ({ style: { paddingLeft: "40px" } }) } },
+    { name: "apellido", label: "Apellido", options: { setCellProps: () => ({ style: { paddingLeft: "40px" } }) } },
+    { name: "profesion", label: "Profesión", options: { setCellProps: () => ({ style: { paddingLeft: "40px" } }) } },
     {
-      name: "Contratar",
+      name: "contratar", label: "Contratar",
       options: {
         customBodyRender: (value, tableMeta, updateData) => {
           return (
@@ -36,10 +36,10 @@ function AltaEmpleados() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const empleadosResponse = await fetch("http://127.0.0.1:8001/app/interaccion/");
+        const empleadosResponse = await fetch("http://127.0.0.1:9001/app/interaccion/");
         const empleados = empleadosResponse.ok ? await empleadosResponse.json() : [];
 
-        const profesionesResponse = await fetch("http://127.0.0.1:8001/app/profesionlista/");
+        const profesionesResponse = await fetch("http://127.0.0.1:9001/app/profesionlista/");
         const profesionesData = profesionesResponse.ok ? await profesionesResponse.json() : [];
 
         const profesionesMap = profesionesData.reduce((acc, profesion) => {
@@ -47,12 +47,12 @@ function AltaEmpleados() {
           return acc;
         }, {});
 
-        const formattedData = empleados.map((empleado) => [
-          empleado.nombre,
-          empleado.apellido,
-          profesionesMap[empleado.idprofesion] || "Sin profesión",
-          "Contratar", 
-        ]);
+        const formattedData = empleados.map((empleado) => ({
+          idtrabajador: empleado.idtrabajador,
+          nombre: empleado.nombre,
+          apellido: empleado.apellido,
+          profesion: profesionesMap[empleado.idprofesion] || "Sin profesión",
+        }));
 
         setData(formattedData);
       } catch (error) {
@@ -66,9 +66,10 @@ function AltaEmpleados() {
   const handleShowModal = (rowIndex) => {
     const empleado = data[rowIndex]; 
     setEmpleadoSeleccionado({
-      nombre: empleado[0],
-      apellido: empleado[1],
-      profesion: empleado[2],
+      nombre: empleado.nombre,
+      apellido: empleado.apellido,
+      profesion: empleado.profesion,
+      idtrabajador: empleado.idtrabajador,
     });
     setShowModal(true); 
   };

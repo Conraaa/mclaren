@@ -22,7 +22,6 @@ function ModalEmpleado({ show, handleClose, empleadoSeleccionado }) {
       fetch("http://127.0.0.1:8000/api/departamentos/")
         .then((response) => response.json())
         .then((data) => {
-          console.log("Departamentos:", data);
           setDepartamentos(data);
         })
         .catch((error) => console.error("Error al obtener los departamentos:", error));
@@ -31,7 +30,6 @@ function ModalEmpleado({ show, handleClose, empleadoSeleccionado }) {
         .then((response) => response.json())
         .then((data) => {
           const lastUser = data[data.length - 1];
-          console.log("Último usuario:", lastUser);
           if (lastUser && lastUser.legajo) {
             setLegajo(lastUser.legajo + 1);
           }
@@ -60,23 +58,39 @@ function ModalEmpleado({ show, handleClose, empleadoSeleccionado }) {
       departamento: parseInt(departamentoSeleccionado, 10),
       contrasenia: "default",
     };
-
+    
     fetch("http://127.0.0.1:8000/api/usuarios/", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: {"Content-Type": "application/json"},
       body: JSON.stringify(usuario),
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Respuesta del servidor al contratar:", data);
         alert(`Empleado contratado con el siguiente legajo: ${legajo}\nNombre: ${nombre} ${apellido}\nDepartamento: ${departamentoNombre}`);
+
+        if (empleadoSeleccionado && empleadoSeleccionado.idtrabajador) {
+          fetch(`http://127.0.0.1:9001/app/interaccion/${empleadoSeleccionado.idtrabajador}/`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ estado: "Ocupado" }),
+          })
+            .then((response) => {
+              if (!response.ok) throw new Error("Error al actualizar estado en API externa");
+              return response.json();
+            })
+            .then((updatedEmpleado) => {
+              console.log("Empleado actualizado en API externa:", updatedEmpleado);
+            })
+            .catch((error) => {
+              console.error("Error al actualizar el estado del empleado:", error);
+              alert("Hubo un problema al actualizar el estado del empleado.");
+            });
+        }
+
         setLegajo(legajo + 1);
         handleCloseAndClearDepartamento();
       })
       .catch((error) => {
-        console.error("Error al contratar al empleado:", error);
         alert("Hubo un error al contratar al empleado. Intenta nuevamente.");
       });
   };
