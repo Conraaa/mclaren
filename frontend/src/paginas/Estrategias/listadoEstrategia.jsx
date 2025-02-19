@@ -55,56 +55,109 @@ function Estrategia() {
 
     const handleSave = async () => {
         try {
-            // Find the selected pista object
             const selectedPista = pistas.find(p => p.nombre === estrategia.pista);
 
-            // Fetch existing strategies to check for duplicate
+            if (isEditMode) {
+                //Edicion
+                //Elimino piezas existentes
+                const deleteResponse = await fetch(`http://127.0.0.1:8000/api/estrategias/${estrategia.id}/`, {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" }
+                });
+                
+                if (!deleteResponse.ok) {
+                    console.error("Error eliminando la estrategia");
+                    return;
+                }
+                
+                //PUT de nuevas piezas
+                const estrategiaResponse = await fetch(`http://127.0.0.1:8000/api/estrategias/`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        nombre: estrategia.tipo,
+                        pista: selectedPista ? selectedPista.id : null
+                    })
+                });
+                
+                if (!estrategiaResponse.ok) {
+                    console.error("Error al crear la estrategia");
+                    return;
+                }
+                
+                const nuevaEstrategia = await estrategiaResponse.json();
+                const estrategiaId = nuevaEstrategia.id;
 
+                const piezas = [
+                    estrategia.aleronDelantero,
+                    estrategia.aleronTrasero,
+                    estrategia.pontones,
+                    estrategia.fondoPlano,
+                    estrategia.difusor,
+                    estrategia.motor,
+                    estrategia.cajaCambios
+                ];
 
-            // Create the strategy
-            const estrategiaResponse = await fetch("http://127.0.0.1:8000/api/estrategias/", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    nombre: estrategia.tipo,
-                    pista: selectedPista ? selectedPista.id : null
-                })
-            });
+                await fetch(`http://127.0.0.1:8000/api/estrategiapiezas/${estrategiaId}/`, {
+                    method: "DELETE"
+                });
 
-            if (!estrategiaResponse.ok) {
-                const errorData = await estrategiaResponse.json();
-                console.error("Error al crear la estrategia:", errorData);
-                return;
-            }
+                for (const pieza of piezas) {
+                    if (pieza) {
+                        await fetch("http://127.0.0.1:8000/api/estrategiapiezas/", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                estrategia: estrategiaId,
+                                pieza: pieza
+                            })
+                        });
+                    }
+                }
+            
+            } else {
+                //Creacion
+                const estrategiaResponse = await fetch("http://127.0.0.1:8000/api/estrategias/", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        nombre: estrategia.tipo,
+                        pista: selectedPista ? selectedPista.id : null
+                    })
+                });
 
-            const estrategiaData = await estrategiaResponse.json();
-            const estrategiaId = estrategiaData.id;
+                if (!estrategiaResponse.ok) {
+                    const errorData = await estrategiaResponse.json();
+                    console.error("Error al crear la estrategia:", errorData);
+                    return;
+                }
 
-            // Create the associations with pieces
-            const piezas = [
-                estrategia.aleronDelantero,
-                estrategia.aleronTrasero,
-                estrategia.pontones,
-                estrategia.fondoPlano,
-                estrategia.difusor,
-                estrategia.motor,
-                estrategia.cajaCambios
-            ];
+                const estrategiaData = await estrategiaResponse.json();
+                const estrategiaId = estrategiaData.id;
 
-            for (const pieza of piezas) {
-                if (pieza) {
-                    await fetch("http://127.0.0.1:8000/api/estrategiapiezas/", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            estrategia: estrategiaId,
-                            pieza: pieza
-                        })
-                    });
+                const piezas = [
+                    estrategia.aleronDelantero,
+                    estrategia.aleronTrasero,
+                    estrategia.pontones,
+                    estrategia.fondoPlano,
+                    estrategia.difusor,
+                    estrategia.motor,
+                    estrategia.cajaCambios
+                ];
+
+                for (const pieza of piezas) {
+                    if (pieza) {
+                        await fetch("http://127.0.0.1:8000/api/estrategiapiezas/", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                estrategia: estrategiaId,
+                                pieza: pieza
+                            })
+                        });
+                    }
                 }
             }
-
-            console.log("Estrategia guardada:", estrategia);
             setShow(false);
             window.location.reload(); // Recargar la página después de guardar
         } catch (error) {
@@ -133,6 +186,7 @@ function Estrategia() {
     const handleEdit = (estrategia) => {
         const piezas = estrategia.piezas || [];
         setEstrategia({
+            id: estrategia.id,
             tipo: estrategia.nombre,
             pista: estrategia.pista_nombre,
             aleronDelantero: piezas.find(p => p.categoria_nombre === "Aleron Delantero")?.id || '',
