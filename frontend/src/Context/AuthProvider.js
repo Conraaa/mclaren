@@ -1,26 +1,20 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
+import { Navigate } from "react-router-dom";
 
 // Crear el contexto de autenticación
 const AuthContext = createContext();
 
 // Proveedor de autenticación
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-
-    // Cargar el usuario desde localStorage al iniciar la app
-    useEffect(() => {
-        const userLegajo = localStorage.getItem('userLegajo');
-        const userName = localStorage.getItem('userName');
-        const userDepartment = localStorage.getItem('userDepartment');
+    const [user, setUser] = useState(() => {
+        const userLegajo = localStorage.getItem("userLegajo");
+        const userName = localStorage.getItem("userName");
+        const userDepartment = localStorage.getItem("userDepartment");
     
-        if (userLegajo && userName && userDepartment) {
-            setUser({
-                legajo: userLegajo,
-                nombre: userName,
-                departamento: userDepartment,
-            });
-        }
-    }, []);
+        return userLegajo && userName && userDepartment
+            ? { legajo: userLegajo, nombre: userName, departamento: userDepartment }
+            : null;
+    });
 
     // Función para iniciar sesión
     const login = (userData) => {
@@ -45,5 +39,19 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-// Hook para acceder al contexto
 export const useAuth = () => useContext(AuthContext);
+
+export const RutaProtegida = ({ children }) => {
+    const { user } = useAuth();
+
+    if (user === null) {
+        return <div>Cargando...</div>;
+    }
+
+    if (!user) {
+        alert("No tienes permiso para acceder.");
+        return <Navigate to="/login" />;
+    }
+
+    return children;
+};

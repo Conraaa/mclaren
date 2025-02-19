@@ -29,7 +29,6 @@ function AltaEmpleados() {
   ];
 
   const [data, setData] = useState([]);
-  const [profesiones, setProfesiones] = useState([]);
   const [showModal, setShowModal] = useState(false); 
   const [empleadoSeleccionado, setEmpleadoSeleccionado] = useState(null);
 

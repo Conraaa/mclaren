@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 import './Card.css';
 import Lluvia from "../Imagenes/lluvia.jfif";
 import Sol from "../Imagenes/soleado.jpg";
@@ -26,8 +26,6 @@ function ListaDeEstrategias({ onEdit, onDelete }) {
   const [selectedEstrategia, setSelectedEstrategia] = useState(null);
   const [estrategias, setEstrategias] = useState([]);
   const [piezas, setPiezas] = useState([]);
-  const [loadingPiezas, setLoadingPiezas] = useState(false);
-  const [errorPiezas, setErrorPiezas] = useState(null);
 
   // Obtener estrategias con su pista
   useEffect(() => {
