@@ -35,27 +35,6 @@ export const fetchCircuitos = async (setCircuitos, setLoading) => {
   }
 };
 
-export const fetchClasificacionPilotos = async (setClasificacionPilotos) => {
-  try {
-    const response = await fetch('https://ergast.com/api/f1/2024/driverStandings.json');
-    const data = await response.json();
-    const standings = data.MRData.StandingsTable.StandingsLists[0].DriverStandings;
-    setClasificacionPilotos(standings);
-  } catch (error) {
-    console.error('Error fetching pilotos data:', error);
-  }
-};
-
-export const fetchClasificacionConstructores = async (setClasificacionConstructores) => {
-  try {
-    const response = await fetch('https://ergast.com/api/f1/2024/constructorStandings.json');
-    const data = await response.json();
-    const standings = data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings;
-    setClasificacionConstructores(standings);
-  } catch (error) {
-    console.error('Error fetching constructores data:', error);
-  }
-};
 
 export const fetchEmpleados = async (setData) => {
   try {
@@ -278,9 +257,29 @@ export const handleSubmitCarrera = async (
       const telemetria = laps.slice(0, cantVueltas).map(lap => {
         const lapNumber = lap.getAttribute("number");
         const timing = lap.getElementsByTagName("Timing")[0];
+
+        if (!timing) {
+          console.warn(`No hay tiempo para la vuelta ${lapNumber}`);
+          return { vuelta: lapNumber, tiempo: "N/A" };
+        }
+
+        const rawTime = timing.getAttribute("time"); // Ej: "1:23.456"
+        
+        // Convertir tiempo a segundos
+        const timeParts = rawTime.split(":"); // ["1", "23.456"]
+        let tiempoSegundos = 0;
+
+        if (timeParts.length === 2) {
+          const minutos = parseInt(timeParts[0], 10);
+          const segundos = parseFloat(timeParts[1]);
+          tiempoSegundos = minutos * 60 + segundos;
+        } else {
+          tiempoSegundos = parseFloat(timeParts[0]);
+        }
+
         return {
-          vuelta: lapNumber,
-          tiempo: timing ? timing.getAttribute("time") : "N/A"
+          vuelta: parseInt(lapNumber, 10),
+          tiempo: tiempoSegundos.toFixed(3) // Mantener 3 decimales
         };
       });
 
@@ -442,6 +441,7 @@ export const handleSubmitCarrera = async (
     alert(`Hubo un error al procesar la carrera: ${error.message}`);
   }
 };
+
 
 export const checkTelemetria = async (setTelemetriaStatus, setIsTelemetriaChecked) => {
   setIsTelemetriaChecked(true);
