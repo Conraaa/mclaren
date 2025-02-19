@@ -13,6 +13,10 @@
   min-height: 100vh;
 }
 
+
+.modal.show .modal-dialog {
+  transform: translateX(-119px);
+}
 .contenidoCarrera {
   flex: 1;
 }
@@ -126,6 +130,7 @@
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(25px);
   border-radius: 8px;
+  left: 124px;
   color: white;
   width: auto;
   max-width: 90%;
