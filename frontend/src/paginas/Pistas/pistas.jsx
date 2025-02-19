@@ -9,6 +9,9 @@ import Bar from "../Bar/Bar.jsx";
 import PagePista from '../Imagenes/Pistas.png'; // Asegúrate de que la ruta sea correcta
 import Footer from '../Footer/Footer.jsx';
 import { handleSubmit } from '../Funciones.js';
+import { useAuth } from "../../Context/AuthProvider";
+import Swal from "sweetalert2";
+import { useNavigate } from 'react-router-dom';
 
 function Pistas() {
     const [show, setShow] = useState(false);
@@ -17,9 +20,31 @@ function Pistas() {
     const [pais, setPais] = useState('');
     const [ciudad, setCiudad] = useState('');
     const [foto, setFoto] = useState(null);
+    const { user } = useAuth();
+    const navigate = useNavigate();
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+
+    const handleShow = () => {
+        if (!user) {
+            Swal.fire({
+                title: "Acceso restringido",
+                text: "No puedes añadir pistas porque no estás logueado.",
+                icon: "warning",
+                confirmButtonText: "Iniciar sesión",
+                allowOutsideClick: false,
+                customClass: {
+                    popup: "swal-dark",
+                    confirmButton: "swal-button-orange",
+                    backdrop: "swal-overlay",
+                },
+            }).then(() => {
+                navigate("/Login");
+            });
+        } else {
+            setShow(true);
+        }
+    };
 
     return (
         <div className="todoPistas">

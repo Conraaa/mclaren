@@ -8,6 +8,9 @@ import Bar from "../Bar/Bar.jsx";
 import Fondo from '../Imagenes/Carreras.jpg';
 import Footer from '../Footer/Footer.jsx';
 import { fetchPistasYEstrategias, handleSubmitCarrera } from '../Funciones.js';
+import { useAuth } from "../../Context/AuthProvider";
+import Swal from "sweetalert2";
+import { useNavigate } from 'react-router-dom';
 
 function Carrera() {
     const [show, setShow] = useState(false);
@@ -19,6 +22,8 @@ function Carrera() {
     const [pistas, setPistas] = useState([]);
     const [estrategias, setEstrategias] = useState([]);
     const [estrategiasFiltradas, setEstrategiasFiltradas] = useState([]);
+    const { user } = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const savedCarreras = JSON.parse(localStorage.getItem("carreras")) || [];
@@ -43,7 +48,26 @@ function Carrera() {
     }, [pista, pistas, estrategias]);
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = () => {
+        if (!user) {
+            Swal.fire({
+                title: "Acceso restringido",
+                text: "No puedes añadir carreras porque no estás logueado.",
+                icon: "warning",
+                confirmButtonText: "Iniciar sesión",
+                allowOutsideClick: false,
+                customClass: {
+                    popup: "swal-dark",
+                    confirmButton: "swal-button-orange",
+                    backdrop: "swal-overlay",
+                },
+            }).then(() => {
+                navigate("/Login");
+            });
+        } else {
+            setShow(true);
+        }
+    };
 
     return (
         <div className="todoCarrera">
