@@ -22,14 +22,69 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("userLegajo", userData.legajo);
         localStorage.setItem("userName", userData.nombre);
         localStorage.setItem("userDepartment", userData.departamento);
+        localStorage.setItem("accessToken", userData.access);
+        localStorage.setItem("refreshToken", userData.refresh);
     };
 
     // Función para cerrar sesión
     const logout = () => {
         setUser(null);
-        localStorage.removeItem("userLegajo");
-        localStorage.removeItem("userName");
-        localStorage.removeItem("userDepartment");
+        localStorage.clear();
+    };
+
+    const refreshAccessToken = async () => {
+        const refreshToken = localStorage.getItem("refreshToken");
+        if (!refreshToken) {
+            logout();
+            return null;
+        }
+
+        try {
+            const response = await fetch("http://localhost:8000/api/token/refresh/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ refresh: refreshToken }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem("accessToken", data.access);
+                return data.access;
+            } else {
+                logout();
+                return null;
+            }
+        } catch (error) {
+            console.error("Error al renovar el token:", error);
+            logout();
+            return null;
+        }
+    };
+
+    const fetchWithAuth = async (url, options = {}) => {
+        let token = localStorage.getItem("accessToken");
+
+        const headers = {
+            "Content-Type": "application/json",
+            ...options.headers,
+        };
+
+        if (token) {
+            headers["Authorization"] = `Bearer ${token}`;
+        }
+
+        const response = await fetch(url, { ...options, headers });
+
+        //Cuando expira el token crea una nuevo
+        if (response.status === 401) {
+            const newToken = await refreshAccessToken();
+            if (newToken) {
+                headers["Authorization"] = `Bearer ${newToken}`;
+                return fetch(url, { ...options, headers });
+            }
+        }
+
+        return response;
     };
 
     return (
