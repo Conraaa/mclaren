@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Bar from "../Bar/Bar.jsx";
-import PagePista from '../Imagenes/Pistas.png'; // Asegúrate de que la ruta sea correcta
+import PagePista from '../Imagenes/Pistas.png';
 import Footer from '../Footer/Footer.jsx';
 import { handleSubmit } from '../Funciones.js';
 import { useAuth } from "../../Context/AuthProvider";
