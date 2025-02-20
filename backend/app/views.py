@@ -35,11 +35,12 @@ class PiezaViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(categoria__departamento_id=departamento_id)
 
         return queryset
+    
 class TelemetriasDeCarrera(APIView):
     def get(self, request, carrera_id):
         try:
             carrera = Carrera.objects.get(id=carrera_id)
-            telemetrias = carrera.telemetrias.all()  # Usamos 'telemetrias', no 'telemetrías'
+            telemetrias = carrera.telemetrias.all()
             serializer = TelemetriaSerializer(telemetrias, many=True)
             return Response(serializer.data)
         except Carrera.DoesNotExist:
