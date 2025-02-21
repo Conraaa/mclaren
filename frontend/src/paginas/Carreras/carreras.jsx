@@ -11,6 +11,7 @@ import { fetchPistasYEstrategias, handleSubmitCarrera } from '../Funciones.js';
 import { useAuth } from "../../Context/AuthProvider";
 import Swal from "sweetalert2";
 import { useNavigate } from 'react-router-dom';
+import { message } from 'antd';
 
 function Carrera() {
     const [show, setShow] = useState(false);
@@ -26,28 +27,28 @@ function Carrera() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const savedCarreras = JSON.parse(localStorage.getItem("carreras")) || [];
-        setCarreras(savedCarreras);
-
         fetchPistasYEstrategias(setPistas, setEstrategias);
-    }, []);
-
+    }, []); 
+    
     useEffect(() => {
         if (pista) {
-            const pistaSeleccionada = pistas.find(p => p.nombre === pista);
+            const pistaSeleccionada = pistas.find(p => p.nombre === pista); 
             if (pistaSeleccionada) {
-                setVueltas(Math.round(305 / pistaSeleccionada.kilometros));
-                const estrategiasFiltradas = estrategias.filter(e => e.pista === pistaSeleccionada.id);
-                setEstrategiasFiltradas(estrategiasFiltradas);
+                setVueltas(Math.round(305 / pistaSeleccionada.kilometros)); 
+                const estrategiasFiltradas = estrategias.filter(e => e.pista === pistaSeleccionada.id); 
+                if (estrategiasFiltradas.length === 0) {
+                    message.warning("No hay estrategias disponibles para esta pista"); 
+                }
+                setEstrategiasFiltradas(estrategiasFiltradas); 
             } else {
                 setEstrategiasFiltradas([]);
+                message.warning("Pista no encontrada"); 
             }
         } else {
             setEstrategiasFiltradas([]);
         }
-    }, [pista, pistas, estrategias]);
-
-    const handleClose = () => setShow(false);
+    }, [pista, pistas, estrategias]); 
+    
     const handleShow = () => {
         if (!user) {
             Swal.fire({
@@ -69,6 +70,27 @@ function Carrera() {
         }
     };
 
+    const handleClose = () => {
+        setFecha("");
+        setPista("");
+        setVueltas("");
+        setEstrategia("");
+        setEstrategiasFiltradas([]);
+        setShow(false);
+    };
+
+    const handleSave = () => {
+        if (!anio || !pista || !estrategia) {
+              message.error("Todos los campos son obligatorios");
+            return;
+        }
+        handleSubmitCarrera(anio, pista, cantVueltas, estrategia, setCarreras, carreras, () => {
+            handleClose();
+            message.success("Carrera guardada exitosamente.");
+            window.location.reload(); 
+        }, pistas, estrategias);
+    };
+
     return (
         <div className="todoCarrera">
             <div className="contenidoCarrera">
@@ -84,7 +106,7 @@ function Carrera() {
                             <div className="containerCarrera">
                                 <div className="field-container1">
                                     <label>Año de Temporada</label>
-                                    <input type="int" value={anio} onChange={(e) => setFecha(e.target.value)} className="inputCarrera" />
+                                    <input value={anio} onChange={(e) => setFecha(e.target.value)} className="inputCarrera" />
                                 </div>
                                 <div className="field-container2">
                                     <label>Pista</label>
@@ -112,9 +134,7 @@ function Carrera() {
                         </Modal.Body>
                         <Modal.Footer>
                             <Button className="Cerrar" onClick={handleClose}>Cerrar</Button>
-                            <Button className="Guardar" onClick={() => {
-                                handleSubmitCarrera(anio, pista, cantVueltas, estrategia, setCarreras, carreras, handleClose, pistas, estrategias)
-                            }}>Guardar</Button>
+                            <Button className="Guardar" onClick={handleSave}>Guardar</Button>
                         </Modal.Footer>
                     </Modal>
                 </div>

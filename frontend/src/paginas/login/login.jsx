@@ -6,6 +6,7 @@ import ReactPlayer from 'react-player';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../Context/AuthProvider';
+import { message } from 'antd'; 
 import './login.css';
 
 function Login() {
@@ -21,6 +22,7 @@ function Login() {
     e.preventDefault();
     if (!legajo || !contraseña) {
       setError('Por favor, completa todos los campos.');
+      message.error('Todos los campos son obligatorios'); 
       return;
     }
 
@@ -31,13 +33,11 @@ function Login() {
         legajo,
         contrasenia: contraseña,
       });
-      // Guardar tokens y datos en localStorage
       localStorage.setItem('access', response.data.access);
       localStorage.setItem('userLegajo', response.data.legajo);
       localStorage.setItem('userName', response.data.nombre);
       localStorage.setItem('userDepartment', response.data.departamento);
       localStorage.setItem('refresh', response.data.refresh);
-      // Establecer el usuario en el contexto
       login({
         legajo: response.data.legajo,
         nombre: response.data.nombre,
@@ -46,14 +46,17 @@ function Login() {
         refresh: response.data.refresh
       });
 
-      // Navegar de vuelta a la página previa o al home si no hay una previa
+      message.success('Inicio de sesión exitoso'); 
+
       const previousPath = location.state?.from || '/';
       navigate(previousPath);
     } catch (err) {
       if (err.response && err.response.data) {
         setError(err.response.data.detail || 'Error al iniciar sesión.');
+        message.error(err.response.data.detail || 'Error al iniciar sesión.'); 
       } else {
         setError('Error de conexión con el servidor. Intenta nuevamente.');
+        message.error('Error de conexión con el servidor. Intenta nuevamente.'); 
       }
     } finally {
       setLoading(false);

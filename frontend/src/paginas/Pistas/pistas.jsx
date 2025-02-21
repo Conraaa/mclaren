@@ -12,6 +12,7 @@ import { handleSubmit } from '../Funciones.js';
 import { useAuth } from "../../Context/AuthProvider";
 import Swal from "sweetalert2";
 import { useNavigate } from 'react-router-dom';
+import { message } from 'antd';
 
 function Pistas() {
     const [show, setShow] = useState(false);
@@ -23,7 +24,18 @@ function Pistas() {
     const { user } = useAuth();
     const navigate = useNavigate();
 
-    const handleClose = () => setShow(false);
+    const resetForm = () => {
+        setNombre('');
+        setKilometros('');
+        setPais('');
+        setCiudad('');
+        setFoto(null);
+    };
+
+    const handleClose = () => {
+        resetForm();
+        setShow(false);
+    };
 
     const handleShow = () => {
         if (!user) {
@@ -46,6 +58,24 @@ function Pistas() {
         }
     };
 
+    const validarYEnviar = () => {
+        if (!nombre || !kilometros || !pais || !ciudad || !foto) {
+            message.error('Todos los campos son obligatorios.');
+            return;
+        }
+        
+        if (isNaN(kilometros)) {
+            message.error('El campo de kilómetros debe ser un número.');
+            return;
+        }
+
+        handleSubmit(nombre, kilometros, pais, ciudad, foto, () => {
+            message.success('Pista añadida con éxito');
+            handleClose();
+            window.location.reload(); 
+        });
+    };
+
     return (
         <div className="todoPistas">
             <img className="pagePista" src={PagePista} alt="Fondo de Pista" />
@@ -54,11 +84,10 @@ function Pistas() {
                 <div className="botonAnadir">
                     <Button className="Añadir" variant="primary" size="lg" onClick={handleShow}>Añadir </Button>
                     <Modal
-                            show={show}
-                            onHide={handleClose}
-                            className="custom-modalPistas"
-                        >
-
+                        show={show}
+                        onHide={handleClose}
+                        className="custom-modalPistas"
+                    >
                         <Modal.Header closeButton>
                             <Modal.Title>Añadir una nueva pista</Modal.Title>
                         </Modal.Header>
@@ -79,7 +108,6 @@ function Pistas() {
                                         type="text"
                                         value={kilometros}
                                         onChange={(e) => setKilometros(e.target.value)}
-                                        autoFocus
                                     />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
@@ -88,7 +116,6 @@ function Pistas() {
                                         type="text"
                                         value={pais}
                                         onChange={(e) => setPais(e.target.value)}
-                                        autoFocus
                                     />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
@@ -97,7 +124,6 @@ function Pistas() {
                                         type="text"
                                         value={ciudad}
                                         onChange={(e) => setCiudad(e.target.value)}
-                                        autoFocus
                                     />
                                 </Form.Group>
                                 <Form.Group controlId="formFile" className="mb-3">
@@ -113,7 +139,7 @@ function Pistas() {
                             <Button className="Cerrar" onClick={handleClose}>
                                 Cerrar
                             </Button>
-                            <Button className="Guardar" onClick={() => handleSubmit(nombre, kilometros, pais, ciudad, foto, handleClose)}>
+                            <Button className="Guardar" onClick={validarYEnviar}>
                                 Guardar
                             </Button>
                         </Modal.Footer>

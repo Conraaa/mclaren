@@ -104,3 +104,16 @@
 .mb-empleado {
   margin-bottom: 5%;
 }
+
+.ant-message-notice {
+  color: #ffffff !important;   
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow:rgba(0, 0, 0, 0.5);
+}
+
+.ant-message-notice-content {
+  background: #141414 !important;
+  color: #ffffff !important;
+}
+

@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { message } from 'antd';
 
 // Crear el contexto de autenticación
 const AuthContext = createContext();
@@ -106,7 +107,7 @@ export const RutaProtegida = ({ children }) => {
     }
 
     if (!user) {
-        alert("No tienes permiso para acceder.");
+        message.error("No tienes permiso para acceder.");
         return <Navigate to="/login" />;
     }
 
