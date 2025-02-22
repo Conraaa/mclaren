@@ -174,7 +174,7 @@ export const handleShowDetails = async (circuito, setSelectedCircuito) => {
 
   } catch (error) {
     console.error("Error fetching telemetria data:", error);
-    message.error("Hubo un error al obtener los datos de telemetría: ${error}");
+    message.error("Hubo un error al obtener los datos de telemetría.");
   }
 };
 
