@@ -21,7 +21,6 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!legajo || !contraseña) {
-      setError('Por favor, completa todos los campos.');
       message.error('Todos los campos son obligatorios'); 
       return;
     }
@@ -52,10 +51,8 @@ function Login() {
       navigate(previousPath);
     } catch (err) {
       if (err.response && err.response.data) {
-        setError(err.response.data.detail || 'Error al iniciar sesión.');
         message.error(err.response.data.detail || 'Error al iniciar sesión.'); 
       } else {
-        setError('Error de conexión con el servidor. Intenta nuevamente.');
         message.error('Error de conexión con el servidor. Intenta nuevamente.'); 
       }
     } finally {
