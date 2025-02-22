@@ -102,21 +102,15 @@ DATABASES = {
 }
 '''
  
-#Config DB SQL Server
+#Config DB Postgresql
 DATABASES = {
     'default': {
-        'ENGINE': 'mssql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
         'HOST': config('DB_HOST'),
-        'PORT': '',
-        'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',
-            'TrustServerCertificate': 'yes',
-            'encrypt': 'no',
-            'trusted_connection': 'yes',
-            'extra_params': 'TrustServerCertificate=yes;'
-        },
-        'CONN_MAX_AGE': 0,
+        'PORT': config('DB_PORT'),
     }
 }
 
