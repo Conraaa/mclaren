@@ -11,21 +11,42 @@ import jwt
 from datetime import datetime, timedelta
 from django.conf import settings
 
+from rest_framework.permissions import AllowAny, IsAuthenticated
 class DepartamentoViewSet(viewsets.ModelViewSet):
     queryset = Departamento.objects.all()
     serializer_class = DepartamentoSerializer
-
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:  # Permitir GET sin autenticación
+            return [AllowAny()]
+        else:  # Requerir autenticación para POST, PUT, DELETE, etc.
+            return [IsAuthenticated()]
+        
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:  # Permitir GET sin autenticación
+            return [AllowAny()]
 
+        
 class CategoriaViewSet(viewsets.ModelViewSet):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
-
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:  # Permitir GET sin autenticación
+            return [AllowAny()]
+        else:  # Requerir autenticación para POST, PUT, DELETE, etc.
+            return [IsAuthenticated()]
+        
 class PiezaViewSet(viewsets.ModelViewSet):
     queryset = Pieza.objects.all()
     serializer_class = PiezaSerializer
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']: 
+            return [AllowAny()]
+        else: 
+            return [IsAuthenticated()]
+
 
     def get_queryset(self):
         queryset = Pieza.objects.all()
@@ -35,7 +56,12 @@ class PiezaViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(categoria__departamento_id=departamento_id)
 
         return queryset
-    
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:  # Permitir GET sin autenticación
+            return [AllowAny()]
+        else:  # Requerir autenticación para POST, PUT, DELETE, etc.
+            return [IsAuthenticated()]
+            
 class TelemetriasDeCarrera(APIView):
     def get(self, request, carrera_id):
         try:
@@ -45,21 +71,30 @@ class TelemetriasDeCarrera(APIView):
             return Response(serializer.data)
         except Carrera.DoesNotExist:
             return Response({"detail": "Carrera no encontrada"}, status=status.HTTP_404_NOT_FOUND)
-        
+    def get_permissions(self):
+        if self.request.method == 'GET':  # Permitir GET sin autenticación
+            return [AllowAny()]
+        return [IsAuthenticated()]
+           
 class RegistrosDeTelemetria(APIView):
     def get(self, request, telemetria_id):
         try:
             telemetria = Telemetria.objects.get(id=telemetria_id)
-            registros = telemetria.registros.all()  # Obtenemos todos los registros
+            registros = telemetria.registros.all()
             serializer = RegistroSerializer(registros, many=True)
             return Response(serializer.data)
         except Telemetria.DoesNotExist:
             return Response({"detail": "Telemetría no encontrada"}, status=status.HTTP_404_NOT_FOUND)
-
+    def get_permissions(self):
+        if self.request.method == 'GET':  
+            return [AllowAny()]
+        return [IsAuthenticated()]
+    
 class PistaViewSet(viewsets.ModelViewSet):
     queryset = Pista.objects.all()
     serializer_class = PistaSerializer
     
+
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
         if 'kilometros' in data:
@@ -73,7 +108,12 @@ class PistaViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-    
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:  # Permitir GET sin autenticación
+            return []
+        else:  # Requerir autenticación para POST, PUT, DELETE, etc.
+            return [IsAuthenticated()]
+            
     def update(self, request, *args, **kwargs):
         data = request.data.copy()
         if 'kilometros' in data:
@@ -92,23 +132,48 @@ class PistaViewSet(viewsets.ModelViewSet):
 class EstrategiaViewSet(viewsets.ModelViewSet):
     queryset = Estrategia.objects.all()
     serializer_class = EstrategiaSerializer
-
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:  # Permitir GET sin autenticación
+            return [AllowAny()]
+        else:  # Requerir autenticación para POST, PUT, DELETE, etc.
+            return [IsAuthenticated()]
+        
+        
 class EstrategiaPiezaViewSet(viewsets.ModelViewSet):
     queryset = EstrategiaPieza.objects.all()
     serializer_class = EstrategiaPiezaSerializer
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:  # Permitir GET sin autenticación
+            return [AllowAny()]
+        else:  # Requerir autenticación para POST, PUT, DELETE, etc.
+            return [IsAuthenticated()]
 
 class CarreraViewSet(viewsets.ModelViewSet):
     queryset = Carrera.objects.all()
     serializer_class = CarreraSerializer
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:  # Permitir GET sin autenticación
+            return [AllowAny()]
+        else:  # Requerir autenticación para POST, PUT, DELETE, etc.
+            return [IsAuthenticated()]
 
 class TelemetriaViewSet(viewsets.ModelViewSet):
     queryset = Telemetria.objects.all()
     serializer_class = TelemetriaSerializer
-
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:  # Permitir GET sin autenticación
+            return [AllowAny()]
+        else:  # Requerir autenticación para POST, PUT, DELETE, etc.
+            return [IsAuthenticated()]
+        
 class RegistroViewSet(viewsets.ModelViewSet):
     queryset = Registro.objects.all()
     serializer_class = RegistroSerializer
-
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:  # Permitir GET sin autenticación
+            return [AllowAny()]
+        else:  # Requerir autenticación para POST, PUT, DELETE, etc.
+            return [IsAuthenticated()]
 class CategoriaList(APIView):
     def get(self, request, *args, **kwargs):
         departamento_id = request.query_params.get('departamento_id')
@@ -119,17 +184,25 @@ class CategoriaList(APIView):
             categorias = Categoria.objects.all() 
         
         return Response([categoria.to_dict() for categoria in categorias], status=status.HTTP_200_OK)
-
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:  # Permitir GET sin autenticación
+            return [AllowAny()]
+        else:  # Requerir autenticación para POST, PUT, DELETE, etc.
+            return [IsAuthenticated()]
 class LoginView(APIView):
+    permission_classes = [AllowAny]  # Permitir acceso público al login
+
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
+
         if serializer.is_valid():
             legajo = serializer.validated_data['legajo']
             contrasenia = serializer.validated_data['contrasenia']
-            
+
             # Buscar el usuario por legajo
             try:
-                usuario = Usuario.objects.get(legajo=legajo)             
+                usuario = Usuario.objects.get(legajo=legajo)
+
                 # Verificar la contraseña
                 if check_password(contrasenia, usuario.contrasenia):
                     # Generar tokens de acceso y refresco
@@ -156,28 +229,26 @@ class LoginView(APIView):
 
             except Usuario.DoesNotExist:
                 return Response({"error": "Legajo no encontrado"}, status=status.HTTP_404_NOT_FOUND)
-        
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# Endpoint para verificar legajo
 @csrf_exempt
 def verificar_legajo(request):
     if request.method == "POST":
         try:
-            # Parsear el cuerpo del request
             body = json.loads(request.body)
             legajo = body.get("legajo")
 
             if not legajo:
                 return JsonResponse({"status": "error", "message": "El legajo es requerido."}, status=400)
 
-            # Buscar al usuario en la base de datos por legajo
             usuario = Usuario.objects.filter(legajo=legajo).select_related('departamento').first()
 
             if not usuario:
                 return JsonResponse({"status": "error", "message": "Legajo no encontrado."}, status=404)
 
-            # Devolver los datos del usuario
             return JsonResponse({
                 "status": "success",
                 "nombre": usuario.nombre,
@@ -193,6 +264,8 @@ def verificar_legajo(request):
 
     return JsonResponse({"status": "error", "message": "Método no permitido."}, status=405)
 
+
+# Endpoint para registrar usuario
 @csrf_exempt
 def registrar_usuario(request):
     if request.method == 'POST':
@@ -204,15 +277,12 @@ def registrar_usuario(request):
         contrasenia = data.get('contrasenia')
         departamento_nombre = data.get('departamento')
 
-        # Verificar si el legajo ya está registrado
         try:
             usuario = Usuario.objects.get(legajo=legajo)
-            # Si el usuario ya existe, se actualizarán los datos
             usuario.nombre = nombre
             usuario.apellido = apellido
             usuario.dni = dni
-            usuario.contrasenia = contrasenia
-            # Si el departamento se pasa, se actualiza
+            usuario.contrasenia = make_password(contrasenia)  # Encriptar la contraseña
             if departamento_nombre:
                 departamento = Departamento.objects.get(nombre=departamento_nombre)
                 usuario.departamento = departamento
@@ -221,7 +291,6 @@ def registrar_usuario(request):
             return JsonResponse({'status': 'success', 'message': 'Usuario actualizado exitosamente'})
 
         except Usuario.DoesNotExist:
-            # Si el legajo no existe, registramos un nuevo usuario
             try:
                 departamento = Departamento.objects.get(nombre=departamento_nombre)
                 usuario = Usuario(
@@ -229,7 +298,7 @@ def registrar_usuario(request):
                     nombre=nombre,
                     apellido=apellido,
                     dni=dni,
-                    contrasenia=contrasenia,
+                    contrasenia=make_password(contrasenia),  # Encriptar la contraseña
                     departamento=departamento
                 )
                 usuario.save()
@@ -237,5 +306,5 @@ def registrar_usuario(request):
                 return JsonResponse({'status': 'success', 'message': 'Usuario registrado exitosamente'})
             except Departamento.DoesNotExist:
                 return JsonResponse({'status': 'error', 'message': 'Departamento no encontrado'}, status=404)
-        
+
     return JsonResponse({'status': 'error', 'message': 'Método no permitido'}, status=405)
