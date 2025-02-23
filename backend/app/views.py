@@ -3,40 +3,85 @@ from rest_framework.response import Response
 from rest_framework import status, viewsets
 from django.contrib.auth.hashers import check_password
 from .models import Departamento, Usuario, Categoria, Pieza, Pista, Estrategia, EstrategiaPieza, Carrera, Telemetria, Registro
-from .serializers import DepartamentoSerializer, UsuarioSerializer, CategoriaSerializer, PiezaSerializer, PistaSerializer, EstrategiaSerializer, EstrategiaPiezaSerializer, CarreraSerializer, TelemetriaSerializer, RegistroSerializer, LoginSerializer 
+from .serializers import (
+    DepartamentoSerializer, UsuarioSerializer, CategoriaSerializer, PiezaSerializer, 
+    PistaSerializer, EstrategiaSerializer, EstrategiaPiezaSerializer, CarreraSerializer, 
+    TelemetriaSerializer, RegistroSerializer, LoginSerializer
+)
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 import jwt
 from datetime import datetime, timedelta
 from django.conf import settings
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+
 
 class DepartamentoViewSet(viewsets.ModelViewSet):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Departamento.objects.all()
     serializer_class = DepartamentoSerializer
 
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        else:
+            return [IsAuthenticated()]
+
+
 class UsuarioViewSet(viewsets.ModelViewSet):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
 
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        else:
+            return [IsAuthenticated()]
+
+
 class CategoriaViewSet(viewsets.ModelViewSet):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
 
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        else:
+            return [IsAuthenticated()]
+
+
 class PiezaViewSet(viewsets.ModelViewSet):
-    queryset = Pieza.objects.all()
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = Pieza.objects.all()  # Added queryset attribute for router basename resolution
     serializer_class = PiezaSerializer
 
     def get_queryset(self):
         queryset = Pieza.objects.all()
         departamento_id = self.request.query_params.get('departamento_id')
-
         if departamento_id:
             queryset = queryset.filter(categoria__departamento_id=departamento_id)
-
         return queryset
-    
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        else:
+            return [IsAuthenticated()]
+
+
 class TelemetriasDeCarrera(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, carrera_id):
         try:
             carrera = Carrera.objects.get(id=carrera_id)
@@ -45,21 +90,40 @@ class TelemetriasDeCarrera(APIView):
             return Response(serializer.data)
         except Carrera.DoesNotExist:
             return Response({"detail": "Carrera no encontrada"}, status=status.HTTP_404_NOT_FOUND)
-        
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        else:
+            return [IsAuthenticated()]
+
+
 class RegistrosDeTelemetria(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, telemetria_id):
         try:
             telemetria = Telemetria.objects.get(id=telemetria_id)
-            registros = telemetria.registros.all()  # Obtenemos todos los registros
+            registros = telemetria.registros.all()
             serializer = RegistroSerializer(registros, many=True)
             return Response(serializer.data)
         except Telemetria.DoesNotExist:
             return Response({"detail": "Telemetría no encontrada"}, status=status.HTTP_404_NOT_FOUND)
 
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        else:
+            return [IsAuthenticated()]
+
+
 class PistaViewSet(viewsets.ModelViewSet):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Pista.objects.all()
     serializer_class = PistaSerializer
-    
+
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
         if 'kilometros' in data:
@@ -73,7 +137,7 @@ class PistaViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-    
+
     def update(self, request, *args, **kwargs):
         data = request.data.copy()
         if 'kilometros' in data:
@@ -89,95 +153,140 @@ class PistaViewSet(viewsets.ModelViewSet):
         self.perform_update(serializer)
         return Response(serializer.data)
 
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        else:
+            return [IsAuthenticated()]
+
+
 class EstrategiaViewSet(viewsets.ModelViewSet):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Estrategia.objects.all()
     serializer_class = EstrategiaSerializer
 
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        else:
+            return [IsAuthenticated()]
+
+
 class EstrategiaPiezaViewSet(viewsets.ModelViewSet):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = EstrategiaPieza.objects.all()
     serializer_class = EstrategiaPiezaSerializer
 
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        else:
+            return [IsAuthenticated()]
+
+
 class CarreraViewSet(viewsets.ModelViewSet):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Carrera.objects.all()
     serializer_class = CarreraSerializer
 
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        else:
+            return [IsAuthenticated()]
+
+
 class TelemetriaViewSet(viewsets.ModelViewSet):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Telemetria.objects.all()
     serializer_class = TelemetriaSerializer
 
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        else:
+            return [IsAuthenticated()]
+
+
 class RegistroViewSet(viewsets.ModelViewSet):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Registro.objects.all()
     serializer_class = RegistroSerializer
 
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        else:
+            return [IsAuthenticated()]
+
+
 class CategoriaList(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, *args, **kwargs):
         departamento_id = request.query_params.get('departamento_id')
-        
         if departamento_id:
             categorias = Categoria.objects.filter(departamento_id=departamento_id)
         else:
-            categorias = Categoria.objects.all() 
-        
+            categorias = Categoria.objects.all()
         return Response([categoria.to_dict() for categoria in categorias], status=status.HTTP_200_OK)
 
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        else:
+            return [IsAuthenticated()]
+
+
 class LoginView(APIView):
+    permission_classes = []  # AllowAny by default
+
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
             legajo = serializer.validated_data['legajo']
             contrasenia = serializer.validated_data['contrasenia']
-            
-            # Buscar el usuario por legajo
+
             try:
-                usuario = Usuario.objects.get(legajo=legajo)             
-                # Verificar la contraseña
+                usuario = Usuario.objects.get(legajo=legajo)
                 if check_password(contrasenia, usuario.contrasenia):
-                    # Generar tokens de acceso y refresco
-                    access_token = jwt.encode({
-                        'user_id': usuario.id,
-                        'exp': datetime.utcnow() + timedelta(hours=1)
-                    }, settings.SECRET_KEY, algorithm='HS256')
-
-                    refresh_token = jwt.encode({
-                        'user_id': usuario.id,
-                        'exp': datetime.utcnow() + timedelta(days=7)
-                    }, settings.SECRET_KEY, algorithm='HS256')
-
+                    refresh = RefreshToken.for_user(usuario)
                     return Response({
                         "message": "Login exitoso",
-                        "access": access_token,
-                        "refresh": refresh_token,
+                        "access": str(refresh.access_token),
+                        "refresh": str(refresh),
                         "nombre": usuario.nombre,
                         "departamento": usuario.departamento.nombre,
                         "legajo": usuario.legajo,
                     }, status=status.HTTP_200_OK)
                 else:
                     return Response({"error": "Contraseña incorrecta"}, status=status.HTTP_401_UNAUTHORIZED)
-
             except Usuario.DoesNotExist:
                 return Response({"error": "Legajo no encontrado"}, status=status.HTTP_404_NOT_FOUND)
-        
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
 def verificar_legajo(request):
     if request.method == "POST":
         try:
-            # Parsear el cuerpo del request
             body = json.loads(request.body)
             legajo = body.get("legajo")
 
             if not legajo:
                 return JsonResponse({"status": "error", "message": "El legajo es requerido."}, status=400)
 
-            # Buscar al usuario en la base de datos por legajo
             usuario = Usuario.objects.filter(legajo=legajo).select_related('departamento').first()
 
             if not usuario:
                 return JsonResponse({"status": "error", "message": "Legajo no encontrado."}, status=404)
 
-            # Devolver los datos del usuario
             return JsonResponse({
                 "status": "success",
                 "nombre": usuario.nombre,
@@ -193,36 +302,33 @@ def verificar_legajo(request):
 
     return JsonResponse({"status": "error", "message": "Método no permitido."}, status=405)
 
+
 @csrf_exempt
 def registrar_usuario(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        legajo = data.get('legajo')
-        nombre = data.get('nombre')
-        apellido = data.get('apellido')
-        dni = data.get('dni')
-        contrasenia = data.get('contrasenia')
-        departamento_nombre = data.get('departamento')
-
-        # Verificar si el legajo ya está registrado
         try:
-            usuario = Usuario.objects.get(legajo=legajo)
-            # Si el usuario ya existe, se actualizarán los datos
-            usuario.nombre = nombre
-            usuario.apellido = apellido
-            usuario.dni = dni
-            usuario.contrasenia = contrasenia
-            # Si el departamento se pasa, se actualiza
-            if departamento_nombre:
-                departamento = Departamento.objects.get(nombre=departamento_nombre)
-                usuario.departamento = departamento
-            usuario.save()
+            data = json.loads(request.body)
+            legajo = data.get('legajo')
+            nombre = data.get('nombre')
+            apellido = data.get('apellido')
+            dni = data.get('dni')
+            contrasenia = data.get('contrasenia')
+            departamento_nombre = data.get('departamento')
 
-            return JsonResponse({'status': 'success', 'message': 'Usuario actualizado exitosamente'})
-
-        except Usuario.DoesNotExist:
-            # Si el legajo no existe, registramos un nuevo usuario
             try:
+                usuario = Usuario.objects.get(legajo=legajo)
+                usuario.nombre = nombre
+                usuario.apellido = apellido
+                usuario.dni = dni
+                usuario.contrasenia = contrasenia
+                if departamento_nombre:
+                    departamento = Departamento.objects.get(nombre=departamento_nombre)
+                    usuario.departamento = departamento
+                usuario.save()
+
+                return JsonResponse({'status': 'success', 'message': 'Usuario actualizado exitosamente'})
+
+            except Usuario.DoesNotExist:
                 departamento = Departamento.objects.get(nombre=departamento_nombre)
                 usuario = Usuario(
                     legajo=legajo,
@@ -235,7 +341,10 @@ def registrar_usuario(request):
                 usuario.save()
 
                 return JsonResponse({'status': 'success', 'message': 'Usuario registrado exitosamente'})
-            except Departamento.DoesNotExist:
-                return JsonResponse({'status': 'error', 'message': 'Departamento no encontrado'}, status=404)
-        
+
+        except Departamento.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Departamento no encontrado'}, status=404)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
     return JsonResponse({'status': 'error', 'message': 'Método no permitido'}, status=405)
