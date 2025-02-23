@@ -35,7 +35,22 @@ class Usuario(BaseModel):
     legajo = models.BigIntegerField(null=True, blank=True, unique=True)
     departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, related_name='usuarios')
     contrasenia = models.TextField(db_column='contrasenia', blank=True, null=True)
+    USERNAME_FIELD = 'legajo'
+    REQUIRED_FIELDS = []   # Added to satisfy Django's custom user model requirements
     
+   
+    @property
+    def is_anonymous(self):
+        return False
+
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return True 
+
     def save(self, *args, **kwargs):
         if self.pk:                 #Verifica si ese usuario ya existe en la bd
             usuario_anterior = Usuario.objects.filter(pk=self.pk).first()

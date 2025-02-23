@@ -242,7 +242,7 @@ export const handleSubmitCarrera = async (
 
   const circuitName = pistaToRound[pistaNombre];
   if (!circuitName) {
-    message.error("No se encontró el CircuitName para la pista seleccionada");
+    message.error("No se encontró el circuito para la pista seleccionada");
     return;
   }
 
