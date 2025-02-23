@@ -17,6 +17,11 @@
   justify-content: center;
 }
 
+.inputTicket select {
+  color: #ffffff;
+  background-color: transparent;
+}
+
 .departamento-fondo {
   position: fixed;
   width: 100%;

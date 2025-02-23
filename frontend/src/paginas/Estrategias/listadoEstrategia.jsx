@@ -8,9 +8,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Bar from "../Bar/Bar.jsx";
 import Fondo from '../Imagenes/estrategiafondo.jpg';
 import { message } from 'antd';
-
+import {useAuth} from "../../Context/AuthProvider";
 function Estrategia() {
     const [show, setShow] = useState(false);
+    const { fetchWithAuth } = useAuth();
     const [isEditMode, setIsEditMode] = useState(false);
     const [pistas, setPistas] = useState([]);
     const [piezasDisponibles, setPiezasDisponibles] = useState([]);
@@ -94,7 +95,7 @@ function Estrategia() {
 
             if (isEditMode) {
                 // Edición de estrategia
-                const deleteResponse = await fetch(`http://127.0.0.1:8000/api/estrategias/${estrategia.id}/`, {
+                const deleteResponse = await fetchWithAuth(`http://127.0.0.1:8000/api/estrategias/${estrategia.id}/`, {
                     method: "DELETE",
                     headers: { "Content-Type": "application/json" }
                 });
@@ -109,7 +110,7 @@ function Estrategia() {
         
 
                 // Crear nueva estrategia
-                const estrategiaResponse = await fetch(`http://127.0.0.1:8000/api/estrategias/`, {
+                const estrategiaResponse = await fetchWithAuth(`http://127.0.0.1:8000/api/estrategias/`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -136,13 +137,13 @@ function Estrategia() {
                     estrategia.cajaCambios
                 ];
 
-                await fetch(`http://127.0.0.1:8000/api/estrategiapiezas/${estrategiaId}/`, {
+                await fetchWithAuth(`http://127.0.0.1:8000/api/estrategiapiezas/${estrategiaId}/`, {
                     method: "DELETE"
                 });
 
                 for (const pieza of piezas) {
                     if (pieza) {
-                        await fetch("http://127.0.0.1:8000/api/estrategiapiezas/", {
+                        await fetchWithAuth("http://127.0.0.1:8000/api/estrategiapiezas/", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({
@@ -155,7 +156,7 @@ function Estrategia() {
 
             } else {
                 // Creación de estrategia
-                const estrategiaResponse = await fetch("http://127.0.0.1:8000/api/estrategias/", {
+                const estrategiaResponse = await fetchWithAuth("http://127.0.0.1:8000/api/estrategias/", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -185,7 +186,7 @@ function Estrategia() {
 
                 for (const pieza of piezas) {
                     if (pieza) {
-                        await fetch("http://127.0.0.1:8000/api/estrategiapiezas/", {
+                        await fetchWithAuth("http://127.0.0.1:8000/api/estrategiapiezas/", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({
@@ -205,7 +206,7 @@ function Estrategia() {
 
     const handleDelete = async (estrategiaId) => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/estrategias/${estrategiaId}/`, {
+            const response = await fetchWithAuth(`http://127.0.0.1:8000/api/estrategias/${estrategiaId}/`, {
                 method: "DELETE"
             });
 

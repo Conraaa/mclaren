@@ -14,7 +14,11 @@ import Swal from "sweetalert2";
 import { useNavigate } from 'react-router-dom';
 import { message } from 'antd';
 
+
+
+
 function Pistas() {
+    const { fetchWithAuth } = useAuth();
     const [show, setShow] = useState(false);
     const [nombre, setNombre] = useState('');
     const [kilometros, setKilometros] = useState('');
@@ -69,11 +73,7 @@ function Pistas() {
             return;
         }
 
-        handleSubmit(nombre, kilometros, pais, ciudad, foto, () => {
-            message.success('Pista añadida con éxito');
-            handleClose();
-            window.location.reload(); 
-        });
+        handleSubmit(nombre, kilometros, pais, ciudad, foto, handleClose, fetchWithAuth);
     };
 
     return (

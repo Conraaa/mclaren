@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Bar from "../Bar/Bar";
 import "./listados.css";
 import MuiDatatable from "mui-datatables";
@@ -6,6 +6,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Form, FormControl, Button } from "react-bootstrap";
 import { message } from "antd"; 
+import { useAuth } from './../../Context/AuthProvider';
 
 function ListadoPiezas() {
   const API_URL = "http://127.0.0.1:8000/api/piezas/";
@@ -16,13 +17,9 @@ function ListadoPiezas() {
   const [editedData, setEditedData] = useState({ id: null, Nombre: "", Categoria: "" });
   const [categories, setCategories] = useState([]);
   const [departmentId] = useState(2);
+  const { fetchWithAuth } = useAuth();
 
-  useEffect(() => {
-    fetchData();
-    fetchCategories();
-  }, [departmentId]);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const response = await fetch(`${API_URL}?departamento_id=${2}`);
       if (response.ok) {
@@ -31,9 +28,9 @@ function ListadoPiezas() {
     } catch (error) {
       console.error("Error al conectar con la API:", error);
     }
-  };
+  }, [fetchWithAuth]);
 
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
       const response = await fetch(`${CATEGORY_URL}?departamento_id=${2}`);
       if (response.ok) {
@@ -42,7 +39,12 @@ function ListadoPiezas() {
     } catch (error) {
       console.error("Error al conectar con la API de categorías:", error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+    fetchCategories();
+  }, [fetchData, fetchCategories]);
 
   const handleSaveChanges = async () => {
     if (!editedData.Nombre || !editedData.Categoria) {
@@ -55,7 +57,7 @@ function ListadoPiezas() {
       console.log("Intentando guardar los cambios...");
       if (selectedRow !== null) {
         // PUT request to edit an existing piece
-        await fetch(`${API_URL}${editedData.id}/`, {
+        await fetchWithAuth(`${API_URL}${editedData.id}/`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(pieza),
@@ -64,7 +66,7 @@ function ListadoPiezas() {
         message.success("Pieza editada correctamente");
       } else {
         // POST request to add a new piece
-        await fetch(API_URL, {
+        await fetchWithAuth(API_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(pieza),
@@ -82,7 +84,7 @@ function ListadoPiezas() {
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`${API_URL}${id}/`, { method: "DELETE" });
+      await fetchWithAuth(`${API_URL}${id}/`, { method: "DELETE" });
       message.success("Pieza eliminada correctamente");
       fetchData();
     } catch (error) {

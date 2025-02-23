@@ -11,8 +11,6 @@ export const AuthProvider = ({ children }) => {
         const userLegajo = localStorage.getItem("userLegajo");
         const userName = localStorage.getItem("userName");
         const userDepartment = localStorage.getItem("userDepartment");
-        const access = localStorage.getItem('access');
-        const refresh= localStorage.getItem('refresh');
         return userLegajo && userName && userDepartment
             ? { legajo: userLegajo, nombre: userName, departamento: userDepartment }
             : null;
@@ -24,7 +22,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("userLegajo", userData.legajo);
         localStorage.setItem("userName", userData.nombre);
         localStorage.setItem("userDepartment", userData.departamento);
-        localStorage.setItem("access", userData.access);
+        localStorage.setItem("accessToken", userData.access);
         localStorage.setItem("refreshToken", userData.refresh);
         console.log(userData);
     };
@@ -66,19 +64,18 @@ export const AuthProvider = ({ children }) => {
 
     const fetchWithAuth = async (url, options = {}) => {
         let token = localStorage.getItem("accessToken");
-
-        const headers = {
-            "Content-Type": "application/json",
-            ...options.headers,
-        };
+        const headers = { ...options.headers };
 
         if (token) {
             headers["Authorization"] = `Bearer ${token}`;
         }
 
+        if (!(options.body instanceof FormData)) {
+            headers["Content-Type"] = "application/json";
+        }
+
         const response = await fetch(url, { ...options, headers });
 
-        //Cuando expira el token crea una nuevo
         if (response.status === 401) {
             const newToken = await refreshAccessToken();
             if (newToken) {
@@ -86,12 +83,11 @@ export const AuthProvider = ({ children }) => {
                 return fetch(url, { ...options, headers });
             }
         }
-
         return response;
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={{ user, login, logout, fetchWithAuth}}>
             {children}
         </AuthContext.Provider>
     );

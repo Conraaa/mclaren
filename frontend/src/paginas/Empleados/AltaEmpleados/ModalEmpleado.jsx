@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { message } from "antd";
 import "antd/dist/reset.css"; 
+import { useAuth } from '../../../Context/AuthProvider';
 
 function ModalEmpleado({ show, handleClose, empleadoSeleccionado }) {
   const [nombre, setNombre] = useState("");
@@ -11,7 +12,7 @@ function ModalEmpleado({ show, handleClose, empleadoSeleccionado }) {
   const [departamentos, setDepartamentos] = useState([]);
   const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState("");
   const [legajo, setLegajo] = useState(1);
-
+  const { fetchWithAuth } = useAuth();
   useEffect(() => {
     if (empleadoSeleccionado) {
       setNombre(empleadoSeleccionado.nombre);
@@ -55,7 +56,7 @@ function ModalEmpleado({ show, handleClose, empleadoSeleccionado }) {
       contrasenia: "default",
     };
 
-    fetch("http://127.0.0.1:8000/api/usuarios/", {
+    fetchWithAuth("http://127.0.0.1:8000/api/usuarios/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(usuario),
@@ -68,7 +69,7 @@ function ModalEmpleado({ show, handleClose, empleadoSeleccionado }) {
         });
 
         if (empleadoSeleccionado?.idtrabajador) {
-          fetch(`http://127.0.0.1:9001/app/interaccion/${empleadoSeleccionado.idtrabajador}/`, {
+          fetchWithAuth(`http://127.0.0.1:9001/app/interaccion/${empleadoSeleccionado.idtrabajador}/`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ estado: "Ocupado" }),

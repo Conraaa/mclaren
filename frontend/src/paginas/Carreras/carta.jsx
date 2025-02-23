@@ -114,38 +114,38 @@ function ListaDeCircuitos() {
               <div style={{ marginBottom: "20px" }}>
                 <p><strong>Piloto 1: Lando Norris</strong></p>
                 <ResponsiveContainer width="100%" height={200}>
-  <LineChart data={selectedCircuito.telemetriaNorris?.sort((a, b) => a.vuelta - b.vuelta) || []}>
-    <CartesianGrid stroke="#ccc" />
-    <XAxis dataKey="vuelta" label={{ value: "Vuelta", position: "insideBottomRight", offset: -10 }} />
-    <YAxis 
-      tickFormatter={formatTiempo} 
-      domain={getYAxisDomain(selectedCircuito.telemetriaNorris)}
-      label={{ value: "Tiempo (MM:SS:SSS)", angle: -90, position: "insideLeft" }} 
-    />
-    <Tooltip 
-      formatter={(value, name, props) => [`Vuelta ${props.payload.vuelta} - ${formatTiempo(value)}`, "Tiempo"]} 
-    />
-    <Line type="basis" dataKey="tiempo" stroke="#8884d8" dot={{ r: 3 }} />
-  </LineChart>
-</ResponsiveContainer>
+                  <LineChart data={selectedCircuito.telemetriaNorris?.sort((a, b) => a.vuelta - b.vuelta) || []}>
+                    <CartesianGrid stroke="#ccc" />
+                    <XAxis dataKey="vuelta" label={{ value: "Vuelta", position: "insideBottomRight", offset: -10 }} />
+                    <YAxis 
+                      tickFormatter={formatTiempo} 
+                      domain={getYAxisDomain(selectedCircuito.telemetriaNorris)}
+                      label={{ value: "Tiempo (MM:SS:SSS)", angle: -90, position: "insideLeft" }} 
+                    />
+                    <Tooltip 
+                      formatter={(value, name, props) => [`Vuelta ${props.payload.vuelta} - ${formatTiempo(value)}`]} 
+                    />
+                    <Line type="basis" dataKey="tiempo" stroke="#8884d8" dot={{ r: 3 }} />
+                  </LineChart>
+                </ResponsiveContainer>
               </div>
               <div>
                 <p><strong>Piloto 2: Oscar Piastri</strong></p>
                 <ResponsiveContainer width="100%" height={200}>
-  <LineChart data={selectedCircuito.telemetriaPiastri?.sort((a, b) => a.vuelta - b.vuelta) || []}>
-    <CartesianGrid stroke="#ccc" />
-    <XAxis dataKey="vuelta" label={{ value: "Vuelta", position: "insideBottomRight", offset: -10 }} />
-    <YAxis 
-      tickFormatter={formatTiempo} 
-      domain={getYAxisDomain(selectedCircuito.telemetriaPiastri)}
-      label={{ value: "Tiempo (MM:SS:SSS)", angle: -90, position: "insideLeft" }} 
-    />
-    <Tooltip 
-      formatter={(value, name, props) => [`Vuelta ${props.payload.vuelta} - ${formatTiempo(value)}`, "Tiempo"]} 
-    />
-    <Line type="basis" dataKey="tiempo" stroke="#82ca9d" dot={{ r: 3 }} />
-  </LineChart>
-</ResponsiveContainer>
+                  <LineChart data={selectedCircuito.telemetriaPiastri?.sort((a, b) => a.vuelta - b.vuelta) || []}>
+                    <CartesianGrid stroke="#ccc" />
+                    <XAxis dataKey="vuelta" label={{ value: "Vuelta", position: "insideBottomRight", offset: -10 }} />
+                    <YAxis 
+                      tickFormatter={formatTiempo} 
+                      domain={getYAxisDomain(selectedCircuito.telemetriaPiastri)}
+                      label={{ value: "Tiempo (MM:SS:SSS)", angle: -90, position: "insideLeft" }} 
+                    />
+                    <Tooltip 
+                      formatter={(value, name, props) => [`Vuelta ${props.payload.vuelta} - ${formatTiempo(value)}`]} 
+                    />
+                    <Line type="basis" dataKey="tiempo" stroke="#82ca9d" dot={{ r: 3 }} />
+                  </LineChart>
+                </ResponsiveContainer>
               </div>
             </div>
           </Modal.Body>

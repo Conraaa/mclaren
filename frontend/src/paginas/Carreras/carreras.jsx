@@ -25,7 +25,7 @@ function Carrera() {
     const [estrategiasFiltradas, setEstrategiasFiltradas] = useState([]);
     const { user } = useAuth();
     const navigate = useNavigate();
-
+    const { fetchWithAuth } = useAuth();
     useEffect(() => {
         fetchPistasYEstrategias(setPistas, setEstrategias);
     }, []); 
@@ -84,7 +84,7 @@ function Carrera() {
               message.error("Todos los campos son obligatorios");
             return;
         }
-        handleSubmitCarrera(anio, pista, cantVueltas, estrategia, setCarreras, carreras, () => {
+        handleSubmitCarrera(anio, pista, cantVueltas, estrategia, setCarreras, carreras, fetchWithAuth, () => {
             handleClose();
             message.success("Carrera guardada exitosamente.");
             window.location.reload(); 

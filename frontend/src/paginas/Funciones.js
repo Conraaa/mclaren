@@ -1,7 +1,7 @@
 import { pistaImages, pistaToRound } from "./Carreras/imports.js";
 import { message } from 'antd';
 
-export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handleClose) => {
+export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handleClose, fetchWithAuth) => {
   const nuevaPista = { nombre, kilometros, pais, ciudad, foto };
   console.log(nuevaPista);
   try {
@@ -11,7 +11,7 @@ export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handl
     formData.append("pais", nuevaPista.pais);
     formData.append("ciudad", nuevaPista.ciudad);
     formData.append("imagen", nuevaPista.foto);
-    const response = await fetch("http://localhost:8000/api/pistas/", {
+    const response = await fetchWithAuth("http://localhost:8000/api/pistas/", {
       method: "POST",
       body: formData,
     });
@@ -216,7 +216,8 @@ export const handleSubmitCarrera = async (
   carreras,
   handleClose,
   pistas,
-  estrategias
+  estrategias,
+  fetchWithAuth  // new parameter
 ) => {
   console.log("Submitting carrera with pista:", pistaNombre, "and estrategia:", estrategiaNombre);
 
@@ -343,7 +344,7 @@ export const handleSubmitCarrera = async (
 
     console.log("Enviando carrera al backend:", nuevaCarrera);
 
-    // Enviar la carrera al backend usando FormData
+    // Enviar la carrera al backend usando FormData via fetchWithAuth
     const formData = new FormData();
     formData.append("anio", nuevaCarrera.anio);
     formData.append("pista", nuevaCarrera.pista);
@@ -351,7 +352,7 @@ export const handleSubmitCarrera = async (
     formData.append("estrategia", nuevaCarrera.estrategia);
     formData.append("imagen", nuevaCarrera.imagen);
 
-    const responseCarrera = await fetch("http://localhost:8000/api/carreras/", {
+    const responseCarrera = await fetchWithAuth("http://localhost:8000/api/carreras/", {
       method: "POST",
       body: formData
     });
@@ -376,11 +377,11 @@ export const handleSubmitCarrera = async (
 
     const telemetriaIds = [];
 
-    // Enviar las telemetrías individualmente
+    // Enviar las telemetrías individualmente using fetchWithAuth
     for (const telemetria of telemetrias) {
       console.log("Enviando telemetría al backend:", telemetria);
 
-      const responseTelemetria = await fetch("http://localhost:8000/api/telemetrias/", {
+      const responseTelemetria = await fetchWithAuth("http://localhost:8000/api/telemetrias/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(telemetria)
@@ -427,11 +428,11 @@ export const handleSubmitCarrera = async (
       return;
     }
 
-    // Enviar los registros al backend uno por uno
+    // Enviar los registros al backend uno por uno usando fetchWithAuth
     for (const registro of registros) {
       console.log("Enviando registro al backend:", registro);
 
-      const responseRegistro = await fetch("http://localhost:8000/api/registros/", {
+      const responseRegistro = await fetchWithAuth("http://localhost:8000/api/registros/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(registro) // Enviar un solo registro

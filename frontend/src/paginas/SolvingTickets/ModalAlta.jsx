@@ -42,7 +42,7 @@ function Soporte({ show, handleClose, onCreate }) {
   };
 
   return (
-    <Modal show={show} onHide={handleCloseAndClear} className="custom-modal">
+    <Modal show={show} onHide={handleCloseAndClear} className="custom-modalSolving">
       <Modal.Header closeButton>
         <Modal.Title>Escribir un nuevo ticket</Modal.Title>
       </Modal.Header>
