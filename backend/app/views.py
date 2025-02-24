@@ -135,7 +135,6 @@ class PistaViewSet(viewsets.ModelViewSet):
             
 
 
->>>>>>> 63604334241dcba32d1c0bd92bcb00bab6274792
     def update(self, request, *args, **kwargs):
         data = request.data.copy()
         if 'kilometros' in data:
