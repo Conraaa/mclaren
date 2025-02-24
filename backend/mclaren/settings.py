@@ -21,7 +21,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["mclaren-production.up.railway.app"]
+ALLOWED_HOSTS = ["mclaren-production.up.railway.app", "localhost", "127.0.0.1"]
 
 # Application definition
 INSTALLED_APPS = [
@@ -110,23 +110,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mclaren.wsgi.application'
 
-# Database
-<<<<<<< HEAD
-=======
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
 '''
-#Config DB default
+#Base de datos de SQL SERVER 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'mssql',
+        'NAME': config('DB_NAME'),
+        'HOST': config('DB_HOST'),
+        'PORT': '',
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',
+            'TrustServerCertificate': 'yes',
+            'encrypt': 'no',
+            'trusted_connection': 'yes',
+            'extra_params': 'TrustServerCertificate=yes;'
+        },
+        'CONN_MAX_AGE': 0,
     }
 }
 '''
  
 #Config DB Postgresql
->>>>>>> 63604334241dcba32d1c0bd92bcb00bab6274792
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -134,7 +138,6 @@ DATABASES = {
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': config('DB_HOST'),
-<<<<<<< HEAD
         'PORT': '',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
@@ -144,9 +147,7 @@ DATABASES = {
             'extra_params': 'TrustServerCertificate=yes;',
         },
         'CONN_MAX_AGE': 0,
-=======
         'PORT': config('DB_PORT'),
->>>>>>> 63604334241dcba32d1c0bd92bcb00bab6274792
     }
 }
 
@@ -178,9 +179,7 @@ STATIC_URL = 'static/'
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-<<<<<<< HEAD
-
-# Default primary key field type
+# Defaul primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-=======
->>>>>>> 63604334241dcba32d1c0bd92bcb00bab6274792
+
+
