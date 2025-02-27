@@ -3,6 +3,7 @@ import "./Solving.css";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { message } from "antd";  
 
 function Soporte({ show, handleClose, onCreate }) {
   const [asunto, setAsunto] = useState("");
@@ -11,7 +12,7 @@ function Soporte({ show, handleClose, onCreate }) {
 
   const handleSubmit = () => {
     if (!asunto || !prioridad || !mensaje) {
-      alert("Por favor, completa todos los campos.");
+      message.error("Todos los campos son obligatorios"); 
       return;
     }
 
@@ -27,12 +28,12 @@ function Soporte({ show, handleClose, onCreate }) {
       Mensaje: mensaje,
       Respuesta: [],
     };
-
     onCreate(nuevoTicket);
+    
+    message.success("Ticket enviado con éxito");
     handleCloseAndClear();
   };
 
-  // 🔹 Limpia los estados y cierra el modal
   const handleCloseAndClear = () => {
     setAsunto("");
     setPrioridad("");
@@ -41,7 +42,7 @@ function Soporte({ show, handleClose, onCreate }) {
   };
 
   return (
-    <Modal show={show} onHide={handleCloseAndClear} className="custom-modal">
+    <Modal show={show} onHide={handleCloseAndClear} className="custom-modalSolving">
       <Modal.Header closeButton>
         <Modal.Title>Escribir un nuevo ticket</Modal.Title>
       </Modal.Header>
@@ -83,7 +84,6 @@ function Soporte({ show, handleClose, onCreate }) {
               onChange={(e) => setMensaje(e.target.value)}
               className="Prioridad"
               placeholder="Escribe tu mensaje aquí..."
-              
             />
           </Form.Group>
         </Form>

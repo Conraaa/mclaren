@@ -6,12 +6,13 @@ import ReactPlayer from 'react-player';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../Context/AuthProvider';
+import { message } from 'antd'; 
 import './login.css';
 
 function Login() {
   const [legajo, setLegajo] = useState('');
   const [contraseña, setContraseña] = useState('');
-  const [error, setError] = useState('');
+  const [error] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,39 +21,38 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!legajo || !contraseña) {
-      setError('Por favor, completa todos los campos.');
+      message.error('Todos los campos son obligatorios'); 
       return;
     }
 
     setLoading(true);
-    setError('');
     try {
       const response = await axios.post('http://127.0.0.1:8000/api/login/', {
         legajo,
         contrasenia: contraseña,
       });
-      // Guardar tokens y datos en localStorage
-      localStorage.setItem('accessToken', response.data.access);
-      localStorage.setItem('refreshToken', response.data.refresh);
+      localStorage.setItem('access', response.data.access);
       localStorage.setItem('userLegajo', response.data.legajo);
       localStorage.setItem('userName', response.data.nombre);
       localStorage.setItem('userDepartment', response.data.departamento);
-      console.log('accessToken', response.data.access);
-      // Establecer el usuario en el contexto
+      localStorage.setItem('refresh', response.data.refresh);
       login({
         legajo: response.data.legajo,
         nombre: response.data.nombre,
         departamento: response.data.departamento,
+        access: response.data.access,
+        refresh: response.data.refresh
       });
 
-      // Navegar de vuelta a la página previa o al home si no hay una previa
+      message.success('Inicio de sesión exitoso'); 
+
       const previousPath = location.state?.from || '/';
       navigate(previousPath);
     } catch (err) {
       if (err.response && err.response.data) {
-        setError(err.response.data.detail || 'Error al iniciar sesión.');
+        message.error(err.response.data.detail || 'Error al iniciar sesión.'); 
       } else {
-        setError('Error de conexión con el servidor. Intenta nuevamente.');
+        message.error('Error de conexión con el servidor.'); 
       }
     } finally {
       setLoading(false);

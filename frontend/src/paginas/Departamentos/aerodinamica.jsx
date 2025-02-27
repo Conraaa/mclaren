@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Bar from "../Bar/Bar";
 import "./listados.css";
 import MuiDatatable from "mui-datatables";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Form, FormControl, Button } from "react-bootstrap";
+import { message } from "antd"; 
+import { useAuth } from '../../Context/AuthProvider';
 
 function ListadoPiezas() {
   const API_URL = "http://127.0.0.1:8000/api/piezas/";
@@ -15,13 +17,9 @@ function ListadoPiezas() {
   const [editedData, setEditedData] = useState({ id: null, Nombre: "", Categoria: "" });
   const [categories, setCategories] = useState([]);
   const [departmentId] = useState(1);
+  const { fetchWithAuth } = useAuth();
 
-  useEffect(() => {
-    fetchData();
-    fetchCategories();
-  }, [departmentId]);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const response = await fetch(`${API_URL}?departamento_id=${1}`);
       if (response.ok) {
@@ -30,48 +28,68 @@ function ListadoPiezas() {
     } catch (error) {
       console.error("Error al conectar con la API:", error);
     }
-  };
+  }, []);
 
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
-      const response = await fetch(`${CATEGORY_URL}?departamento_id=${1}`);
+      const response = await fetchWithAuth(`${CATEGORY_URL}?departamento_id=${1}`);
       if (response.ok) {
         setCategories(await response.json());
       }
     } catch (error) {
       console.error("Error al conectar con la API de categorías:", error);
     }
-  };
+  }, [fetchWithAuth]);
+
+  useEffect(() => {
+    fetchData();
+    fetchCategories();
+  }, [fetchData, fetchCategories]);
 
   const handleSaveChanges = async () => {
+    if (!editedData.Nombre || !editedData.Categoria) {
+      message.error("Todos los campos son obligatorios");
+      return;  
+    }
+
     const pieza = { nombre: editedData.Nombre, categoria: editedData.Categoria };
     try {
+      console.log("Intentando guardar los cambios...");
       if (selectedRow !== null) {
-        await fetch(`${API_URL}${editedData.id}/`, {
+        // PUT request to edit an existing piece
+        await  fetchWithAuth(`${API_URL}${editedData.id}/`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(pieza),
         });
+        console.log("Pieza editada correctamente");
+        message.success("Pieza editada correctamente");
       } else {
-        await fetch(API_URL, {
+        // POST request to add a new piece
+        await  fetchWithAuth(API_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(pieza),
         });
+        console.log("Pieza agregada correctamente");
+        message.success("Pieza agregada correctamente");
       }
       setIsModalOpen(false);
       fetchData();
     } catch (error) {
       console.error("Error al guardar los cambios:", error);
+      message.error("Hubo un error al guardar los cambios.");
     }
   };
 
   const handleDelete = async (id) => {
     try {
       await fetch(`${API_URL}${id}/`, { method: "DELETE" });
+      message.success("Pieza eliminada correctamente");
       fetchData();
     } catch (error) {
       console.error("Error al eliminar la pieza:", error);
+      message.error("Hubo un error al eliminar la pieza.");
     }
   };
 
@@ -131,7 +149,7 @@ function ListadoPiezas() {
                 name: "Opciones",
                 options: {
                   customBodyRender: (_, tableMeta) => {
-                    const piezaId = tableMeta.rowData[0]; // Ahora obtiene el ID correctamente
+                    const piezaId = tableMeta.rowData[0]; 
                     return (
                       <>
                         <Button className="editar" onClick={() => handleEdit(piezaId)}>Editar</Button>
@@ -146,11 +164,7 @@ function ListadoPiezas() {
             options={options}
           />
           <div className="altaPieza">
-            <Button 
-              onClick={handleAdd}  // Botón de agregar pieza sin lógica extra
-            >
-              Agregar pieza
-            </Button>
+            <Button onClick={handleAdd}>Agregar pieza</Button>
           </div>
         </div>
 
@@ -171,7 +185,7 @@ function ListadoPiezas() {
               <Form.Group className="mb-3">
                 <Form.Label>Categoría</Form.Label>
                 <Form.Select
-                  className="inputTicket"
+                  className="inputCarrera"
                   value={editedData.Categoria}
                   onChange={(e) => setEditedData({ ...editedData, Categoria: e.target.value })}
                 >

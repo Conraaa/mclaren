@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Accordion, Card, Modal, Button, Form } from "react-bootstrap";
+import { message } from "antd";  
 import "./Solving.css";
 
 function SoporteRespuesta({ show, handleClose, asunto, prioridad, respuestas, onAddResponse }) {
@@ -29,11 +30,12 @@ function SoporteRespuesta({ show, handleClose, asunto, prioridad, respuestas, on
 
   const handleSendResponse = async () => {
     if (!responseMessage.trim()) {
-      alert("No puedes enviar una respuesta vacía.");
+      message.error("Todos los campos son obligatorios");  
       return;
     }
 
     await onAddResponse(responseMessage);
+    message.success("Respuesta enviada con éxito");  
     setIsReplying(false);
     setResponseMessage("");
     setActiveKey(null);

@@ -2,17 +2,18 @@ import React, { useState } from "react";
 import "./Registro.css";
 import Registro from "../../Imagenes/Registro.jpeg";
 import { Link, useNavigate } from "react-router-dom";
+import { message } from 'antd'; 
 
 export default function Empleados() {
-  const [legajo, setLegajo] = useState(""); // Almacena el legajo ingresado
-  const [isPopupVisible, setIsPopupVisible] = useState(true); // Controla la visibilidad del popup
-  const [nombre, setNombre] = useState(""); // Almacena el nombre del usuario
-  const [apellido, setApellido] = useState(""); // Almacena el apellido del usuario
-  const [departamento, setDepartamento] = useState(""); // Almacena el departamento del usuario
-  const [dni, setDni] = useState(""); // Almacena el DNI del usuario
+  const [legajo, setLegajo] = useState(""); 
+  const [isPopupVisible, setIsPopupVisible] = useState(true); 
+  const [nombre, setNombre] = useState(""); 
+  const [apellido, setApellido] = useState(""); 
+  const [departamento, setDepartamento] = useState(""); 
+  const [dni, setDni] = useState(""); 
   const navigate = useNavigate();
 
-  // Verificar el legajo
+ 
   const handleLegajoSubmit = async (e) => {
     e.preventDefault();
     if (legajo.trim() !== "") {
@@ -28,31 +29,32 @@ export default function Empleados() {
         const data = await response.json();
         if (data.status === "success") {
           if (data.dni !== null) {
-            alert("Ese usuario ya está registrado.");
+            message.error("Ese usuario ya está registrado."); 
           } else {
-            setNombre(data.nombre); // Asigna el nombre recibido
-            setApellido(data.apellido); // Asigna el apellido recibido
-            setDepartamento(data.departamento); // Asigna el departamento recibido
-            setIsPopupVisible(false); // Oculta el popup si el legajo es válido
+            setNombre(data.nombre); 
+            setApellido(data.apellido); 
+            setDepartamento(data.departamento); 
+            setIsPopupVisible(false); 
+            message.success("Legajo verificado con éxito."); 
           }
         } else {
-          alert(data.message);
+          message.error(data.message); 
         }
       } catch (error) {
         console.error("Error al verificar el legajo:", error);
-        alert("Ocurrió un error al verificar el legajo.");
+        message.error("Ocurrió un error al verificar el legajo."); 
       }
     }
   };
 
-  // Registrar el usuario
+ 
   const handleRegistroSubmit = async (e) => {
     e.preventDefault();
     const contrasenia = document.getElementById("contrasena").value;
     const repetirContrasenia = document.getElementById("repetir-contrasena").value;
 
     if (contrasenia !== repetirContrasenia) {
-      alert("Las contraseñas no coinciden.");
+      message.error("Las contraseñas no coinciden."); 
       return;
     }
 
@@ -67,27 +69,26 @@ export default function Empleados() {
           nombre,
           apellido,
           departamento,
-          dni, // Enviar el DNI al backend
+          dni, 
           contrasenia,
         }),
       });
 
       const data = await response.json();
       if (data.status === "success") {
-        alert(data.message);
+        message.success(data.message); 
         navigate("/login");
       } else {
-        alert(data.message);
+        message.error(data.message); 
       }
     } catch (error) {
       console.error("Error al registrar usuario:", error);
-      alert("Ocurrió un error al registrar el usuario.");
+      message.error("Ocurrió un error al registrar el usuario."); 
     }
   };
 
   return (
     <div className="TodoRegistro">
-      {/* Popup */}
       {isPopupVisible && (
         <div className="popup-overlay">
           <div className="popup">
@@ -112,10 +113,10 @@ export default function Empleados() {
         </div>
       )}
 
-      {/* Fondo */}
+      
       <img className="FotoRegistro" src={Registro} alt="Fondo" />
 
-      {/* Formulario */}
+   
       {!isPopupVisible && (
         <div className="form-container">
           <h1 className="tituloRegistro">Crear Cuenta</h1>

@@ -1,6 +1,7 @@
 import { pistaImages, pistaToRound } from "./Carreras/imports.js";
+import { message } from 'antd';
 
-export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handleClose) => {
+export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handleClose, fetchWithAuth) => {
   const nuevaPista = { nombre, kilometros, pais, ciudad, foto };
   console.log(nuevaPista);
   try {
@@ -10,7 +11,7 @@ export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handl
     formData.append("pais", nuevaPista.pais);
     formData.append("ciudad", nuevaPista.ciudad);
     formData.append("imagen", nuevaPista.foto);
-    const response = await fetch("http://localhost:8000/api/pistas/", {
+    const response = await fetchWithAuth("http://localhost:8000/api/pistas/", {
       method: "POST",
       body: formData,
     });
@@ -20,7 +21,7 @@ export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handl
     handleClose();
   } catch (error) {
     console.error("Error al enviar la pista:", error);
-    alert(`Hubo un error al guardar la pista: ${error.message}`);
+    message.error('Los campos de nombre, país y ciudad deben contener texto.');
   }
 };
 
@@ -173,12 +174,11 @@ export const handleShowDetails = async (circuito, setSelectedCircuito) => {
 
   } catch (error) {
     console.error("Error fetching telemetria data:", error);
-    alert(`Hubo un error al obtener los datos de telemetría: ${error}`);
+    message.error("Hubo un error al obtener los datos de telemetría.");
   }
 };
 
 // Importa las imágenes de las pistas
-
 export const fetchPistasYEstrategias = async (setPistas, setEstrategias) => {
   try {
     const responsePistas = await fetch("http://localhost:8000/api/pistas/");
@@ -186,17 +186,26 @@ export const fetchPistasYEstrategias = async (setPistas, setEstrategias) => {
     const dataPistas = await responsePistas.json();
     setPistas(dataPistas);
 
+    if (dataPistas.length === 0) {
+      message.warning("No hay pistas disponibles.");
+    }
+
     const responseEstrategias = await fetch("http://localhost:8000/api/estrategias/");
     if (!responseEstrategias.ok) throw new Error("Error al obtener las estrategias");
     const dataEstrategias = await responseEstrategias.json();
     setEstrategias(dataEstrategias);
+
+    if (dataEstrategias.length === 0) {
+      message.warning("No hay estrategias disponibles.");
+    }
   } catch (error) {
     console.error("Error al obtener datos:", error);
     setPistas([]);
     setEstrategias([]);
-    alert("No se pudieron cargar las pistas y estrategias, por favor intenta más tarde.");
+    message.error("No se pudieron cargar las pistas y estrategias, por favor intenta más tarde.");
   }
 };
+
 
 export const handleSubmitCarrera = async (
   anio,
@@ -207,20 +216,16 @@ export const handleSubmitCarrera = async (
   carreras,
   handleClose,
   pistas,
-  estrategias
+  estrategias,
+  fetchWithAuth  // new parameter
 ) => {
   console.log("Submitting carrera with pista:", pistaNombre, "and estrategia:", estrategiaNombre);
-
-  if (!pistaNombre) {
-    alert("Por favor, selecciona una pista");
-    return;
-  }
 
   console.log("pistas:", pistas);
   console.log("estrategias:", estrategias);
 
   if (!Array.isArray(pistas) || !Array.isArray(estrategias)) {
-    alert("Error al cargar pistas o estrategias");
+    message.error("Error al cargar pistas o estrategias");
     return;
   }
 
@@ -231,13 +236,13 @@ export const handleSubmitCarrera = async (
   console.log("Estrategia seleccionada:", estrategiaSeleccionada);
 
   if (!pistaSeleccionada || !estrategiaSeleccionada) {
-    alert("Pista o estrategia no encontrada");
+    message.error("Pista o estrategia no encontrada");
     return;
   }
 
   const circuitName = pistaToRound[pistaNombre];
   if (!circuitName) {
-    alert("No se encontró el CircuitName para la pista seleccionada");
+    message.error("No se encontró el circuito para la pista seleccionada");
     return;
   }
 
@@ -249,7 +254,7 @@ export const handleSubmitCarrera = async (
 
     const race = dataRounds.MRData.RaceTable.Races.find(r => r.Circuit.circuitName === circuitName);
     if (!race) {
-      alert("No se encontró la ronda de la pista en la API de Ergast");
+      message.error("No se encontró la ronda de la pista en la API de Ergast");
       return;
     }
     const roundBuscada = race.round;
@@ -320,7 +325,7 @@ export const handleSubmitCarrera = async (
     const nombrePistaLimpio = pistaNombre.replace(/\s+/g, '').toLowerCase();
     const imagenKey = Object.keys(pistaImages).find(key => key.toLowerCase() === nombrePistaLimpio);
     if (!imagenKey) {
-      alert("No se encontró la imagen para la pista seleccionada");
+      message.error("No se encontró la imagen para la pista seleccionada");
       return;
     }
     const imagenURL = pistaImages[imagenKey];
@@ -339,7 +344,7 @@ export const handleSubmitCarrera = async (
 
     console.log("Enviando carrera al backend:", nuevaCarrera);
 
-    // Enviar la carrera al backend usando FormData
+    // Enviar la carrera al backend usando FormData via fetchWithAuth
     const formData = new FormData();
     formData.append("anio", nuevaCarrera.anio);
     formData.append("pista", nuevaCarrera.pista);
@@ -347,7 +352,7 @@ export const handleSubmitCarrera = async (
     formData.append("estrategia", nuevaCarrera.estrategia);
     formData.append("imagen", nuevaCarrera.imagen);
 
-    const responseCarrera = await fetch("http://localhost:8000/api/carreras/", {
+    const responseCarrera = await fetchWithAuth("http://localhost:8000/api/carreras/", {
       method: "POST",
       body: formData
     });
@@ -355,7 +360,7 @@ export const handleSubmitCarrera = async (
     if (!responseCarrera.ok) {
       const errorResponse = await responseCarrera.json();
       console.error("Error del backend:", errorResponse);
-      alert(`Error al guardar la carrera: ${JSON.stringify(errorResponse)}`);
+      message.error("Error al guardar la carrera");
       return;
     }
 
@@ -372,11 +377,11 @@ export const handleSubmitCarrera = async (
 
     const telemetriaIds = [];
 
-    // Enviar las telemetrías individualmente
+    // Enviar las telemetrías individualmente using fetchWithAuth
     for (const telemetria of telemetrias) {
       console.log("Enviando telemetría al backend:", telemetria);
 
-      const responseTelemetria = await fetch("http://localhost:8000/api/telemetrias/", {
+      const responseTelemetria = await fetchWithAuth("http://localhost:8000/api/telemetrias/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(telemetria)
@@ -385,7 +390,7 @@ export const handleSubmitCarrera = async (
       if (!responseTelemetria.ok) {
         const errorResponse = await responseTelemetria.json();
         console.error("Error al guardar la telemetría:", errorResponse);
-        alert(`Error al guardar la telemetría: ${JSON.stringify(errorResponse)}`);
+        message.error("Error al guardar la telemetría");
         return;
       }
 
@@ -419,15 +424,15 @@ export const handleSubmitCarrera = async (
 
     if (!registrosValidos) {
       console.error("Algunos registros no tienen los campos requeridos:", registros);
-      alert("Error: Algunos registros no tienen los campos requeridos.");
+      message.error("Error: Algunos registros no tienen los campos requeridos.");
       return;
     }
 
-    // Enviar los registros al backend uno por uno
+    // Enviar los registros al backend uno por uno usando fetchWithAuth
     for (const registro of registros) {
       console.log("Enviando registro al backend:", registro);
 
-      const responseRegistro = await fetch("http://localhost:8000/api/registros/", {
+      const responseRegistro = await fetchWithAuth("http://localhost:8000/api/registros/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(registro) // Enviar un solo registro
@@ -436,7 +441,7 @@ export const handleSubmitCarrera = async (
       if (!responseRegistro.ok) {
         const errorResponse = await responseRegistro.json();
         console.error("Error al guardar el registro:", errorResponse);
-        alert(`Error al guardar el registro: ${JSON.stringify(errorResponse)}`);
+        message.error("Error al guardar el registro");
         return;
       }
 
@@ -464,7 +469,7 @@ export const handleSubmitCarrera = async (
     handleClose();
   } catch (error) {
     console.error("Error al procesar la carrera:", error);
-    alert(`Hubo un error al procesar la carrera: ${error.message}`);
+    message.error("Error al procesar la carrera");
   }
 };
 
