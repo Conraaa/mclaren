@@ -1,4 +1,4 @@
-# Requisitos para un correcto funcionamiento del sistema
+# Requisitos para un correcto funcionamiento del sistema de forma local
 
 ## FRONTEND - React
 
@@ -56,6 +56,8 @@ https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-
 _C:...\mclaren\backend>_ python manage.py makemigrations
 
 _C:...\mclaren\backend>_ python manage.py migrate
+
++Elegir la configuracion para la conexion con SQL Server dentro de _settings.py_ y configurar las Variables de Entorno en un archivo _'.env'_ situado en el path _"...\mclaren\backend\"_.
 
 
 
