@@ -284,14 +284,9 @@ export const handleSubmitCarrera = async (
     console.log("Carreras existentes:", allCarreras);
     let existeCarrera = false;
     for (const carrera of allCarreras) {
-      console.log("Comparando carrera:", carrera);
-      console.log("Carrera.anio:", carrera.anio);
-      console.log("Carrera.pista", carrera.pista);
-      console.log("SelectedPistaName:", pistaSeleccionada.id);
+
       if (carrera.pista === pistaSeleccionada.id) {
-        console.log("Carrera duplicada encontrada:", carrera);
-        console.log("Carrera duplicada encontrada:", carrera.anio);
-        console.log("Carrera duplicada encontrada:", anioInt);
+
         if(carrera.anio === anioInt){ 
            existeCarrera = true;
         break;
