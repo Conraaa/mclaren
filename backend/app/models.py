@@ -1,7 +1,8 @@
 from django.db import models
 from .utils import format_char_field
 from django.utils.deconstruct import deconstructible
-from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.hashers import make_password
+from cloudinary.models import CloudinaryField
 
 class BaseModel(models.Model):                  #Modelo Base
     excluded_fields = ['contrasenia', 'valor']
@@ -15,7 +16,9 @@ class BaseModel(models.Model):                  #Modelo Base
 
     class Meta:
         abstract = True                         #No creo tabla en BD de este modelo
-        
+
+'''
+#Funcion para guardar imagenes localmente   
 @deconstructible
 class ImageUploadTo:
     def __init__(self, folder_name):
@@ -23,6 +26,7 @@ class ImageUploadTo:
     
     def __call__(self, instance, filename):
         return f'{self.folder_name}/{filename}'
+'''
 
 # Create your models here.
 class Departamento(BaseModel):
@@ -80,7 +84,7 @@ class Pista(BaseModel):
     kilometros = models.DecimalField(max_digits=5, decimal_places=1)
     pais = models.CharField(max_length=500)
     ciudad = models.CharField(max_length=500)
-    imagen = models.ImageField(upload_to=ImageUploadTo('pistas'))
+    imagen = CloudinaryField('image', folder='pistas/')
 
 class Estrategia(BaseModel):
     LLUVIA = 'Lluvia'
@@ -103,7 +107,7 @@ class EstrategiaPieza(BaseModel):
 class Carrera(BaseModel):
     anio = models.IntegerField()
     cantVueltas = models.IntegerField()
-    imagen = models.ImageField(upload_to=ImageUploadTo('carreras'))
+    imagen = CloudinaryField('image', folder='carreras/')
     pista = models.ForeignKey(Pista, on_delete=models.CASCADE, related_name='carreras')
     estrategia = models.ForeignKey(Estrategia, on_delete=models.CASCADE, related_name='carreras')
 

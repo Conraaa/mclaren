@@ -5,13 +5,14 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Bar from "../Bar/Bar.jsx";
-import Fondo from '../Imagenes/estrategiafondo.jpg';
 import { message } from 'antd';
 import {useAuth} from "../../Context/AuthProvider";
+import Bar from "../Bar/Bar.jsx";
+import Fondo from '../Imagenes/estrategiafondo.jpg';
+
 function Estrategia() {
-    const [show, setShow] = useState(false);
     const { fetchWithAuth } = useAuth();
+    const [show, setShow] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [pistas, setPistas] = useState([]);
     const [piezasDisponibles, setPiezasDisponibles] = useState([]);
@@ -27,51 +28,30 @@ function Estrategia() {
         motor: '',
         cajaCambios: ''
     });
-
-    useEffect(() => {
-        fetch("http://127.0.0.1:8000/api/pistas/")
-            .then(response => response.json())
-            .then(data => {
-                if (data.length === 0) {
-                    message.warning("No hay pistas disponibles.");
-                }
-                setPistas(data);
-            })
-            .catch(error => {
-                console.error("Error cargando pistas:", error);
-                message.warning("Error al cargar las pistas.");
-            });
     
-        fetch("http://127.0.0.1:8000/api/piezas/")
-            .then(response => response.json())
-            .then(piezas => {
-                if (piezas.length === 0) {
-                    message.warning("No hay piezas disponibles.");
-                } else {
-                    const categorias = [
-                        "Aleron Delantero", 
-                        "Aleron Trasero", 
-                        "Pontones", 
-                        "Fondo Plano", 
-                        "Difusor", 
-                        "Motor", 
-                        "Caja De Cambios"
-                    ];
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [pistasResponse, piezasResponse, estrategiasResponse] = await Promise.all([
+                    fetch("http://127.0.0.1:8000/api/pistas/"),
+                    fetch("http://127.0.0.1:8000/api/piezas/"),
+                    fetch("http://127.0.0.1:8000/api/estrategias/")
+                ]);
 
-                    categorias.forEach(categoria => {
-                        const piezasCategoria = piezas.filter(pieza => pieza.categoria_nombre === categoria);
-                        if (piezasCategoria.length === 0) {
-                            message.warning(`No hay piezas disponibles de: ${categoria}`);
-                        }
-                    });
-                }
+                const pistasData = await pistasResponse.json();
+                const piezasData = await piezasResponse.json();
+                const estrategiasData = await estrategiasResponse.json();
 
-                setPiezasDisponibles(piezas);
-            })
-            .catch(error => {
-                console.error("Error cargando piezas:", error);
-                message.warning("Error al cargar las piezas.");
-            });
+                setPistas(pistasData);
+                setPiezasDisponibles(piezasData);
+                setEstrategias(estrategiasData);
+            } catch (error) {
+                console.error("Error cargando datos:", error);
+                message.warning("Error al cargar las pistas, piezas o estrategias.");
+            }
+        };
+
+        fetchData();
     }, []);
 
     const handleChange = (e) => {
@@ -82,164 +62,212 @@ function Estrategia() {
     };
 
     const handleSave = async () => {
-        // Validar que todos los campos requeridos están completos
-        if (!estrategia.tipo || !estrategia.pista || !estrategia.aleronDelantero || !estrategia.aleronTrasero || 
+        if (!estrategia.tipo || !estrategia.pista || !estrategia.aleronDelantero || !estrategia.aleronTrasero ||
             !estrategia.pontones || !estrategia.fondoPlano || !estrategia.difusor || !estrategia.motor || !estrategia.cajaCambios) {
             
-              message.error("Todos los campos son obligatorios");
+            message.error("Todos los campos son obligatorios");
             return;
         }
-
+    
         try {
-            const selectedPista = pistas.find(p => p.nombre === estrategia.pista);
-
+            const selectedPista = pistas.find(p => p.nombre === estrategia.pista);    
+            const existingEstrategia = estrategias.find(e => e.pista === selectedPista.id && e.nombre === estrategia.tipo);
+            if (existingEstrategia && !isEditMode) {
+                message.error("Ya existe una estrategia para esta pista con el mismo tipo.");
+                return;
+            }
+    
+            let estrategiaResponse;
+            let estrategiaId;
+    
             if (isEditMode) {
-                // Edición de estrategia
-                const deleteResponse = await fetchWithAuth(`http://127.0.0.1:8000/api/estrategias/${estrategia.id}/`, {
-                    method: "DELETE",
-                    headers: { "Content-Type": "application/json" }
-                });
-                
-                if (!deleteResponse.ok) {
-                    message.error("Error eliminando la estrategia");
+                if (!estrategia.id) {
+                    message.error("ID de la estrategia no encontrado para la edición");
                     return;
                 }
-
-                setEstrategias(estrategias.filter(e => e.id !== estrategiaId));
-                message.success("Estrategia eliminada correctamente.");
-        
-
-                // Crear nueva estrategia
-                const estrategiaResponse = await fetchWithAuth(`http://127.0.0.1:8000/api/estrategias/`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        nombre: estrategia.tipo,
-                        pista: selectedPista ? selectedPista.id : null
-                    })
-                });
-
-                if (!estrategiaResponse.ok) {
-                    message.error("Error al crear la estrategia");
-                    return;
+                const piezasExistentes = await fetch(`http://127.0.0.1:8000/api/estrategiapiezas/?estrategia=${estrategia.id}`).then(res => res.json());
+                for (const pieza of piezasExistentes) {
+                    await fetchWithAuth(`http://127.0.0.1:8000/api/estrategiapiezas/${pieza.id}/`, {
+                        method: "DELETE"
+                    });
                 }
-
-                const nuevaEstrategia = await estrategiaResponse.json();
-                const estrategiaId = nuevaEstrategia.id;
-
-                const piezas = [
-                    estrategia.aleronDelantero,
-                    estrategia.aleronTrasero,
-                    estrategia.pontones,
-                    estrategia.fondoPlano,
-                    estrategia.difusor,
-                    estrategia.motor,
-                    estrategia.cajaCambios
-                ];
-
-                await fetchWithAuth(`http://127.0.0.1:8000/api/estrategiapiezas/${estrategiaId}/`, {
-                    method: "DELETE"
-                });
-
-                for (const pieza of piezas) {
-                    if (pieza) {
-                        await fetchWithAuth("http://127.0.0.1:8000/api/estrategiapiezas/", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                                estrategia: estrategiaId,
-                                pieza: pieza
-                            })
-                        });
-                    }
-                }
-
-            } else {
-                // Creación de estrategia
-                const estrategiaResponse = await fetchWithAuth("http://127.0.0.1:8000/api/estrategias/", {
-                    method: "POST",
+                const updateData = {
+                    nombre: estrategia.tipo,
+                    pista: selectedPista ? selectedPista.id : null
+                };
+    
+                estrategiaResponse = await fetchWithAuth(`http://127.0.0.1:8000/api/estrategias/${estrategia.id}/`, {
+                    method: "PATCH",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        nombre: estrategia.tipo,
-                        pista: selectedPista ? selectedPista.id : null
-                    })
+                    body: JSON.stringify(updateData)
                 });
-
+    
                 if (!estrategiaResponse.ok) {
                     const errorData = await estrategiaResponse.json();
-                    console.error("Error al crear la estrategia:", errorData);
+                    message.error("Error al actualizar la estrategia:", errorData);
                     return;
                 }
-
+    
+                estrategiaId = estrategia.id; 
+    
+            } else {
+                estrategiaResponse = await fetchWithAuth("http://127.0.0.1:8000/api/estrategias/", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        nombre: estrategia.tipo,
+                        pista: selectedPista ? selectedPista.id : null
+                    })
+                });
+    
+                if (!estrategiaResponse.ok) {
+                    const errorData = await estrategiaResponse.json();
+                    message.error("Error al guardar la estrategia:", errorData);
+                    return;
+                }
+    
                 const estrategiaData = await estrategiaResponse.json();
-                const estrategiaId = estrategiaData.id;
-
-                const piezas = [
-                    estrategia.aleronDelantero,
-                    estrategia.aleronTrasero,
-                    estrategia.pontones,
-                    estrategia.fondoPlano,
-                    estrategia.difusor,
-                    estrategia.motor,
-                    estrategia.cajaCambios
-                ];
-
-                for (const pieza of piezas) {
-                    if (pieza) {
-                        await fetchWithAuth("http://127.0.0.1:8000/api/estrategiapiezas/", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                                estrategia: estrategiaId,
-                                pieza: pieza
-                            })
-                        });
-                    }
+                estrategiaId = estrategiaData.id;
+            }
+    
+            const piezas = [
+                estrategia.aleronDelantero,
+                estrategia.aleronTrasero,
+                estrategia.pontones,
+                estrategia.fondoPlano,
+                estrategia.difusor,
+                estrategia.motor,
+                estrategia.cajaCambios
+            ];
+    
+            for (const pieza of piezas) {
+                if (pieza) {
+                    await fetchWithAuth("http://127.0.0.1:8000/api/estrategiapiezas/", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            estrategia: estrategiaId,
+                            pieza: pieza
+                        })
+                    });
                 }
             }
+    
             setShow(false);
-            window.location.reload(); // Recargar la página después de guardar
+            window.location.reload(); 
         } catch (error) {
             console.error("Error al guardar la estrategia:", error);
         }
     };
+    
 
     const handleDelete = async (estrategiaId) => {
         try {
             const response = await fetchWithAuth(`http://127.0.0.1:8000/api/estrategias/${estrategiaId}/`, {
                 method: "DELETE"
             });
-
+    
             if (!response.ok) {
-                message.error("Error al eliminar la estrategia");
+                console.error("Error al eliminar la estrategia");
                 return;
             }
-
-            setEstrategias(estrategias.filter(e => e.id !== estrategiaId));
+    
+            setEstrategias(prevEstrategias => prevEstrategias.filter(e => e.id !== estrategiaId));
             console.log("Estrategia eliminada");
         } catch (error) {
             console.error("Error al eliminar la estrategia:", error);
         }
     };
+    
 
-    const handleEdit = (estrategia) => {
-        const piezas = estrategia.piezas || [];
-        setEstrategia({
-            id: estrategia.id,
-            tipo: estrategia.nombre,
-            pista: estrategia.pista_nombre,
-            aleronDelantero: piezas.find(p => p.categoria_nombre === "Aleron Delantero")?.id || '',
-            aleronTrasero: piezas.find(p => p.categoria_nombre === "Aleron Trasero")?.id || '',
-            pontones: piezas.find(p => p.categoria_nombre === "Pontones")?.id || '',
-            fondoPlano: piezas.find(p => p.categoria_nombre === "Fondo Plano")?.id || '',
-            difusor: piezas.find(p => p.categoria_nombre === "Difusor")?.id || '',
-            motor: piezas.find(p => p.categoria_nombre === "Motor")?.id || '',
-            cajaCambios: piezas.find(p => p.categoria_nombre === "Caja De Cambios")?.id || ''
-        });
-        setIsEditMode(true);
-        setShow(true);
+    const handleEdit = async (estrategia) => {
+        console.log("Iniciando edición de estrategia:", estrategia);
+    
+        try {
+            const estrategiaData = await fetch(`http://127.0.0.1:8000/api/estrategias/${estrategia.id}/`)
+                .then(res => res.json());
+            console.log("Datos de la estrategia obtenidos:", estrategiaData);
+    
+            const piezasData = await fetch(`http://127.0.0.1:8000/api/estrategiapiezas/?estrategia=${estrategia.id}`)
+                .then(res => res.json());
+            console.log("Piezas asociadas a la estrategia:", piezasData);
+    
+            const piezasDetalles = await fetch(`http://127.0.0.1:8000/api/piezas/`)
+                .then(res => res.json());
+            console.log("Detalles de piezas obtenidos:", piezasDetalles);
+    
+            const piezasCategoriaMap = {};
+            piezasDetalles.forEach(pieza => {
+                piezasCategoriaMap[pieza.id] = pieza.categoria; 
+            });
+    
+            console.log("Mapa de piezas (ID -> Categoría):", piezasCategoriaMap);
+    
+            const categoriasData = await fetch(`http://127.0.0.1:8000/api/categorias/`)
+                .then(res => res.json());
+            console.log("Categorías obtenidas:", categoriasData);
+    
+            const categoriasMapeadas = {};
+            categoriasData.forEach(categoria => {
+                categoriasMapeadas[categoria.id] = categoria.nombre;
+            });
+    
+            console.log("Mapa de categorías:", categoriasMapeadas);
+    
+            const piezasMapeadas = {
+                'Aleron Delantero': 'aleronDelantero',
+                'Aleron Trasero': 'aleronTrasero',
+                'Pontones': 'pontones',
+                'Fondo Plano': 'fondoPlano',
+                'Difusor': 'difusor',
+                'Motor': 'motor',
+                'Caja De Cambios': 'cajaCambios'
+            };
+    
+            const piezas = {
+                aleronDelantero: '',
+                aleronTrasero: '',
+                pontones: '',
+                fondoPlano: '',
+                difusor: '',
+                motor: '',
+                cajaCambios: ''
+            };
+    
+            piezasData.forEach(pieza => {
+                const categoriaId = piezasCategoriaMap[pieza.pieza];
+                const categoriaNombre = categoriasMapeadas[categoriaId]; 
+                const piezaCategoria = piezasMapeadas[categoriaNombre];  
+    
+                if (piezaCategoria) {
+                    piezas[piezaCategoria] = pieza.pieza; 
+                    console.log(`Asignando pieza ${pieza.pieza} a categoría: ${piezaCategoria}`);
+                }
+            });
+    
+            console.log("Piezas asignadas a la estrategia:", piezas);
+    
+            setEstrategia({
+                id: estrategiaData.id,
+                tipo: estrategiaData.nombre,
+                pista: estrategiaData.pista_nombre,
+                aleronDelantero: piezas.aleronDelantero,
+                aleronTrasero: piezas.aleronTrasero,
+                pontones: piezas.pontones,
+                fondoPlano: piezas.fondoPlano,
+                difusor: piezas.difusor,
+                motor: piezas.motor,
+                cajaCambios: piezas.cajaCambios
+            });
+    
+            setIsEditMode(true);
+            setShow(true);
+        } catch (error) {
+            console.error("Error al editar la estrategia:", error);
+            message.error("Error al recuperar la estrategia para editar");
+        }
     };
-
+        
     const handleAdd = () => {
         setEstrategia({
             tipo: '',
@@ -261,51 +289,44 @@ function Estrategia() {
             <Bar />
             <img className="pagePista" src={Fondo} alt="Fondo de Pista" /> 
 
-            {/* Botón para abrir el modal */}
             <div className="botonAnadir">
-                <Button className="Añadir" variant="primary" size="lg" onClick={handleAdd}>Añadir </Button> 
+                <Button className="Añadir" variant="primary" size="lg" onClick={handleAdd}>Añadir +</Button> 
             </div>
 
-            {/* Mostrar estrategias en cartas */}
             <ListaDeEstrategias estrategias={estrategias} onEdit={handleEdit} onDelete={handleDelete} />
 
-            {/* Modal para agregar estrategia */}
             <Modal className="listadoEstrategiaModal" show={show} onHide={() => setShow(false)} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>{isEditMode ? "Modificar Estrategia" : "Añadir Estrategia"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className='Modelito'>
                     <Form>
-                        {/* Selector de Pista */}
                         <Form.Group controlId="formPista" className="mt-3">
                             <Form.Label>Pista</Form.Label>
                             <Form.Select className="inputCarrera" name="pista" value={estrategia.pista} onChange={handleChange} disabled={isEditMode}>
-                                <option value="">Seleccionar una pista</option>
+                                <option value="">Seleccione una pista</option>
                                 {pistas.map(pista => (
                                     <option key={pista.id} value={pista.nombre}>{pista.nombre}</option>
                                 ))}
                             </Form.Select>
                         </Form.Group>
-                        {/* Selector de Tipo de Estrategia */}
-                        <Form.Group controlId="formTipo">
+                            <Form.Group controlId="formTipo">
                             <Form.Label>Tipo de Estrategia</Form.Label>
                             <Form.Select name="tipo" className="inputCarrera" value={estrategia.tipo} onChange={handleChange} disabled={isEditMode}>
-                                <option value="" disabled>Seleccionar el tipo de estrategia</option>
+                                <option value="" disabled>Seleccione el tipo</option>
                                 <option value="Seco">Seco</option>
                                 <option value="Lluvia">Lluvia</option>
                                 <option value="Viento">Viento</option>
                             </Form.Select>
                         </Form.Group>
 
-                        {/* Contenedor con las dos columnas */}
                         <div className="input-container">
-                            {/* Columna Aerodinámica */}
                             <div className="aerodinamica">
                                 <h5>Aerodinámica</h5>
                                 <Form.Group>
                                     <Form.Label>Alerón Delantero</Form.Label>
                                     <Form.Select className="inputCarrera" name="aleronDelantero" value={estrategia.aleronDelantero} onChange={handleChange}>
-                                        <option value="" disabled>Seleccionar</option>
+                                        <option value="" disabled>Selecciona</option>
                                         {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Aleron Delantero").map(pieza => (
                                             <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
                                         ))}
@@ -315,7 +336,7 @@ function Estrategia() {
                                 <Form.Group>
                                     <Form.Label>Alerón Trasero</Form.Label>
                                     <Form.Select className="inputCarrera" name="aleronTrasero" value={estrategia.aleronTrasero} onChange={handleChange}>
-                                        <option value="" disabled>Seleccionar</option>
+                                        <option value="" disabled>Selecciona</option>
                                         {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Aleron Trasero").map(pieza => (
                                             <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
                                         ))}
@@ -325,7 +346,7 @@ function Estrategia() {
                                 <Form.Group>
                                     <Form.Label>Pontones</Form.Label>
                                     <Form.Select className="inputCarrera" name="pontones" value={estrategia.pontones} onChange={handleChange}>
-                                        <option value="" disabled>Seleccionar</option>
+                                        <option value="" disabled>Selecciona</option>
                                         {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Pontones").map(pieza => (
                                             <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
                                         ))}
@@ -335,7 +356,7 @@ function Estrategia() {
                                 <Form.Group>
                                     <Form.Label>Fondo Plano</Form.Label>
                                     <Form.Select className="inputCarrera" name="fondoPlano" value={estrategia.fondoPlano} onChange={handleChange}>
-                                        <option value="" disabled>Seleccionar</option>
+                                        <option value="" disabled>Selecciona</option>
                                         {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Fondo Plano").map(pieza => (
                                             <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
                                         ))}
@@ -345,7 +366,7 @@ function Estrategia() {
                                 <Form.Group>
                                     <Form.Label>Difusor</Form.Label>
                                     <Form.Select className="inputCarrera" name="difusor" value={estrategia.difusor} onChange={handleChange}>
-                                        <option value="" disabled>Seleccionar</option>
+                                        <option value="" disabled>Selecciona</option>
                                         {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Difusor").map(pieza => (
                                             <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
                                         ))}
@@ -353,13 +374,12 @@ function Estrategia() {
                                 </Form.Group>
                             </div>
 
-                            {/* Columna Grupo Motor */}
                             <div className="grupo-motor">
                                 <h5>Grupo Motor</h5>
                                 <Form.Group>
                                     <Form.Label>Motor</Form.Label>
                                     <Form.Select className="inputCarrera" name="motor" value={estrategia.motor} onChange={handleChange}>
-                                        <option value="" disabled>Seleccionar</option>
+                                        <option value="" disabled>Selecciona</option>
                                         {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Motor").map(pieza => (
                                             <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
                                         ))}
@@ -369,7 +389,7 @@ function Estrategia() {
                                 <Form.Group>
                                     <Form.Label>Caja de Cambios</Form.Label>
                                     <Form.Select className="inputCarrera" name="cajaCambios" value={estrategia.cajaCambios} onChange={handleChange}>
-                                        <option value="" disabled>Seleccionar</option>
+                                        <option value="" disabled>Selecciona</option>
                                         {piezasDisponibles.filter(pieza => pieza.categoria_nombre === "Caja De Cambios").map(pieza => (
                                             <option key={pieza.id} value={pieza.id}>{pieza.nombre}</option>
                                         ))}
@@ -380,7 +400,7 @@ function Estrategia() {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="Cerrar" variant="secondary" onClick={() => setShow(false)}>Cerrar</Button>
+                    <Button className="Cerrar" variant="secondary" onClick={() => setShow(false)}>Cancelar</Button>
                     <Button className='Guardar' variant="primary" onClick={handleSave}>Guardar</Button>
                 </Modal.Footer>
             </Modal>
