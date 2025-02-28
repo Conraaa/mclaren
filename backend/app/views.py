@@ -26,16 +26,16 @@ class DepartamentoViewSet(viewsets.ModelViewSet):
 
 
 class UsuarioViewSet(viewsets.ModelViewSet):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    #authentication_classes = [JWTAuthentication]
+    #permission_classes = [IsAuthenticated]
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
 
-    def get_permissions(self):
-        if self.action in ['list', 'retrieve']:
-            return [AllowAny()]
-        else:
-            return [IsAuthenticated()]
+    #def get_permissions(self):
+    #    if self.action in ['list', 'retrieve']:
+    #        return [AllowAny()]
+    #    else:
+    #        return [IsAuthenticated()]
 
 
 class CategoriaViewSet(viewsets.ModelViewSet):

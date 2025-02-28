@@ -134,12 +134,12 @@ DATABASES = {
     }
 }
 
-# # # Config DB SQL Server
+# # # Config DB SQL Server local
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
-        'NAME': config('DB_NAME'),
-        'HOST': config('DB_HOST'),
+        'NAME': 'mclaren',
+        'HOST': 'localhost',
         'PORT': '',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
