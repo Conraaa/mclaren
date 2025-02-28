@@ -3,15 +3,11 @@ from django.http import JsonResponse
 def getTickets(request):
     if request.method == "GET":
         tickets = [
-            {"idtrabajador": "1","nombre": "Juan","apellido": "Perez", "idprofesion": "1"},
-            {"idtrabajador": "2","nombre": "Jorge","apellido": "Alvarez", "idprofesion": "1"},
-            {"idtrabajador": "3","nombre": "Carlos Andrés","apellido": "Gutiérrez Márquez", "idprofesion": "1"},
-            {"idtrabajador": "4","nombre": "Mariana Sofía","apellido": "Herrera", "idprofesion": "1"},
-            {"idtrabajador": "5","nombre": "Fernando","apellido": "Castillo", "idprofesion": "1"},
-            {"idtrabajador": "6","nombre": "Andrea Valentina","apellido": "Torres", "idprofesion": "1"},
-            {"idtrabajador": "7","nombre": "Camila","apellido": "Molina", "idprofesion": "1"},
-            {"idtrabajador": "8","nombre": "Emmanuel","apellido": "Rojas", "idprofesion": "1"},
-            {"idtrabajador": "9","nombre": "Carla","apellido": "Mendoza", "idprofesion": "1"},
-            {"idtrabajador": "10","nombre": "Elena","apellido": "Ruiz", "idprofesion": "1"},
+            {"Asunto": "Problema de conexión","Estado": "P","Prioridad": "A","Categoria": "Mclaren","Usuario_DNI": "101", "Usuario_Nombre": "Estratega", "Mensaje": "Desde esta mañana estoy experimentando problemas de conexión con el sistema. La conexión es inestable y no puedo acceder correctamente. He intentado varias soluciones sin éxito. Agradecería su ayuda para resolver este inconveniente lo antes posible.", "Respuesta": []},
+            {"Asunto": "Imposibilidad de dar de alta carreras","Estado": "P","Prioridad": "A","Categoria": "Mclaren","Usuario_DNI": "102", "Usuario_Nombre": "Mecanico", "Mensaje": "Estoy teniendo problemas para dar de alta nuevas carreras en el sistema. Al intentarlo, aparece un error y no se completa el registro. He probado diferentes opciones, pero el problema persiste. Agradecería su ayuda para solucionarlo lo antes posible.", "Respuesta": []},
+            {"Asunto": "Problema al cargar nuevas pistas","Estado": "P","Prioridad": "A","Categoria": "Mclaren","Usuario_DNI": "103", "Usuario_Nombre": "Aerodinamista", "Mensaje": "Estoy teniendo dificultades al intentar cargar nuevas pistas en el sistema. Cuando intento completar el proceso, no se guarda la información y no aparece ningún mensaje de error. Agradecería su ayuda para solucionar este inconveniente.", "Respuesta": []},
+            {"Asunto": "Imposibilidad de ingresar nuevas estrategias","Estado": "P","Prioridad": "A","Categoria": "Mclaren","Usuario_DNI": "101", "Usuario_Nombre": "Estratega", "Mensaje": "Al intentar ingresar nuevas estrategias en el sistema, me encuentro con un error que impide completar la carga. Ya he intentado varias veces, pero el problema persiste. Agradecería su ayuda para resolverlo.", "Respuesta": []},
+            {"Asunto": "Error al agregar piezas al sistema","Estado": "P","Prioridad": "A","Categoria": "Mclaren","Usuario_DNI": "102", "Usuario_Nombre": "Mecanico", "Mensaje": "Al intentar agregar nuevas piezas al sistema, me aparece un error y no puedo completar el proceso. He intentado seguir los pasos correctamente, pero el problema persiste. Solicito su asistencia para solucionarlo.", "Respuesta": []},
+            {"Asunto": "Imposibilidad de contratar empleados","Estado": "P","Prioridad": "A","Categoria": "Mclaren","Usuario_DNI": "103", "Usuario_Nombre": "Aerodinamista", "Mensaje": "Estoy experimentando un problema al intentar contratar nuevos empleados a través del sistema. El proceso no se completa correctamente y no aparece ningún mensaje de error claro. Agradecería su ayuda para resolver este inconveniente.", "Respuesta": []},
         ]
         return JsonResponse({"tickets": tickets}, safe=False)
