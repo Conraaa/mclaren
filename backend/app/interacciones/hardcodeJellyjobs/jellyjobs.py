@@ -43,7 +43,7 @@ class patchEmpleado(View):
             if not nuevo_estado:
                 return JsonResponse({"error": "El campo 'estado' es obligatorio."}, status=400)
 
-            response = requests.get("http://127.0.0.1:8000/jellyjobs/empleados/")
+            response = requests.get("https://mclaren-production.up.railway.app/jellyjobs/empleados/")
 
             if response.status_code != 200:
                 return JsonResponse({"error": "No se pudo obtener la lista de empleados."}, status=500)
