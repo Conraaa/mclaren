@@ -10,6 +10,7 @@ import json
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 class DepartamentoViewSet(viewsets.ModelViewSet):
@@ -112,6 +113,7 @@ class PistaViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Pista.objects.all()
     serializer_class = PistaSerializer
+    parser_classes = (MultiPartParser, FormParser)
 
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
@@ -180,6 +182,7 @@ class CarreraViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Carrera.objects.all()
     serializer_class = CarreraSerializer
+    parser_classes = (MultiPartParser, FormParser)
 
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
