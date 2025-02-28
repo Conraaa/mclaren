@@ -84,7 +84,7 @@ function ListadoPiezas() {
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`${API_URL}${id}/`, { method: "DELETE" });
+      await fetchWithAuth(`${API_URL}${id}/`, { method: "DELETE" });
       message.success("Pieza eliminada correctamente");
       fetchData();
     } catch (error) {
