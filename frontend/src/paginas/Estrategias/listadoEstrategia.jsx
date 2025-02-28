@@ -33,9 +33,9 @@ function Estrategia() {
         const fetchData = async () => {
             try {
                 const [pistasResponse, piezasResponse, estrategiasResponse] = await Promise.all([
-                    fetch("http://127.0.0.1:8000/api/pistas/"),
-                    fetch("http://127.0.0.1:8000/api/piezas/"),
-                    fetch("http://127.0.0.1:8000/api/estrategias/")
+                    fetch("https://mclaren-production.up.railway.app/api/pistas/"),
+                    fetch("https://mclaren-production.up.railway.app/api/piezas/"),
+                    fetch("https://mclaren-production.up.railway.app/api/estrategias/")
                 ]);
 
                 const pistasData = await pistasResponse.json();
@@ -85,9 +85,9 @@ function Estrategia() {
                     message.error("ID de la estrategia no encontrado para la edición");
                     return;
                 }
-                const piezasExistentes = await fetch(`http://127.0.0.1:8000/api/estrategiapiezas/?estrategia=${estrategia.id}`).then(res => res.json());
+                const piezasExistentes = await fetch(`https://mclaren-production.up.railway.app/api/estrategiapiezas/?estrategia=${estrategia.id}`).then(res => res.json());
                 for (const pieza of piezasExistentes) {
-                    await fetchWithAuth(`http://127.0.0.1:8000/api/estrategiapiezas/${pieza.id}/`, {
+                    await fetchWithAuth(`https://mclaren-production.up.railway.app/api/estrategiapiezas/${pieza.id}/`, {
                         method: "DELETE"
                     });
                 }
@@ -96,7 +96,7 @@ function Estrategia() {
                     pista: selectedPista ? selectedPista.id : null
                 };
     
-                estrategiaResponse = await fetchWithAuth(`http://127.0.0.1:8000/api/estrategias/${estrategia.id}/`, {
+                estrategiaResponse = await fetchWithAuth(`https://mclaren-production.up.railway.app/api/estrategias/${estrategia.id}/`, {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(updateData)
@@ -111,7 +111,7 @@ function Estrategia() {
                 estrategiaId = estrategia.id; 
     
             } else {
-                estrategiaResponse = await fetchWithAuth("http://127.0.0.1:8000/api/estrategias/", {
+                estrategiaResponse = await fetchWithAuth("https://mclaren-production.up.railway.app/api/estrategias/", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -142,7 +142,7 @@ function Estrategia() {
     
             for (const pieza of piezas) {
                 if (pieza) {
-                    await fetchWithAuth("http://127.0.0.1:8000/api/estrategiapiezas/", {
+                    await fetchWithAuth("https://mclaren-production.up.railway.app/api/estrategiapiezas/", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
@@ -163,7 +163,7 @@ function Estrategia() {
 
     const handleDelete = async (estrategiaId) => {
         try {
-            const response = await fetchWithAuth(`http://127.0.0.1:8000/api/estrategias/${estrategiaId}/`, {
+            const response = await fetchWithAuth(`https://mclaren-production.up.railway.app/api/estrategias/${estrategiaId}/`, {
                 method: "DELETE"
             });
     
@@ -184,15 +184,15 @@ function Estrategia() {
         console.log("Iniciando edición de estrategia:", estrategia);
     
         try {
-            const estrategiaData = await fetch(`http://127.0.0.1:8000/api/estrategias/${estrategia.id}/`)
+            const estrategiaData = await fetch(`https://mclaren-production.up.railway.app/api/estrategias/${estrategia.id}/`)
                 .then(res => res.json());
             console.log("Datos de la estrategia obtenidos:", estrategiaData);
     
-            const piezasData = await fetch(`http://127.0.0.1:8000/api/estrategiapiezas/?estrategia=${estrategia.id}`)
+            const piezasData = await fetch(`https://mclaren-production.up.railway.app/api/estrategiapiezas/?estrategia=${estrategia.id}`)
                 .then(res => res.json());
             console.log("Piezas asociadas a la estrategia:", piezasData);
     
-            const piezasDetalles = await fetch(`http://127.0.0.1:8000/api/piezas/`)
+            const piezasDetalles = await fetch(`https://mclaren-production.up.railway.app/api/piezas/`)
                 .then(res => res.json());
             console.log("Detalles de piezas obtenidos:", piezasDetalles);
     
@@ -203,7 +203,7 @@ function Estrategia() {
     
             console.log("Mapa de piezas (ID -> Categoría):", piezasCategoriaMap);
     
-            const categoriasData = await fetch(`http://127.0.0.1:8000/api/categorias/`)
+            const categoriasData = await fetch(`https://mclaren-production.up.railway.app/api/categorias/`)
                 .then(res => res.json());
             console.log("Categorías obtenidas:", categoriasData);
     

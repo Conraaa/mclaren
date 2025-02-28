@@ -9,8 +9,8 @@ import { message } from "antd";
 import { useAuth } from './../../Context/AuthProvider';
 
 function ListadoPiezas() {
-  const API_URL = "http://127.0.0.1:8000/api/piezas/";
-  const CATEGORY_URL = "http://127.0.0.1:8000/lista_categoria/";
+  const API_URL = "https://mclaren-production.up.railway.app/api/piezas/";
+  const CATEGORY_URL = "https://mclaren-production.up.railway.app/lista_categoria/";
   const [data, setData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);

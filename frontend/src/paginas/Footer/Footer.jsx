@@ -10,8 +10,8 @@ export default function FooterComponent() {
           <img src={logoFooter} alt="McLaren Logo" />
         </div>
         <div className="footer-links">
-          <a href="http://localhost:3000/">Home</a>
-          <a href="http://localhost:3000/Soporte">Soporte</a>
+          <a href="https://mclaren-alpha.vercel.app/">Home</a>
+          <a href="https://mclaren-alpha.vercel.app/Soporte">Soporte</a>
         </div>
         <div className="footer-social">
           <a href="https://www.facebook.com/McLaren.Racing" target="_blank" rel="noopener noreferrer">Facebook</a>

@@ -6,7 +6,7 @@ export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handl
   console.log(nuevaPista);
 
   try {
-    const response = await fetch("http://localhost:8000/api/pistas/");
+    const response = await fetch("https://mclaren-production.up.railway.app/api/pistas/");
     if (!response.ok) throw new Error("Error al obtener las pistas existentes");
     const pistasExistentes = await response.json();
 
@@ -27,7 +27,7 @@ export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handl
     formData.append("imagen", nuevaPista.foto);
 
     // Enviar la nueva pista al backend
-    const responsePost = await fetchWithAuth("http://localhost:8000/api/pistas/", {
+    const responsePost = await fetchWithAuth("https://mclaren-production.up.railway.app/api/pistas/", {
       method: "POST",
       body: formData,
     });
@@ -48,7 +48,7 @@ export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handl
     formData.append("ciudad", nuevaPista.ciudad);
     formData.append("imagen", nuevaPista.foto);
 
-    const response = await fetchWithAuth("http://localhost:8000/api/pistas/", {
+    const response = await fetchWithAuth("https://mclaren-production.up.railway.app/api/pistas/", {
       method: "POST",
       body: formData,
     });
@@ -64,7 +64,7 @@ export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handl
 
 export const fetchCircuitos = async (setCircuitos, setLoading) => {
   try {
-    const response = await fetch('http://localhost:8000/api/pistas/');
+    const response = await fetch('https://mclaren-production.up.railway.app/api/pistas/');
     const data = await response.json();
     setCircuitos(data);
   } catch (error) {
@@ -77,8 +77,8 @@ export const fetchCircuitos = async (setCircuitos, setLoading) => {
 export const fetchEmpleados = async (setData) => {
   try {
     const [empleadosRes, departamentosRes] = await Promise.all([
-      fetch("http://127.0.0.1:8000/api/usuarios/"),
-      fetch("http://127.0.0.1:8000/api/departamentos/")
+      fetch("https://mclaren-production.up.railway.app/api/usuarios/"),
+      fetch("https://mclaren-production.up.railway.app/api/departamentos/")
     ]);
     
     if (!empleadosRes.ok || !departamentosRes.ok) {
@@ -109,7 +109,7 @@ export const fetchCarreras = async (setCarreras) => {
   console.log("Fetching carreras...");
   try {
     // Obtener datos de carreras
-    const responseCarreras = await fetch("http://localhost:8000/api/carreras/");
+    const responseCarreras = await fetch("https://mclaren-production.up.railway.app/api/carreras/");
     if (!responseCarreras.ok) {
       throw new Error(`Error en la solicitud de carreras: ${responseCarreras.status} ${responseCarreras.statusText}`);
     }
@@ -117,7 +117,7 @@ export const fetchCarreras = async (setCarreras) => {
     console.log("Carreras fetched:", dataCarreras);
 
     // Obtener datos de pistas
-    const responsePistas = await fetch("http://localhost:8000/api/pistas/");
+    const responsePistas = await fetch("https://mclaren-production.up.railway.app/api/pistas/");
     if (!responsePistas.ok) {
       throw new Error(`Error en la solicitud de pistas: ${responsePistas.status} ${responsePistas.statusText}`);
     }
@@ -155,7 +155,7 @@ export const handleShowDetails = async (circuito, setSelectedCircuito) => {
       throw new Error("La carrera seleccionada no es válida o no tiene un ID.");
     }
 
-    const responseTelemetrias = await fetch(`http://localhost:8000/api/telemetrias/${circuito.id}/`);
+    const responseTelemetrias = await fetch(`https://mclaren-production.up.railway.app/api/telemetrias/${circuito.id}/`);
     console.log("Response status for telemetrias:", responseTelemetrias.status);
     if (!responseTelemetrias.ok) {
       throw new Error("Error fetching telemetria data");
@@ -174,9 +174,9 @@ export const handleShowDetails = async (circuito, setSelectedCircuito) => {
     console.log("Telemetria Piastri ID:", telemetriaPiastri.id);
 
     const [registrosNorris, registrosPiastri] = await Promise.all([
-      fetch(`http://localhost:8000/api/registros/${telemetriaNorris.id}/`)
+      fetch(`https://mclaren-production.up.railway.app/api/registros/${telemetriaNorris.id}/`)
         .then(res => res.ok ? res.json() : Promise.reject("Error fetching registros de Norris")),
-      fetch(`http://localhost:8000/api/registros/${telemetriaPiastri.id}/`)
+      fetch(`https://mclaren-production.up.railway.app/api/registros/${telemetriaPiastri.id}/`)
         .then(res => res.ok ? res.json() : Promise.reject("Error fetching registros de Piastri"))
     ]);
 
@@ -218,7 +218,7 @@ export const handleShowDetails = async (circuito, setSelectedCircuito) => {
 // Importa las imágenes de las pistas
 export const fetchPistasYEstrategias = async (setPistas, setEstrategias) => {
   try {
-    const responsePistas = await fetch("http://localhost:8000/api/pistas/");
+    const responsePistas = await fetch("https://mclaren-production.up.railway.app/api/pistas/");
     if (!responsePistas.ok) throw new Error("Error al obtener las pistas");
     const dataPistas = await responsePistas.json();
     setPistas(dataPistas);
@@ -227,7 +227,7 @@ export const fetchPistasYEstrategias = async (setPistas, setEstrategias) => {
       message.warning("No hay pistas disponibles.");
     }
 
-    const responseEstrategias = await fetch("http://localhost:8000/api/estrategias/");
+    const responseEstrategias = await fetch("https://mclaren-production.up.railway.app/api/estrategias/");
     if (!responseEstrategias.ok) throw new Error("Error al obtener las estrategias");
     const dataEstrategias = await responseEstrategias.json();
     setEstrategias(dataEstrategias);
@@ -273,7 +273,7 @@ export const handleSubmitCarrera = async (
   const anioInt = parseInt(anio, 10);
   // Verificar si ya existe una carrera con el mismo anio y pista (comparando pista_nombre y anio)
   try {
-    const responseCheck = await fetch("http://localhost:8000/api/carreras/");
+    const responseCheck = await fetch("https://mclaren-production.up.railway.app/api/carreras/");
     if (!responseCheck.ok) {
       console.error("Error al obtener la lista de carreras:", await responseCheck.text());
       message.error("Error al verificar la existencia de la carrera");
@@ -423,7 +423,7 @@ export const handleSubmitCarrera = async (
     formData.append("estrategia", nuevaCarrera.estrategia);
     formData.append("imagen", nuevaCarrera.imagen);
 
-    const responseCarrera = await fetchWithAuth("http://localhost:8000/api/carreras/", {
+    const responseCarrera = await fetchWithAuth("https://mclaren-production.up.railway.app/api/carreras/", {
       method: "POST",
       body: formData
     });
@@ -452,7 +452,7 @@ export const handleSubmitCarrera = async (
     for (const telemetria of telemetrias) {
       console.log("Enviando telemetría al backend:", telemetria);
 
-      const responseTelemetria = await fetchWithAuth("http://localhost:8000/api/telemetrias/", {
+      const responseTelemetria = await fetchWithAuth("https://mclaren-production.up.railway.app/api/telemetrias/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(telemetria)
@@ -503,7 +503,7 @@ export const handleSubmitCarrera = async (
     for (const registro of registros) {
       console.log("Enviando registro al backend:", registro);
 
-      const responseRegistro = await fetchWithAuth("http://localhost:8000/api/registros/", {
+      const responseRegistro = await fetchWithAuth("https://mclaren-production.up.railway.app/api/registros/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(registro) // Enviar un solo registro

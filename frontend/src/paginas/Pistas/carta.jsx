@@ -5,6 +5,7 @@ import Modal from 'react-bootstrap/Modal'; // Importa Modal
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './pistas.css';
 import { fetchCircuitos } from '../Funciones.js';
+import { message } from 'antd';
 
 function Cartita({ nombre, imagen, kilometros, pais, ciudad, onInfoClick }) {
   return (
@@ -64,7 +65,7 @@ function ListaDeCircuitos() {
           />
         ))
       ) : (
-        <div>No se encontraron circuitos.</div>
+        message.error('No se encontraron pistas')
       )}
 
       {/* Modal de información */}

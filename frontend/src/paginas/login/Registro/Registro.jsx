@@ -18,7 +18,7 @@ export default function Empleados() {
     e.preventDefault();
     if (legajo.trim() !== "") {
       try {
-        const response = await fetch("http://127.0.0.1:8000/verificar-legajo/", {
+        const response = await fetch("https://mclaren-production.up.railway.app/verificar-legajo/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export default function Empleados() {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/registrar-usuario/", {
+      const response = await fetch("https://mclaren-production.up.railway.app/registrar-usuario/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -22,12 +22,12 @@ function ModalEmpleado({ show, handleClose, empleadoSeleccionado }) {
 
   useEffect(() => {
     if (show) {
-      fetch("http://127.0.0.1:8000/api/departamentos/")
+      fetch("https://mclaren-production.up.railway.app/api/departamentos/")
         .then((response) => response.json())
         .then((data) => setDepartamentos(data))
         .catch(() => message.error("Error al obtener los departamentos"));
 
-      fetch("http://127.0.0.1:8000/api/usuarios/")
+      fetch("https://mclaren-production.up.railway.app/api/usuarios/")
         .then((response) => response.json())
         .then((data) => {
           const lastUser = data[data.length - 1];
@@ -56,7 +56,7 @@ function ModalEmpleado({ show, handleClose, empleadoSeleccionado }) {
       contrasenia: "default",
     };
 
-    fetchWithAuth("http://127.0.0.1:8000/api/usuarios/", {
+    fetchWithAuth("https://mclaren-production.up.railway.app/api/usuarios/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(usuario),
@@ -69,7 +69,7 @@ function ModalEmpleado({ show, handleClose, empleadoSeleccionado }) {
         });
 
         if (empleadoSeleccionado?.idtrabajador) {
-          fetchWithAuth(`http://127.0.0.1:8000/jellyjobs/${empleadoSeleccionado.idtrabajador}/`, {
+          fetchWithAuth(`https://mclaren-production.up.railway.app/jellyjobs/${empleadoSeleccionado.idtrabajador}/`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ estado: "Ocupado" }),

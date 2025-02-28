@@ -29,7 +29,7 @@ function ListaDeEstrategias({ onEdit, onDelete }) {
 
   // Obtener estrategias con su pista
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/estrategias/")
+    fetch("https://mclaren-production.up.railway.app/api/estrategias/")
       .then(response => response.json())
       .then(data => {
         setEstrategias(data);
@@ -39,7 +39,7 @@ function ListaDeEstrategias({ onEdit, onDelete }) {
 
   // Obtener todas las piezas disponibles
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/estrategiapiezas/")
+    fetch("https://mclaren-production.up.railway.app/api/estrategiapiezas/")
       .then(response => response.json())
       .then(data => setPiezas(data))
       .catch(error => console.error("Error cargando piezas:", error));
