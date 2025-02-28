@@ -46,7 +46,7 @@ function ListadoTickets() {
     setData(updatedTickets);
 
     await fetch(`https://tu-api.com/api/ticket-messages/${ticket.id}`, {
-      method: "PATCH",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ Estado: nuevoEstado }),
     });

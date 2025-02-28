@@ -74,12 +74,16 @@
   height: 12px;
   display: none; /* Altura de la barra horizontal */
   }
-.card .pista img{
-    width: 100%; /* Se ajusta al ancho de la tarjeta */
-    max-height: 150px; /* Limita la altura para que no desplace otros elementos */
-    object-fit: cover; /* Mantiene la proporción sin distorsionar */
-    border-radius: 5px;
-}
+  
+  .cardPista .Pista {
+    width: 100%; /* Hace que la imagen ocupe todo el ancho de la card */
+    height: 160px; /* Fija la altura */
+    object-fit: cover; /* Recorta la imagen para que llene el espacio sin deformarse */
+    max-width: 200px; /* Asegura que no sobrepase el tamaño deseado */
+    display: block;
+    margin: 0 auto; /* Centra la imagen */
+  }
+  
 /* Estilos para los botones */
 .Cerrar {
     background-color: red;

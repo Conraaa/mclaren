@@ -69,7 +69,7 @@ function ModalEmpleado({ show, handleClose, empleadoSeleccionado }) {
         });
 
         if (empleadoSeleccionado?.idtrabajador) {
-          fetchWithAuth(`http://127.0.0.1:8000/jellyjobs/${empleadoSeleccionado.idtrabajador}/`, {
+          fetchWithAuth(`http://127.0.0.1:9001/app/interaccion/${empleadoSeleccionado.idtrabajador}/`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ estado: "Ocupado" }),

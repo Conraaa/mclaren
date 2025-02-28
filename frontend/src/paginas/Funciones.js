@@ -4,6 +4,42 @@ import { message } from 'antd';
 export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handleClose, fetchWithAuth) => {
   const nuevaPista = { nombre, kilometros, pais, ciudad, foto };
   console.log(nuevaPista);
+
+  try {
+    const response = await fetch("http://localhost:8000/api/pistas/");
+    if (!response.ok) throw new Error("Error al obtener las pistas existentes");
+    const pistasExistentes = await response.json();
+
+    const nombreLower = nombre.toLowerCase();
+    const nombreDuplicado = pistasExistentes.some(pista => pista.nombre.toLowerCase() === nombreLower);
+
+    if (nombreDuplicado) {
+      message.error("Ya existe una pista con el mismo nombre.");
+      return;
+    }
+
+
+    const formData = new FormData();
+    formData.append("nombre", nuevaPista.nombre);
+    formData.append("kilometros", nuevaPista.kilometros);
+    formData.append("pais", nuevaPista.pais);
+    formData.append("ciudad", nuevaPista.ciudad);
+    formData.append("imagen", nuevaPista.foto);
+
+    // Enviar la nueva pista al backend
+    const responsePost = await fetchWithAuth("http://localhost:8000/api/pistas/", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!responsePost.ok) throw new Error("Error al enviar la pista");
+    const data = await responsePost.json();
+    console.log("Pista guardada exitosamente:", data);
+    handleClose();
+  } catch (error) {
+    console.error("Error al enviar la pista:", error);
+    message.error('Los campos de nombre, país y ciudad deben contener texto.');
+  }
   try {
     const formData = new FormData();
     formData.append("nombre", nuevaPista.nombre);
@@ -11,6 +47,7 @@ export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handl
     formData.append("pais", nuevaPista.pais);
     formData.append("ciudad", nuevaPista.ciudad);
     formData.append("imagen", nuevaPista.foto);
+
     const response = await fetchWithAuth("http://localhost:8000/api/pistas/", {
       method: "POST",
       body: formData,
@@ -206,7 +243,7 @@ export const fetchPistasYEstrategias = async (setPistas, setEstrategias) => {
   }
 };
 
-
+// Note: The code updates state and closes the modal without reloading the page.
 export const handleSubmitCarrera = async (
   anio,
   pistaNombre,
@@ -214,15 +251,12 @@ export const handleSubmitCarrera = async (
   estrategiaNombre,
   setCarreras,
   carreras,
-  handleClose,
+  fetchWithAuth,      
+  handleClose,       
   pistas,
-  estrategias,
-  fetchWithAuth  // new parameter
+  estrategias
 ) => {
   console.log("Submitting carrera with pista:", pistaNombre, "and estrategia:", estrategiaNombre);
-
-  console.log("pistas:", pistas);
-  console.log("estrategias:", estrategias);
 
   if (!Array.isArray(pistas) || !Array.isArray(estrategias)) {
     message.error("Error al cargar pistas o estrategias");
@@ -232,6 +266,48 @@ export const handleSubmitCarrera = async (
   const pistaSeleccionada = pistas.find(p => p.nombre === pistaNombre);
   const estrategiaSeleccionada = estrategias.find(e => e.nombre === estrategiaNombre);
 
+  if (!pistaSeleccionada || !estrategiaSeleccionada) {
+    message.error("Pista o estrategia no encontrada");
+    return;
+  }
+  const anioInt = parseInt(anio, 10);
+  // Verificar si ya existe una carrera con el mismo anio y pista (comparando pista_nombre y anio)
+  try {
+    const responseCheck = await fetch("http://localhost:8000/api/carreras/");
+    if (!responseCheck.ok) {
+      console.error("Error al obtener la lista de carreras:", await responseCheck.text());
+      message.error("Error al verificar la existencia de la carrera");
+      return;
+    }
+    console.log("Pista Seleccionada:", pistaSeleccionada);
+    const allCarreras = await responseCheck.json();
+    console.log("Carreras existentes:", allCarreras);
+    let existeCarrera = false;
+    for (const carrera of allCarreras) {
+      console.log("Comparando carrera:", carrera);
+      console.log("Carrera.anio:", carrera.anio);
+      console.log("Carrera.pista", carrera.pista);
+      console.log("SelectedPistaName:", pistaSeleccionada.id);
+      if (carrera.pista === pistaSeleccionada.id) {
+        console.log("Carrera duplicada encontrada:", carrera);
+        console.log("Carrera duplicada encontrada:", carrera.anio);
+        console.log("Carrera duplicada encontrada:", anioInt);
+        if(carrera.anio === anioInt){ 
+           existeCarrera = true;
+        break;
+        }
+      }
+    }
+    console.log("Carrera existente (comparando pista_nombre y anio):", existeCarrera);
+    if (existeCarrera) {
+      message.warning("Ya existe una carrera registrada con esta pista y este año. No puede cargarse.");
+      return;
+    }
+  } catch (error) {
+    console.error("Error en la verificación de carrera existente:", error);
+    message.error("Error al verificar la carrera existente");
+    return;
+  }
   console.log("Pista seleccionada:", pistaSeleccionada);
   console.log("Estrategia seleccionada:", estrategiaSeleccionada);
 
@@ -344,7 +420,7 @@ export const handleSubmitCarrera = async (
 
     console.log("Enviando carrera al backend:", nuevaCarrera);
 
-    // Enviar la carrera al backend usando FormData via fetchWithAuth
+    // Enviar la carrera al backend usando FormData
     const formData = new FormData();
     formData.append("anio", nuevaCarrera.anio);
     formData.append("pista", nuevaCarrera.pista);
@@ -377,7 +453,7 @@ export const handleSubmitCarrera = async (
 
     const telemetriaIds = [];
 
-    // Enviar las telemetrías individualmente using fetchWithAuth
+    // Enviar las telemetrías individualmente
     for (const telemetria of telemetrias) {
       console.log("Enviando telemetría al backend:", telemetria);
 
@@ -428,7 +504,7 @@ export const handleSubmitCarrera = async (
       return;
     }
 
-    // Enviar los registros al backend uno por uno usando fetchWithAuth
+    // Enviar los registros al backend uno por uno
     for (const registro of registros) {
       console.log("Enviando registro al backend:", registro);
 
@@ -472,16 +548,5 @@ export const handleSubmitCarrera = async (
     message.error("Error al procesar la carrera");
   }
 };
-
-export const checkTelemetria = async (setTelemetriaStatus, setIsTelemetriaChecked) => {
-  setIsTelemetriaChecked(true);
-  try {
-    const response = await fetch("http://ergast.com/api/f1/2024/5", { method: "GET" });
-    setTelemetriaStatus(response.ok ? "✔" : "✘");
-  } catch (error) {
-    setTelemetriaStatus("✘");
-  }
-};
-
 
 

@@ -12,7 +12,7 @@ import './login.css';
 function Login() {
   const [legajo, setLegajo] = useState('');
   const [contraseña, setContraseña] = useState('');
-  const [error] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,6 +26,7 @@ function Login() {
     }
 
     setLoading(true);
+    setError('');
     try {
       const response = await axios.post('http://127.0.0.1:8000/api/login/', {
         legajo,
@@ -52,7 +53,7 @@ function Login() {
       if (err.response && err.response.data) {
         message.error(err.response.data.detail || 'Error al iniciar sesión.'); 
       } else {
-        message.error('Error de conexión con el servidor.'); 
+        message.error('Error de conexión con el servidor. Intenta nuevamente.'); 
       }
     } finally {
       setLoading(false);

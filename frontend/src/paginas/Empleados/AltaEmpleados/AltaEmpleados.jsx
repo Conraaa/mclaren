@@ -35,10 +35,10 @@ function AltaEmpleados() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const empleadosResponse = await fetch("http://127.0.0.1:8000/jellyjobs/empleados/");
+        const empleadosResponse = await fetch("http://127.0.0.1:9001/app/interaccion/");
         const empleados = empleadosResponse.ok ? await empleadosResponse.json() : [];
 
-        const profesionesResponse = await fetch("http://127.0.0.1:8000/jellyjobs/profesiones/");
+        const profesionesResponse = await fetch("http://127.0.0.1:9001/app/profesionlista/");
         const profesionesData = profesionesResponse.ok ? await profesionesResponse.json() : [];
 
         const profesionesMap = profesionesData.reduce((acc, profesion) => {

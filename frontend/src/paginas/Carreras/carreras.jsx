@@ -25,7 +25,7 @@ function Carrera() {
     const [estrategiasFiltradas, setEstrategiasFiltradas] = useState([]);
     const { user } = useAuth();
     const navigate = useNavigate();
-    const { fetchWithAuth } = useAuth();
+    const { fetchWithAuth }= useAuth();
     useEffect(() => {
         fetchPistasYEstrategias(setPistas, setEstrategias);
     }, []); 

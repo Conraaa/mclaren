@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './paginas/ProtectedRoute.jsx';
-import "antd/dist/reset.css";
 import Home from './paginas/Home/home.jsx';
 import Carreras from './paginas/Carreras/carreras.jsx';
 import Pistas from './paginas/Pistas/pistas.jsx';
