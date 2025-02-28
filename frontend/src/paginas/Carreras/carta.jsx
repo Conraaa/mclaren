@@ -87,7 +87,7 @@ function ListaDeCircuitos() {
           />
         ))
       ) : (
-        <p>No hay carreras disponibles.</p>
+        <p></p>
       )}
 
       {/* Modal para mostrar detalles */}

@@ -30,6 +30,7 @@ class UsuarioViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
+    permission_classes = [AllowAny]
 
     #def get_permissions(self):
     #    if self.action in ['list', 'retrieve']:
