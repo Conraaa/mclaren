@@ -37,7 +37,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["mclaren-production.up.railway.app", "localhost", "127.0.0.1"]
 
@@ -61,7 +61,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',  
+        'rest_framework.permissions.IsAuthenticated',  
     ),
 }
 

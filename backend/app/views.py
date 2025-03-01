@@ -11,8 +11,6 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.decorators import action
-from cloudinary.uploader import destroy
 
 
 class DepartamentoViewSet(viewsets.ModelViewSet):
@@ -42,17 +40,16 @@ class UsuarioViewSet(viewsets.ModelViewSet):
 
 
 class CategoriaViewSet(viewsets.ModelViewSet):
-    #authentication_classes = [JWTAuthentication]
-    #permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
-    permission_classes = [AllowAny]
 
-    #def get_permissions(self):
-    #    if self.action in ['list', 'retrieve']:
-    #        return [AllowAny()]
-    #    else:
-    #        return [IsAuthenticated()]
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [AllowAny()]
+        else:
+            return [IsAuthenticated()]
 
 
 class PiezaViewSet(viewsets.ModelViewSet):
@@ -112,12 +109,11 @@ class RegistrosDeTelemetria(APIView):
 
 
 class PistaViewSet(viewsets.ModelViewSet):
-    #authentication_classes = [JWTAuthentication]
-    #permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Pista.objects.all()
     serializer_class = PistaSerializer
-    #parser_classes = (MultiPartParser, FormParser)
-    permission_classes = [AllowAny]
+    parser_classes = (MultiPartParser, FormParser)
 
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
@@ -133,11 +129,11 @@ class PistaViewSet(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
     
-    #def get_permissions(self):
-    #    if self.action in ['list', 'retrieve']:
-    #        return [AllowAny()]
-    #    else:
-    #        return [IsAuthenticated()]
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [AllowAny()]
+        else:
+            return [IsAuthenticated()]
 
     def update(self, request, *args, **kwargs):
         data = request.data.copy()
@@ -153,75 +149,46 @@ class PistaViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
-    
-    
-
-    @action(detail=True, methods=['DELETE'])
-    def eliminar_pista(self, request, pk=None):
-        try:
-            pista = self.get_object()  # Obtén el objeto Pista por pk
-
-            # Si el campo de imagen está relacionado con Cloudinary, elimina el archivo de Cloudinary
-            if pista.imagen:  # Asumiendo que el campo de imagen se llama 'imagen'
-                public_id = pista.imagen.public_id  # Obtén el ID público de Cloudinary
-                destroy(public_id)  # Elimina el archivo de Cloudinary
-                print(f"Imagen eliminada de Cloudinary con public id: {public_id}")
-
-            # Elimina la pista de la base de datos
-            print(f"Linea antes de eliminar, pista:", pista)
-            pista.delete()
-            print(f"Pista eliminada de la base de datos")
-
-            return Response({"message": "Pista eliminada correctamente"}, status=status.HTTP_200_OK)
-        
-        except Pista.DoesNotExist:
-            return Response({"error": "Pista no encontrada"}, status=status.HTTP_404_NOT_FOUND)
-        except Exception as e:
-            print("Error completo:", str(e))
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class EstrategiaViewSet(viewsets.ModelViewSet):
-    #authentication_classes = [JWTAuthentication]
-    #permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Estrategia.objects.all()
     serializer_class = EstrategiaSerializer
-    permission_classes = [AllowAny]
 
-    #def get_permissions(self):
-    #    if self.action in ['list', 'retrieve']:
-    #        return [AllowAny()]
-    #    else:
-    #        return [IsAuthenticated()]
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [AllowAny()]
+        else:
+            return [IsAuthenticated()]
 
 
 class EstrategiaPiezaViewSet(viewsets.ModelViewSet):
-    #authentication_classes = [JWTAuthentication]
-    #permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = EstrategiaPieza.objects.all()
     serializer_class = EstrategiaPiezaSerializer
-    permission_classes = [AllowAny]
     
-    #def get_permissions(self):
-    #    if self.action in ['list', 'retrieve']:
-    #        return [AllowAny()]
-    #    else:
-    #        return [IsAuthenticated()]
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [AllowAny()]
+        else:
+            return [IsAuthenticated()]
 
 
 class CarreraViewSet(viewsets.ModelViewSet):
-    #authentication_classes = [JWTAuthentication]
-    #permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Carrera.objects.all()
     serializer_class = CarreraSerializer
-    #parser_classes = (MultiPartParser, FormParser)
-    permission_classes = [AllowAny]
+    parser_classes = (MultiPartParser, FormParser)
 
-    #def get_permissions(self):
-    #    if self.action in ['list', 'retrieve']:
-    #        return [AllowAny()]
-    #    else:
-    #        return [IsAuthenticated()]
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [AllowAny()]
+        else:
+            return [IsAuthenticated()]
 
 
 class TelemetriaViewSet(viewsets.ModelViewSet):
