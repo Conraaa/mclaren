@@ -36,7 +36,7 @@ export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handl
     message.success("Pista guardada exitosamente.");
     handleClose();
   } catch (error) {
-    message.error('Los campos de nombre, país y ciudad deben contener texto.');
+    message.error('Los campos de nombre, país y ciudad deben contener solamente letras.');
   }
 };
 
