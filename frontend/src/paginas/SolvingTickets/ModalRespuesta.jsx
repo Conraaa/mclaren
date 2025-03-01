@@ -73,7 +73,7 @@ function SoporteRespuesta({ show, handleClose, asunto, prioridad, mensaje, respu
               historial.map((response, index) => (
                 <Card key={index + 1}>
                   <Accordion.Item eventKey={(index + 1).toString()}>
-                    <Accordion.Header> Respuesta {index + 1}</Accordion.Header>
+                    <Accordion.Header> Respuesta - {index + 1}</Accordion.Header>
                     <Accordion.Body>{response}</Accordion.Body>
                   </Accordion.Item>
                 </Card>

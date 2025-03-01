@@ -156,7 +156,7 @@ class PistaViewSet(viewsets.ModelViewSet):
     
     
 
-    @action(detail=True, methods=['delete'])
+    @action(detail=True, methods=['DELETE'])
     def eliminar_pista(self, request, pk=None):
         try:
             pista = self.get_object()  # Obtén el objeto Pista por pk
