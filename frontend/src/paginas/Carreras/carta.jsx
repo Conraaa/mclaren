@@ -17,6 +17,9 @@ import {
 
 import { fetchCarreras, handleShowDetails } from '../Funciones.js';
 
+// Define cloudinaryBaseURL at the top
+const cloudinaryBaseURL = "https://res.cloudinary.com/dbmfvyl56/";
+
 // Función para formatear tiempos
 function formatTiempo(tiempo) {
   const totalMilisegundos = Math.round(tiempo * 1000);
@@ -37,10 +40,12 @@ function getYAxisDomain(data) {
 
 // Componente Cartita (tarjeta de carrera)
 function Cartita({ imagen, vueltas, estrategia_nombre, pista_nombre, pais, onShowDetails }) {
+  const cloudinaryBaseURL = "https://res.cloudinary.com/dbmfvyl56/";
+  const imageUrl = `${cloudinaryBaseURL}${imagen}`;
   return (
     <div className="class">
       <Card className="cardCarreras">
-        <Card.Img className="imagenCarrera" variant="top" src={imagen} />
+        <Card.Img className="imagenCarrera" variant="top" src={imageUrl} />
         <Card.Body>
           <Card.Title className="CartaTitulo">{pista_nombre || "Nombre no disponible"}</Card.Title>         
           <p><strong>País:</strong> {pais || "País no disponible"}</p>
@@ -93,8 +98,9 @@ function ListaDeCircuitos() {
   return (
     <div>
       {error || carreras.length === 0 ? (
-        <p></p>
+        <p>No se encontraron carreras.</p>
       ) : (
+
         carreras.length > 0 ? (
           carreras.map((circuito, index) => (
             <Cartita
@@ -129,7 +135,7 @@ function ListaDeCircuitos() {
             <p><strong>Estrategia:</strong> {selectedCircuito.estrategia_nombre || "Estrategia no disponible"}</p>
             <p><strong>País:</strong> {selectedCircuito.pais || "País no disponible"}</p>
             <img
-              src={selectedCircuito.imagen}
+              src={`${cloudinaryBaseURL}${selectedCircuito.imagen}`}
               alt={selectedCircuito.nombre || "Imagen no disponible"}
               style={{ width: "100%", borderRadius: "8px", marginBottom: "20px" }}
             />
