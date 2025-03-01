@@ -62,7 +62,8 @@ function Pistas() {
         }
     };
 
-    const validarYEnviar = () => {
+    const validarYEnviar = async () => {
+        console.log('Validando y enviando...');
         if (!nombre || !kilometros || !pais || !ciudad || !foto) {
             message.error('Todos los campos son obligatorios.');
             return;
@@ -72,10 +73,15 @@ function Pistas() {
             message.error('El campo de kilómetros debe ser un número.');
             return;
         }
-
-        handleSubmit(nombre, kilometros, pais, ciudad, foto, handleClose, fetchWithAuth);
+    
+        try {
+            await handleSubmit(nombre, kilometros, pais, ciudad, foto, handleClose, fetchWithAuth);
+            window.location.reload();
+        } catch (error) {
+            message.error('Hubo un problema al enviar los datos.');
+        }
     };
-
+    
     return (
         <div className="todoPistas">
             <img className="pagePista" src={PagePista} alt="Fondo de Pista" />
