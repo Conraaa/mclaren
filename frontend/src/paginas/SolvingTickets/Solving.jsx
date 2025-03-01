@@ -25,25 +25,31 @@ function ListadoTickets() {
   const [showModal, setShowModal] = useState({ alta: false, respuesta: false });
 
   useEffect(() => {
-    console.log(user)
+    localStorage.getItem("userLegajo");
+    localStorage.getItem("userName");
+    localStorage.getItem("userDepartment");
+    console.log(localStorage.getItem("user"))
     console.log(localStorage.getItem("usuario"))
     const usuario = JSON.parse(localStorage.getItem("user"));
-    if (!usuario) return;
+    try{
+      const usuarioDNI = usuario.dni;
+      console.log("DNI del usuario:", usuarioDNI);
 
-    const usuarioDNI = usuario.dni;
-    console.log("DNI del usuario:", usuarioDNI);
-
-    fetch(`https://mclaren-production.up.railway.app/solvingtickets?Usuario_DNI=${usuarioDNI}`)
-      .then(response => response.json())
-      .then(data => {
-        console.log("Data:", data);
-        if (data && data.tickets) {
-          setData(data.tickets);
-        } else {
-          console.error("No se encontraron tickets para el usuario.");
-        }
-      })
-      .catch(error => console.error("Error al obtener los tickets:", error));
+      fetch(`https://mclaren-production.up.railway.app/solvingtickets?Usuario_DNI=${usuarioDNI}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log("Data:", data);
+          if (data && data.tickets) {
+            setData(data.tickets);
+          } else {
+            console.error("No se encontraron tickets para el usuario.");
+          }
+        })
+        .catch(error => console.error("Error al obtener los tickets:", error));
+    }
+    catch{
+      console.error("Error al obtener el DNI del usuario.");
+    }
   }, []);
 
   const handleCheckboxChange = async (index) => {
