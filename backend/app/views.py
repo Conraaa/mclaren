@@ -12,6 +12,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import action
+from cloudinary.uploader import destroy
 
 
 class DepartamentoViewSet(viewsets.ModelViewSet):
@@ -159,15 +160,15 @@ class PistaViewSet(viewsets.ModelViewSet):
     def eliminar_pista(self, request, pk=None):
         try:
             pista = self.get_object()  # Obtén el objeto Pista por pk
-            print(f"Linea antes de eliminar, pista:", pista)
 
             # Si el campo de imagen está relacionado con Cloudinary, elimina el archivo de Cloudinary
             if pista.imagen:  # Asumiendo que el campo de imagen se llama 'imagen'
                 public_id = pista.imagen.public_id  # Obtén el ID público de Cloudinary
                 destroy(public_id)  # Elimina el archivo de Cloudinary
-                print(f"Imagen eliminada de Cloudinary")
+                print(f"Imagen eliminada de Cloudinary con public id: {public_id}")
 
             # Elimina la pista de la base de datos
+            print(f"Linea antes de eliminar, pista:", pista)
             pista.delete()
             print(f"Pista eliminada de la base de datos")
 
