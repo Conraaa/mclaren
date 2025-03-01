@@ -28,12 +28,12 @@ function ListadoTickets() {
     const usuario = JSON.parse(localStorage.getItem("usuario"));
     if (!usuario) return;
 
-    fetch(`https://mclaren-production.up.railway.app/solvingtickets?UsuarioDni=${usuario.dni}`)
+    const usuarioDNI = usuario.dni;
+
+    fetch(`https://mclaren-production.up.railway.app/solvingtickets?Usuario_DNI=${usuarioDNI}`)
       .then(response => response.json())
-      .then(tickets => {
-        setData(
-          tickets.map(ticket => ({ ...ticket, Estado: ticket.Estado === "C" }))
-        );
+      .then(data => {
+        setData(data.tickets);
       })
       .catch(error => console.error("Error al obtener los tickets:", error));
   }, []);
@@ -45,7 +45,7 @@ function ListadoTickets() {
     ticket.Estado = !ticket.Estado;
     setData(updatedTickets);
 
-    await fetch(`https://tu-api.com/api/ticket-messages/${ticket.id}`, {
+    await fetch(`https://mclaren-production.up.railway.app/solvingtickets/${ticket.id}/`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ Estado: nuevoEstado }),
@@ -68,7 +68,7 @@ function ListadoTickets() {
     updatedTickets[ticketIndex].Respuesta.push(newResponse);
     setData(updatedTickets);
 
-    await fetch(`https://tu-api.com/ticket-messages/${selectedTicket.id}`, {
+    await fetch(`https://mclaren-production.up.railway.app/solvingtickets/${selectedTicket.id}/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ respuesta: newResponse }),
