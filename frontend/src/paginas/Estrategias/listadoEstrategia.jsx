@@ -171,8 +171,9 @@ function Estrategia() {
                 return;
             }
     
-            setEstrategias(prevEstrategias => prevEstrategias.filter(e => e.id !== estrategiaId));
-            message.warning("Estrategia eliminada.");
+            message.success("Estrategia eliminada.");
+            const nuevasEstrategias = await fetch("https://mclaren-production.up.railway.app/api/estrategias/").then(res => res.json());
+            setEstrategias(nuevasEstrategias);
         } catch (error) {
             message.error("Error al eliminar la estrategia.");
         }

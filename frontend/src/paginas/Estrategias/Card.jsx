@@ -56,10 +56,10 @@ function ListaDeEstrategias({ onEdit, onDelete }) {
     setSelectedEstrategia(null);
   };
 
-  const handleDelete = (id) => {
-    onDelete(id);
+  const handleDelete = async (id) => {
+    await onDelete(id);
     window.location.reload();
-  };
+};
 
   // Agrupar estrategias por pista
   const groupedEstrategias = estrategias.reduce((acc, estrategia) => {
