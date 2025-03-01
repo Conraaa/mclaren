@@ -25,14 +25,12 @@ function ListadoTickets() {
   const [showModal, setShowModal] = useState({ alta: false, respuesta: false });
 
   useEffect(() => {
-    console.log(localStorage.getItem("userLegajo"));
-    console.log(localStorage.getItem("userName"));
-    console.log(localStorage.getItem("userDepartment"));
-    console.log(localStorage.getItem("user"))
-    console.log(localStorage.getItem("usuario"))
-    const usuario = JSON.parse(localStorage.getItem("user"));
+    console.log("legajo",localStorage.getItem("userLegajo"));
+    console.log("nombre",localStorage.getItem("userName"));
+    console.log("depto",localStorage.getItem("userDepartment"));
+    console.log("dni",localStorage.getItem("userDNI"));
+    const usuarioDNI = JSON.parse(localStorage.getItem("userDNI"));
     try{
-      const usuarioDNI = usuario.dni;
       console.log("DNI del usuario:", usuarioDNI);
 
       fetch(`https://mclaren-production.up.railway.app/solvingtickets?Usuario_DNI=${usuarioDNI}`)

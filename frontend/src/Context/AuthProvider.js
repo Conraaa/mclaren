@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("userLegajo", userData.legajo);
         localStorage.setItem("userName", userData.nombre);
         localStorage.setItem("userDepartment", userData.departamento);
+        localStorage.setItem("userDNI", userData.dni);
         localStorage.setItem("accessToken", userData.access);
         localStorage.setItem("refreshToken", userData.refresh);
         console.log(userData);

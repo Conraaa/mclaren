@@ -256,6 +256,7 @@ class LoginView(APIView):
                         "nombre": usuario.nombre,
                         "departamento": usuario.departamento.nombre,
                         "legajo": usuario.legajo,
+                        "dni": usuario.dni,
                     }, status=status.HTTP_200_OK)
                 else:
                     return Response({"error": "Contraseña incorrecta"}, status=status.HTTP_401_UNAUTHORIZED)
