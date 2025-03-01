@@ -87,7 +87,7 @@ function ListaDeCircuitos() {
           />
         ))
       ) : (
-        <p></p>
+        message.error('No se encontraron carreras.')
       )}
 
       {/* Modal para mostrar detalles */}

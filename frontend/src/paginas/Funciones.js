@@ -3,7 +3,6 @@ import { message } from 'antd';
 
 export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handleClose, fetchWithAuth) => {
   const nuevaPista = { nombre, kilometros, pais, ciudad, foto };
-  console.log(nuevaPista);
 
   try {
     const response = await fetch("https://mclaren-production.up.railway.app/api/pistas/");
@@ -34,10 +33,9 @@ export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handl
 
     if (!responsePost.ok) throw new Error("Error al enviar la pista");
     const data = await responsePost.json();
-    console.log("Pista guardada exitosamente:", data);
+    message.log("Pista guardada exitosamente:", data);
     handleClose();
   } catch (error) {
-    console.error("Error al enviar la pista:", error);
     message.error('Los campos de nombre, país y ciudad deben contener texto.');
   }
   try {
@@ -54,10 +52,9 @@ export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handl
     });
     if (!response.ok) throw new Error("Error al enviar la pista");
     const data = await response.json();
-    console.log("Pista guardada exitosamente:", data);
+    message.success("Pista guardada exitosamente.");
     handleClose();
   } catch (error) {
-    console.error("Error al enviar la pista:", error);
     message.error('Los campos de nombre, país y ciudad deben contener texto.');
   }
 };
@@ -68,7 +65,7 @@ export const fetchCircuitos = async (setCircuitos, setLoading) => {
     const data = await response.json();
     setCircuitos(data);
   } catch (error) {
-    console.error("Error al obtener los circuitos:", error);
+    message.error("Error al obtener los circuitos.");
   } finally {
     setLoading(false);
   }
@@ -82,7 +79,7 @@ export const fetchEmpleados = async (setData) => {
     ]);
     
     if (!empleadosRes.ok || !departamentosRes.ok) {
-      console.error("Error al obtener datos:", empleadosRes.statusText, departamentosRes.statusText);
+      message.error("Error al obtener datos.");
       return;
     }
     
@@ -101,30 +98,24 @@ export const fetchEmpleados = async (setData) => {
     
     setData(formattedData);
   } catch (error) {
-    console.error("Error al conectar con el servidor:", error);
+    message.error("Error al conectar con el servidor.");
   }
 };
 
 export const fetchCarreras = async (setCarreras) => {
-  console.log("Fetching carreras...");
   try {
-    // Obtener datos de carreras
     const responseCarreras = await fetch("https://mclaren-production.up.railway.app/api/carreras/");
     if (!responseCarreras.ok) {
       throw new Error(`Error en la solicitud de carreras: ${responseCarreras.status} ${responseCarreras.statusText}`);
     }
     const dataCarreras = await responseCarreras.json();
-    console.log("Carreras fetched:", dataCarreras);
 
-    // Obtener datos de pistas
     const responsePistas = await fetch("https://mclaren-production.up.railway.app/api/pistas/");
     if (!responsePistas.ok) {
       throw new Error(`Error en la solicitud de pistas: ${responsePistas.status} ${responsePistas.statusText}`);
     }
     const dataPistas = await responsePistas.json();
-    console.log("Pistas fetched:", dataPistas);
 
-    // Combinar datos de carreras con datos de pistas
     const carrerasConPais = dataCarreras.map(carrera => {
       const pista = dataPistas.find(p => p.id === carrera.pista);
       return {
@@ -135,34 +126,29 @@ export const fetchCarreras = async (setCarreras) => {
       };
     });
 
-    // Validar que los datos sean un array
     if (!Array.isArray(carrerasConPais)) {
       throw new Error("Los datos combinados no son un array válido.");
     }
 
-    // Actualizar el estado con los datos combinados
     setCarreras(carrerasConPais);
   } catch (error) {
-    console.error("Error al obtener las carreras o pistas:", error.message);
-    setCarreras([]); // Establecer un estado predeterminado en caso de error
+    message.error("Error al obtener las carreras o pistas");
+    setCarreras([]);
   }
 };
 
 export const handleShowDetails = async (circuito, setSelectedCircuito) => {
-  console.log("Fetching telemetry data for circuito:", circuito);
   try {
     if (!circuito || !circuito.id) {
       throw new Error("La carrera seleccionada no es válida o no tiene un ID.");
     }
 
     const responseTelemetrias = await fetch(`https://mclaren-production.up.railway.app/api/telemetrias/${circuito.id}/`);
-    console.log("Response status for telemetrias:", responseTelemetrias.status);
     if (!responseTelemetrias.ok) {
       throw new Error("Error fetching telemetria data");
     }
 
     const telemetrias = await responseTelemetrias.json();
-    console.log("Telemetry data received:", telemetrias);
 
     if (!Array.isArray(telemetrias) || telemetrias.length < 2) {
       throw new Error("No hay suficientes datos de telemetría para esta carrera.");
@@ -170,18 +156,12 @@ export const handleShowDetails = async (circuito, setSelectedCircuito) => {
 
     const [telemetriaNorris, telemetriaPiastri] = telemetrias;
 
-    console.log("Telemetria Norris ID:", telemetriaNorris.id);
-    console.log("Telemetria Piastri ID:", telemetriaPiastri.id);
-
     const [registrosNorris, registrosPiastri] = await Promise.all([
       fetch(`https://mclaren-production.up.railway.app/api/registros/${telemetriaNorris.id}/`)
         .then(res => res.ok ? res.json() : Promise.reject("Error fetching registros de Norris")),
       fetch(`https://mclaren-production.up.railway.app/api/registros/${telemetriaPiastri.id}/`)
         .then(res => res.ok ? res.json() : Promise.reject("Error fetching registros de Piastri"))
     ]);
-
-    console.log("Registros Norris:", registrosNorris);
-    console.log("Registros Piastri:", registrosPiastri);
 
     const formattedNorris = registrosNorris
       .map(registro => ({
@@ -203,14 +183,7 @@ export const handleShowDetails = async (circuito, setSelectedCircuito) => {
       telemetriaPiastri: formattedPiastri
     });
 
-    console.log("Selected circuito updated:", {
-      ...circuito,
-      telemetriaNorris: formattedNorris,
-      telemetriaPiastri: formattedPiastri
-    });
-
   } catch (error) {
-    console.error("Error fetching telemetria data:", error);
     message.error("Hubo un error al obtener los datos de telemetría.");
   }
 };
@@ -236,7 +209,6 @@ export const fetchPistasYEstrategias = async (setPistas, setEstrategias) => {
       message.warning("No hay estrategias disponibles.");
     }
   } catch (error) {
-    console.error("Error al obtener datos:", error);
     setPistas([]);
     setEstrategias([]);
     message.error("No se pudieron cargar las pistas y estrategias, por favor intenta más tarde.");
@@ -256,7 +228,6 @@ export const handleSubmitCarrera = async (
   pistas,
   estrategias
 ) => {
-  console.log("Submitting carrera with pista:", pistaNombre, "and estrategia:", estrategiaNombre);
 
   if (!Array.isArray(pistas) || !Array.isArray(estrategias)) {
     message.error("Error al cargar pistas o estrategias");
@@ -275,13 +246,10 @@ export const handleSubmitCarrera = async (
   try {
     const responseCheck = await fetch("https://mclaren-production.up.railway.app/api/carreras/");
     if (!responseCheck.ok) {
-      console.error("Error al obtener la lista de carreras:", await responseCheck.text());
       message.error("Error al verificar la existencia de la carrera");
       return;
     }
-    console.log("Pista Seleccionada:", pistaSeleccionada);
     const allCarreras = await responseCheck.json();
-    console.log("Carreras existentes:", allCarreras);
     let existeCarrera = false;
     for (const carrera of allCarreras) {
 
@@ -293,18 +261,14 @@ export const handleSubmitCarrera = async (
         }
       }
     }
-    console.log("Carrera existente (comparando pista_nombre y anio):", existeCarrera);
     if (existeCarrera) {
       message.warning("Ya existe una carrera registrada con esta pista y este año. No puede cargarse.");
       return;
     }
   } catch (error) {
-    console.error("Error en la verificación de carrera existente:", error);
     message.error("Error al verificar la carrera existente");
     return;
   }
-  console.log("Pista seleccionada:", pistaSeleccionada);
-  console.log("Estrategia seleccionada:", estrategiaSeleccionada);
 
   if (!pistaSeleccionada || !estrategiaSeleccionada) {
     message.error("Pista o estrategia no encontrada");
@@ -321,7 +285,6 @@ export const handleSubmitCarrera = async (
     // Obtener el round correspondiente al circuito
     const responseRounds = await fetch(`http://ergast.com/api/f1/${anio}.json`);
     const dataRounds = await responseRounds.json();
-    console.log("Rounds fetched:", dataRounds);
 
     const race = dataRounds.MRData.RaceTable.Races.find(r => r.Circuit.circuitName === circuitName);
     if (!race) {
@@ -348,7 +311,6 @@ export const handleSubmitCarrera = async (
       const laps = Array.from(xmlDoc.getElementsByTagName("Lap"));
 
       if (laps.length === 0) {
-        console.warn(`No se encontraron vueltas para ${pilotos[i]}`);
         continue;
       }
 
@@ -361,7 +323,6 @@ export const handleSubmitCarrera = async (
         const timing = lap.getElementsByTagName("Timing")[0];
 
         if (!timing) {
-          console.warn(`No hay tiempo para la vuelta ${lapNumber}`);
           return { vuelta: lapNumber, tiempo: "N/A" };
         }
 
@@ -413,8 +374,6 @@ export const handleSubmitCarrera = async (
       imagen: imagenArchivo
     };
 
-    console.log("Enviando carrera al backend:", nuevaCarrera);
-
     // Enviar la carrera al backend usando FormData
     const formData = new FormData();
     formData.append("anio", nuevaCarrera.anio);
@@ -430,13 +389,12 @@ export const handleSubmitCarrera = async (
 
     if (!responseCarrera.ok) {
       const errorResponse = await responseCarrera.json();
-      console.error("Error del backend:", errorResponse);
       message.error("Error al guardar la carrera");
       return;
     }
 
     const dataCarrera = await responseCarrera.json();
-    console.log("Carrera guardada exitosamente:", dataCarrera);
+    message.success("Carrera guardada exitosamente.");
 
     const carreraId = dataCarrera.id;
 
@@ -450,8 +408,6 @@ export const handleSubmitCarrera = async (
 
     // Enviar las telemetrías individualmente
     for (const telemetria of telemetrias) {
-      console.log("Enviando telemetría al backend:", telemetria);
-
       const responseTelemetria = await fetchWithAuth("https://mclaren-production.up.railway.app/api/telemetrias/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -460,13 +416,12 @@ export const handleSubmitCarrera = async (
 
       if (!responseTelemetria.ok) {
         const errorResponse = await responseTelemetria.json();
-        console.error("Error al guardar la telemetría:", errorResponse);
         message.error("Error al guardar la telemetría");
         return;
       }
 
       const dataTelemetria = await responseTelemetria.json();
-      console.log("Telemetría guardada exitosamente:", dataTelemetria);
+      message.success("Telemetría guardada exitosamente.");
 
       // Guardar el ID de la telemetría creada
       telemetriaIds.push(dataTelemetria.id);
@@ -486,23 +441,18 @@ export const handleSubmitCarrera = async (
       }))
     ];
 
-    console.log("Registros generados:", registros);
-
     // Validar que todos los registros tengan los campos requeridos
     const registrosValidos = registros.every(registro => 
       registro.valor && typeof registro.numVuelta === "number" && registro.telemetria
     );
 
     if (!registrosValidos) {
-      console.error("Algunos registros no tienen los campos requeridos:", registros);
       message.error("Error: Algunos registros no tienen los campos requeridos.");
       return;
     }
 
     // Enviar los registros al backend uno por uno
     for (const registro of registros) {
-      console.log("Enviando registro al backend:", registro);
-
       const responseRegistro = await fetchWithAuth("https://mclaren-production.up.railway.app/api/registros/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -511,13 +461,12 @@ export const handleSubmitCarrera = async (
 
       if (!responseRegistro.ok) {
         const errorResponse = await responseRegistro.json();
-        console.error("Error al guardar el registro:", errorResponse);
         message.error("Error al guardar el registro");
         return;
       }
 
       const dataRegistro = await responseRegistro.json();
-      console.log("Registro guardado exitosamente:", dataRegistro);
+      message.success("Registro guardado exitosamente.");
     }
 
     // Actualizar el estado y el localStorage
@@ -539,7 +488,6 @@ export const handleSubmitCarrera = async (
     // Cerrar el modal
     handleClose();
   } catch (error) {
-    console.error("Error al procesar la carrera:", error);
     message.error("Error al procesar la carrera");
   }
 };

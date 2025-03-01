@@ -26,7 +26,6 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("userDNI", userData.dni);
         localStorage.setItem("accessToken", userData.access);
         localStorage.setItem("refreshToken", userData.refresh);
-        console.log(userData);
     };
 
     // Función para cerrar sesión
@@ -58,7 +57,6 @@ export const AuthProvider = ({ children }) => {
                 return null;
             }
         } catch (error) {
-            console.error("Error al renovar el token:", error);
             logout();
             return null;
         }

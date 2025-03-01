@@ -41,7 +41,6 @@ export default function Empleados() {
           message.error(data.message); 
         }
       } catch (error) {
-        console.error("Error al verificar el legajo:", error);
         message.error("Ocurrió un error al verificar el legajo."); 
       }
     }
@@ -82,7 +81,6 @@ export default function Empleados() {
         message.error(data.message); 
       }
     } catch (error) {
-      console.error("Error al registrar usuario:", error);
       message.error("Ocurrió un error al registrar el usuario."); 
     }
   };

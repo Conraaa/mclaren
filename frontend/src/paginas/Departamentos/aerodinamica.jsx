@@ -26,7 +26,7 @@ function ListadoPiezas() {
         setData(await response.json());
       }
     } catch (error) {
-      console.error("Error al conectar con la API:", error);
+      message.error("Error al conectar con la API de piezas.");
     }
   }, []);
 
@@ -37,7 +37,7 @@ function ListadoPiezas() {
         setCategories(await response.json());
       }
     } catch (error) {
-      console.error("Error al conectar con la API de categorías:", error);
+      message.error("Error al conectar con la API de categorías.");
     }
   }, [fetchWithAuth]);
 
@@ -54,7 +54,6 @@ function ListadoPiezas() {
 
     const pieza = { nombre: editedData.Nombre, categoria: editedData.Categoria };
     try {
-      console.log("Intentando guardar los cambios...");
       if (selectedRow !== null) {
         // PUT request to edit an existing piece
         await  fetchWithAuth(`${API_URL}${editedData.id}/`, {
@@ -62,7 +61,6 @@ function ListadoPiezas() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(pieza),
         });
-        console.log("Pieza editada correctamente");
         message.success("Pieza editada correctamente");
       } else {
         // POST request to add a new piece
@@ -71,13 +69,11 @@ function ListadoPiezas() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(pieza),
         });
-        console.log("Pieza agregada correctamente");
         message.success("Pieza agregada correctamente");
       }
       setIsModalOpen(false);
       fetchData();
     } catch (error) {
-      console.error("Error al guardar los cambios:", error);
       message.error("Hubo un error al guardar los cambios.");
     }
   };
@@ -88,7 +84,6 @@ function ListadoPiezas() {
       message.success("Pieza eliminada correctamente");
       fetchData();
     } catch (error) {
-      console.error("Error al eliminar la pieza:", error);
       message.error("Hubo un error al eliminar la pieza.");
     }
   };

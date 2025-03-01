@@ -34,7 +34,7 @@ function ListaDeEstrategias({ onEdit, onDelete }) {
       .then(data => {
         setEstrategias(data);
       })
-      .catch(error => console.error("Error cargando estrategias:", error));
+      .catch(error => message.error("Error cargando estrategias."));
   }, []);
 
   // Obtener todas las piezas disponibles
@@ -42,7 +42,7 @@ function ListaDeEstrategias({ onEdit, onDelete }) {
     fetch("https://mclaren-production.up.railway.app/api/estrategiapiezas/")
       .then(response => response.json())
       .then(data => setPiezas(data))
-      .catch(error => console.error("Error cargando piezas:", error));
+      .catch(error => message.error("Error cargando piezas."));
   }, []);
 
   const handleCardClick = (estrategia) => {

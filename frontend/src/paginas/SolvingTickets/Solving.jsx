@@ -8,6 +8,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Checkbox } from "@mui/material";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { message } from 'antd';
 
 function ListadoTickets() {
   const darkTheme = createTheme({
@@ -27,22 +28,15 @@ function ListadoTickets() {
   useEffect(() => {
     const usuarioDNI = JSON.parse(localStorage.getItem("userDNI"));
     try{
-      console.log("DNI del usuario:", usuarioDNI);
-
       fetch(`https://mclaren-production.up.railway.app/solvingtickets?Usuario_DNI=${usuarioDNI}`)
         .then(response => response.json())
         .then(data => {
-          console.log("Data:", data);
-          if (data && data.tickets) {
-            setData(data.tickets);
-          } else {
-            console.error("No se encontraron tickets para el usuario.");
-          }
+          setData(data.tickets);
         })
-        .catch(error => console.error("Error al obtener los tickets:", error));
+        .catch(error => message.error("Error al obtener los tickets."));
     }
     catch{
-      console.error("Error al obtener el DNI del usuario.");
+      message.error("Error al obtener el DNI del usuario.");
     }
   }, []);
 

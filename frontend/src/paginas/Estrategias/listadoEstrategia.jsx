@@ -46,7 +46,6 @@ function Estrategia() {
                 setPiezasDisponibles(piezasData);
                 setEstrategias(estrategiasData);
             } catch (error) {
-                console.error("Error cargando datos:", error);
                 message.warning("Error al cargar las pistas, piezas o estrategias.");
             }
         };
@@ -73,7 +72,7 @@ function Estrategia() {
             const selectedPista = pistas.find(p => p.nombre === estrategia.pista);    
             const existingEstrategia = estrategias.find(e => e.pista === selectedPista.id && e.nombre === estrategia.tipo);
             if (existingEstrategia && !isEditMode) {
-                message.error("Ya existe una estrategia para esta pista con el mismo tipo.");
+                message.error("Ya existe una estrategia para esta pista del mismo tipo.");
                 return;
             }
     
@@ -82,7 +81,7 @@ function Estrategia() {
     
             if (isEditMode) {
                 if (!estrategia.id) {
-                    message.error("ID de la estrategia no encontrado para la edición");
+                    message.error("Estrategia no encontrado para la edición");
                     return;
                 }
                 const piezasExistentes = await fetch(`https://mclaren-production.up.railway.app/api/estrategiapiezas/?estrategia=${estrategia.id}`).then(res => res.json());
@@ -156,7 +155,7 @@ function Estrategia() {
             setShow(false);
             window.location.reload(); 
         } catch (error) {
-            console.error("Error al guardar la estrategia:", error);
+            message.error("Error al guardar la estrategia.");
         }
     };
     
@@ -168,51 +167,44 @@ function Estrategia() {
             });
     
             if (!response.ok) {
-                console.error("Error al eliminar la estrategia");
+                message.error("Error al eliminar la estrategia.");
                 return;
             }
     
             setEstrategias(prevEstrategias => prevEstrategias.filter(e => e.id !== estrategiaId));
-            console.log("Estrategia eliminada");
+            message.warning("Estrategia eliminada.");
         } catch (error) {
-            console.error("Error al eliminar la estrategia:", error);
+            message.error("Error al eliminar la estrategia.");
         }
     };
     
 
     const handleEdit = async (estrategia) => {
-        console.log("Iniciando edición de estrategia:", estrategia);
     
         try {
             const estrategiaData = await fetch(`https://mclaren-production.up.railway.app/api/estrategias/${estrategia.id}/`)
                 .then(res => res.json());
-            console.log("Datos de la estrategia obtenidos:", estrategiaData);
     
             const piezasData = await fetch(`https://mclaren-production.up.railway.app/api/estrategiapiezas/?estrategia=${estrategia.id}`)
                 .then(res => res.json());
-            console.log("Piezas asociadas a la estrategia:", piezasData);
     
             const piezasDetalles = await fetch(`https://mclaren-production.up.railway.app/api/piezas/`)
                 .then(res => res.json());
-            console.log("Detalles de piezas obtenidos:", piezasDetalles);
     
             const piezasCategoriaMap = {};
             piezasDetalles.forEach(pieza => {
                 piezasCategoriaMap[pieza.id] = pieza.categoria; 
             });
     
-            console.log("Mapa de piezas (ID -> Categoría):", piezasCategoriaMap);
     
             const categoriasData = await fetch(`https://mclaren-production.up.railway.app/api/categorias/`)
                 .then(res => res.json());
-            console.log("Categorías obtenidas:", categoriasData);
     
             const categoriasMapeadas = {};
             categoriasData.forEach(categoria => {
                 categoriasMapeadas[categoria.id] = categoria.nombre;
             });
     
-            console.log("Mapa de categorías:", categoriasMapeadas);
     
             const piezasMapeadas = {
                 'Aleron Delantero': 'aleronDelantero',
@@ -241,11 +233,8 @@ function Estrategia() {
     
                 if (piezaCategoria) {
                     piezas[piezaCategoria] = pieza.pieza; 
-                    console.log(`Asignando pieza ${pieza.pieza} a categoría: ${piezaCategoria}`);
                 }
             });
-    
-            console.log("Piezas asignadas a la estrategia:", piezas);
     
             setEstrategia({
                 id: estrategiaData.id,
@@ -263,7 +252,6 @@ function Estrategia() {
             setIsEditMode(true);
             setShow(true);
         } catch (error) {
-            console.error("Error al editar la estrategia:", error);
             message.error("Error al recuperar la estrategia para editar");
         }
     };

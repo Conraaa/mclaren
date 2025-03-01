@@ -65,7 +65,7 @@ function ListaDeCircuitos() {
           />
         ))
       ) : (
-        message.error('No se encontraron pistas')
+        message.error('No se encontraron pistas.')
       )}
 
       {/* Modal de información */}

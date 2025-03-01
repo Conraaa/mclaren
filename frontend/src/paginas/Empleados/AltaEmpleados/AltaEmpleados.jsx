@@ -5,6 +5,7 @@ import MuiDatatable from "mui-datatables";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Button from "react-bootstrap/Button";
 import ModalEmpleado from "./ModalEmpleado"; 
+import { message } from "antd";
 
 function AltaEmpleados() {
   const columns = [
@@ -39,7 +40,7 @@ function AltaEmpleados() {
         const empleadosData = empleadosResponse.ok ? await empleadosResponse.json() : {};
 
         if (!Array.isArray(empleadosData.empleados)) {
-          console.error("La respuesta de empleados no contiene un array válido");
+          message.error("La respuesta de empleados no contiene un array válido");
           setData([]);
           return;
         }
@@ -48,7 +49,7 @@ function AltaEmpleados() {
         const profesionesData = profesionesResponse.ok ? await profesionesResponse.json() : {};
 
         if (!profesionesData.profesiones || !Array.isArray(profesionesData.profesiones)) {
-          console.error("La respuesta de profesiones no contiene un array válido");
+          message.error("La respuesta de profesiones no contiene un array válido");
           return;
         }
 
@@ -67,7 +68,7 @@ function AltaEmpleados() {
 
         setData(formattedData);
       } catch (error) {
-        console.error("Error al obtener los datos:", error);
+        message.error("Error al obtener los datos.");
         setData([]);
       }
     };
