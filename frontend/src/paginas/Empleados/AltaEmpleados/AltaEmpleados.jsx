@@ -37,6 +37,7 @@ function AltaEmpleados() {
       try {
         const empleadosResponse = await fetch("https://mclaren-production.up.railway.app/jellyjobs/empleados/");
         const empleados = empleadosResponse.ok ? await empleadosResponse.json() : [];
+        console.log(empleados);
 
         const profesionesResponse = await fetch("https://mclaren-production.up.railway.app/jellyjobs/profesiones/");
         const profesionesData = profesionesResponse.ok ? await profesionesResponse.json() : [];

@@ -28,7 +28,7 @@ function ListadoTickets() {
     const usuario = JSON.parse(localStorage.getItem("usuario"));
     if (!usuario) return;
 
-    fetch(`https://tu-api.com/api/ticket-messages?UsuarioDni=${usuario.dni}`)
+    fetch(`https://mclaren-production.up.railway.app/solvingtickets?UsuarioDni=${usuario.dni}`)
       .then(response => response.json())
       .then(tickets => {
         setData(
