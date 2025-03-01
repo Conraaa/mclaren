@@ -3,6 +3,8 @@ from . import views
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+from .vistatemporal import eliminar_pista, listar_pistas
+
 #Interacciones
 from .interacciones.hardcodeJellyjobs.jellyjobs import getEmpleados, getProfesiones, patchEmpleado
 from .interacciones.hardcodeSolvingtickets.solvingtickets import getTickets
@@ -35,4 +37,7 @@ urlpatterns = [
     path('jellyjobs/profesiones/', getProfesiones, name='jellyjobs_profesiones'),
     path('jellyjobs/<int:idtrabajador>/', patchEmpleado.as_view(), name='jellyjobs_patch'),
     path('solvingtickets/', getTickets, name='solvingtickets'),
+    
+    path('eliminar-pista/<int:id>/', eliminar_pista),
+    path('listar-pistas/', listar_pistas),
 ]
