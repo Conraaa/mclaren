@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { message } from 'antd';
 
+
 // Crear el contexto de autenticación
 const AuthContext = createContext();
 
