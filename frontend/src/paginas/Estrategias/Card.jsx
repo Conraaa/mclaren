@@ -5,6 +5,7 @@ import './Card.css';
 import Lluvia from "../Imagenes/lluvia.jfif";
 import Sol from "../Imagenes/soleado.jpg";
 import Viento from "../Imagenes/ventoso.jpg";
+import { message } from "antd";
 
 function Cartita({ nombre, imagen, onClick }) {
   return (

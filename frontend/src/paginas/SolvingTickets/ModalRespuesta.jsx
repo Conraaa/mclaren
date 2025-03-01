@@ -61,7 +61,7 @@ function SoporteRespuesta({ show, handleClose, asunto, prioridad, respuestas, on
       <Modal.Body>
         <Form>
           <Form.Group className="mb-3">
-            <Form.Label>Historial de Respuestas</Form.Label>
+            <Form.Label style={{ fontWeight: "bold" }}>Historial de Respuestas</Form.Label>
             <Accordion className="acordeon" activeKey={activeKey} onSelect={handleAccordionChange}>
               {historial.length > 0 ? (
                 historial.map((response, index) => (
