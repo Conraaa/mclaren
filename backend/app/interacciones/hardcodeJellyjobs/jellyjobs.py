@@ -15,9 +15,6 @@ def getEmpleados(request):
             {"idtrabajador": "5", "nombre": "Fernando", "apellido": "Castillo", "idprofesion": "2", "estadotrabajo": "Disponible"},
             {"idtrabajador": "6", "nombre": "Andrea Valentina", "apellido": "Torres", "idprofesion": "6", "estadotrabajo": "Disponible"},
             {"idtrabajador": "7", "nombre": "Camila", "apellido": "Molina", "idprofesion": "5", "estadotrabajo": "Disponible"},
-            {"idtrabajador": "8", "nombre": "Emmanuel", "apellido": "Rojas", "idprofesion": "3", "estadotrabajo": "Disponible"},
-            {"idtrabajador": "9", "nombre": "Carla", "apellido": "Mendoza", "idprofesion": "4", "estadotrabajo": "Disponible"},
-            {"idtrabajador": "10", "nombre": "Elena", "apellido": "Ruiz", "idprofesion": "6", "estadotrabajo": "Disponible"},
         ]
         return JsonResponse({"empleados": empleados}, safe=False)
     

@@ -44,11 +44,8 @@ function AltaEmpleados() {
           return;
         }
 
-        console.log("EmpleadosData",empleadosData);
-
         const profesionesResponse = await fetch("https://mclaren-production.up.railway.app/jellyjobs/profesiones/");
         const profesionesData = profesionesResponse.ok ? await profesionesResponse.json() : {};
-        console.log("ProfesionesData",profesionesData);
 
         if (!profesionesData.profesiones || !Array.isArray(profesionesData.profesiones)) {
           console.error("La respuesta de profesiones no contiene un array válido");
@@ -59,7 +56,6 @@ function AltaEmpleados() {
           acc[profesion.idprofesion] = profesion.nombre;
           return acc;
         }, {});
-        console.log("ProfesionesMap",profesionesMap);
 
         const formattedData = empleadosData.empleados.map((empleado) => ({
           idtrabajador: empleado.idtrabajador,
