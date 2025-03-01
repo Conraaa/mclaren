@@ -29,11 +29,12 @@ function ListadoTickets() {
     if (!usuario) return;
 
     const usuarioDNI = usuario.dni;
+    console.log("DNI del usuario:", usuarioDNI);
 
     fetch(`https://mclaren-production.up.railway.app/solvingtickets?Usuario_DNI=${usuarioDNI}`)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        console.log("Data:", data);
         setData(data);
       })
       .catch(error => console.error("Error al obtener los tickets:", error));
