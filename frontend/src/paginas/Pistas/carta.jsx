@@ -34,6 +34,7 @@ function ListaDeCircuitos() {
 
   useEffect(() => {
     fetchCircuitos(setCircuitos, setLoading);
+    console.log("fetchCircuitos");
   }, []);
 
   const handleShowModal = (circuito) => {

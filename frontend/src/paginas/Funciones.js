@@ -33,25 +33,6 @@ export const handleSubmit = async (nombre, kilometros, pais, ciudad, foto, handl
 
     if (!responsePost.ok) throw new Error("Error al enviar la pista");
     const data = await responsePost.json();
-    message.log("Pista guardada exitosamente:", data);
-    handleClose();
-  } catch (error) {
-    message.error('Los campos de nombre, país y ciudad deben contener texto.');
-  }
-  try {
-    const formData = new FormData();
-    formData.append("nombre", nuevaPista.nombre);
-    formData.append("kilometros", nuevaPista.kilometros);
-    formData.append("pais", nuevaPista.pais);
-    formData.append("ciudad", nuevaPista.ciudad);
-    formData.append("imagen", nuevaPista.foto);
-
-    const response = await fetchWithAuth("https://mclaren-production.up.railway.app/api/pistas/", {
-      method: "POST",
-      body: formData,
-    });
-    if (!response.ok) throw new Error("Error al enviar la pista");
-    const data = await response.json();
     message.success("Pista guardada exitosamente.");
     handleClose();
   } catch (error) {
