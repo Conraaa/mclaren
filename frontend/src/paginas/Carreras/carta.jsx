@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Modal from "react-bootstrap/Modal";
@@ -61,11 +61,29 @@ function Cartita({ imagen, vueltas, estrategia_nombre, pista_nombre, pais, onSho
 function ListaDeCircuitos() {
   const [carreras, setCarreras] = useState([]);
   const [selectedCircuito, setSelectedCircuito] = useState(null);
+  const [error, setError] = useState(false);
+  const errorShown = useRef(false);
 
   // Fetch carreras al cargar el componente
   useEffect(() => {
-    fetchCarreras(setCarreras);
+    const fetchData = async () => {
+      try {
+        await fetchCarreras(setCarreras);
+        setError(false);
+      } catch (err) {
+        setError(true);
+      }
+    };
+    fetchData();
   }, []);
+
+  // Show error message only once if no carreras are found
+  useEffect(() => {
+    if (!error && carreras.length === 0 && !errorShown.current) {
+      message.error("No se encontraron carreras");
+      errorShown.current = true;
+    }
+  }, [carreras, error]);
 
   // Cerrar modal
   const handleCloseDetails = () => {
@@ -74,21 +92,25 @@ function ListaDeCircuitos() {
 
   return (
     <div>
-      {carreras.length > 0 ? (
-        carreras.map((circuito, index) => (
-          <Cartita
-            key={index}
-            nombre={circuito.nombre}
-            imagen={circuito.imagen}
-            vueltas={circuito.cantVueltas}
-            estrategia_nombre={circuito.estrategia_nombre}
-            pista_nombre={circuito.pista_nombre}
-            pais={circuito.pais}
-            onShowDetails={() => handleShowDetails(circuito, setSelectedCircuito)}
-          />
-        ))
+      {error || carreras.length === 0 ? (
+        <p>No se encontraron carreras.</p>
       ) : (
-        message.error('No se encontraron carreras.')
+        carreras.length > 0 ? (
+          carreras.map((circuito, index) => (
+            <Cartita
+              key={index}
+              nombre={circuito.nombre}
+              imagen={circuito.imagen}
+              vueltas={circuito.cantVueltas}
+              estrategia_nombre={circuito.estrategia_nombre}
+              pista_nombre={circuito.pista_nombre}
+              pais={circuito.pais}
+              onShowDetails={() => handleShowDetails(circuito, setSelectedCircuito)}
+            />
+          ))
+        ) : (
+          message.error("No se encontraron carreras")
+        )
       )}
 
       {/* Modal para mostrar detalles */}
