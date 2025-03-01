@@ -11,6 +11,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.decorators import action
 
 
 class DepartamentoViewSet(viewsets.ModelViewSet):
@@ -151,6 +152,23 @@ class PistaViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
+    
+    
+
+    @action(detail=True, methods=['delete'])
+    def eliminar_pista(self, request, pk=None):
+        try:
+            pista = self.get_object()  # Esto obtiene el objeto Pista por pk
+            print(f"Linea antes de eliminar, pista:", pista)
+            pista.delete()  # Elimina la pista
+            print(f"Pista eliminada de la base de datos")
+            return Response({"message": "Pista eliminada correctamente"}, status=status.HTTP_200_OK)
+        
+        except Pista.DoesNotExist:
+            return Response({"error": "Pista no encontrada"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            print("Error completo:", str(e))
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class EstrategiaViewSet(viewsets.ModelViewSet):
