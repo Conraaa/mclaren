@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import Modal from 'react-bootstrap/Modal'; // Importa Modal
+import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './pistas.css';
 import { fetchCircuitos } from '../Funciones.js';
 import { message } from 'antd';
 
 function Cartita({ nombre, imagen, kilometros, pais, ciudad, onInfoClick }) {
+  const cloudinaryBaseURL = "https://res.cloudinary.com/dbmfvyl56/";
+  const imageUrl = `${cloudinaryBaseURL}${imagen}`;
+
   return (
     <div className='classPista'>
       <Card className="cardPista">
         <Card.Body>
           <Card.Title>{nombre}</Card.Title>
-          <Card.Img variant="topPista" className='Pista' src={imagen} />
+          <Card.Img variant="topPista" className='Pista' src={imageUrl} alt={nombre} />
           <Card.Text className="CartaTextoPist">
             País: {pais}
           </Card.Text>
@@ -29,12 +32,11 @@ function Cartita({ nombre, imagen, kilometros, pais, ciudad, onInfoClick }) {
 function ListaDeCircuitos() {
   const [circuitos, setCircuitos] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [infoCircuito, setInfoCircuito] = useState(null); // Estado para la información del circuito seleccionado
-  const [showModal, setShowModal] = useState(false); // Estado del modal
+  const [infoCircuito, setInfoCircuito] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetchCircuitos(setCircuitos, setLoading);
-    console.log("fetchCircuitos");
   }, []);
 
   const handleShowModal = (circuito) => {

@@ -63,7 +63,6 @@ function Pistas() {
     };
 
     const validarYEnviar = () => {
-        console.log('Validando y enviando...');
         if (!nombre || !kilometros || !pais || !ciudad || !foto) {
             message.error('Todos los campos son obligatorios.');
             return;
