@@ -9,7 +9,7 @@ def eliminar_pista(request, id):
         pista = Pista.objects.get(id=id)
         
         if pista.imagen:  # Asegúrate de que el campo se llame exactamente como está en tu modelo
-            public_id = pista.imagen.public_id  # Obtener el ID público de la imagen
+            public_id = pista.imagen.public_id if hasattr(pista.imagen, 'public_id') else pista.imagen.name.split("/")[-1].split(".")[0]
             cloudinary.uploader.destroy(public_id)  # Borrar imagen de Cloudinary
 
         pista.delete()  # Ahora sí eliminar la pista de la base de datos
