@@ -73,7 +73,7 @@ function SoporteRespuesta({ show, handleClose, asunto, prioridad, respuestas, on
                   </Card>
                 ))
               ) : (
-                message.warning("No se encontraron respuestas")
+                <p>No se encontraron respuestas.</p>
               )}
             </Accordion>
           </Form.Group>

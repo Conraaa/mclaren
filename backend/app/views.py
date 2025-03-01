@@ -40,16 +40,17 @@ class UsuarioViewSet(viewsets.ModelViewSet):
 
 
 class CategoriaViewSet(viewsets.ModelViewSet):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    #authentication_classes = [JWTAuthentication]
+    #permission_classes = [IsAuthenticated]
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
+    permission_classes = [AllowAny]
 
-    def get_permissions(self):
-        if self.action in ['list', 'retrieve']:
-            return [AllowAny()]
-        else:
-            return [IsAuthenticated()]
+    #def get_permissions(self):
+    #    if self.action in ['list', 'retrieve']:
+    #        return [AllowAny()]
+    #    else:
+    #        return [IsAuthenticated()]
 
 
 class PiezaViewSet(viewsets.ModelViewSet):
@@ -109,11 +110,12 @@ class RegistrosDeTelemetria(APIView):
 
 
 class PistaViewSet(viewsets.ModelViewSet):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    #authentication_classes = [JWTAuthentication]
+    #permission_classes = [IsAuthenticated]
     queryset = Pista.objects.all()
     serializer_class = PistaSerializer
-    parser_classes = (MultiPartParser, FormParser)
+    #parser_classes = (MultiPartParser, FormParser)
+    permission_classes = [AllowAny]
 
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
@@ -129,11 +131,11 @@ class PistaViewSet(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
     
-    def get_permissions(self):
-        if self.action in ['list', 'retrieve']:
-            return [AllowAny()]
-        else:
-            return [IsAuthenticated()]
+    #def get_permissions(self):
+    #    if self.action in ['list', 'retrieve']:
+    #        return [AllowAny()]
+    #    else:
+    #        return [IsAuthenticated()]
 
     def update(self, request, *args, **kwargs):
         data = request.data.copy()
