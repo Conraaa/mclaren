@@ -402,7 +402,6 @@ export const handleSubmitCarrera = async (
       }
 
       const dataTelemetria = await responseTelemetria.json();
-      message.success("Telemetría guardada exitosamente.");
 
       // Guardar el ID de la telemetría creada
       telemetriaIds.push(dataTelemetria.id);
@@ -447,7 +446,6 @@ export const handleSubmitCarrera = async (
       }
 
       const dataRegistro = await responseRegistro.json();
-      message.success("Registro guardado exitosamente.");
     }
 
     // Actualizar el estado y el localStorage
