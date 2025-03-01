@@ -93,7 +93,7 @@ function ListaDeCircuitos() {
   return (
     <div>
       {error || carreras.length === 0 ? (
-        <p>No se encontraron carreras.</p>
+        <p></p>
       ) : (
         carreras.length > 0 ? (
           carreras.map((circuito, index) => (
