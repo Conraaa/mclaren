@@ -35,7 +35,11 @@ function ListadoTickets() {
       .then(response => response.json())
       .then(data => {
         console.log("Data:", data);
-        setData(data);
+        if (data && data.tickets) {
+          setData(data.tickets);
+        } else {
+          console.error("No se encontraron tickets para el usuario.");
+        }
       })
       .catch(error => console.error("Error al obtener los tickets:", error));
   }, []);
