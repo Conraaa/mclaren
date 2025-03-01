@@ -264,7 +264,7 @@ export const handleSubmitCarrera = async (
 
   try {
     // Obtener el round correspondiente al circuito
-    const responseRounds = await fetch(`http://ergast.com/api/f1/${anio}.json`);
+    const responseRounds = await fetch(`https://ergast.com/api/f1/${anio}.json`);
     const dataRounds = await responseRounds.json();
 
     const race = dataRounds.MRData.RaceTable.Races.find(r => r.Circuit.circuitName === circuitName);
@@ -281,7 +281,7 @@ export const handleSubmitCarrera = async (
 
     const responses = await Promise.all(
       pilotos.map(piloto =>
-        fetch(`http://ergast.com/api/f1/${anio}/${roundBuscada}/drivers/${piloto}/laps?limit=100&offset=0`)
+        fetch(`https://ergast.com/api/f1/${anio}/${roundBuscada}/drivers/${piloto}/laps?limit=100&offset=0`)
       )
     );
 
