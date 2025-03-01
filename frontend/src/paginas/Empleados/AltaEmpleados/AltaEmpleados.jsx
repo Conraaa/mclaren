@@ -36,12 +36,19 @@ function AltaEmpleados() {
     const fetchData = async () => {
       try {
         const empleadosResponse = await fetch("https://mclaren-production.up.railway.app/jellyjobs/empleados/");
-        const empleados = empleadosResponse.ok ? await empleadosResponse.json() : [];
-        console.log(empleados);
+        const empleadosData = empleadosResponse.ok ? await empleadosResponse.json() : {};
+
+        if (!Array.isArray(empleadosData.empleados)) {
+          console.error("La respuesta de empleados no contiene un array válido");
+          setData([]);
+          return;
+        }
+
+        console.log("EmpleadosData",empleadosData);
 
         const profesionesResponse = await fetch("https://mclaren-production.up.railway.app/jellyjobs/profesiones/");
         const profesionesData = profesionesResponse.ok ? await profesionesResponse.json() : {};
-        console.log(profesionesData);
+        console.log("ProfesionesData",profesionesData);
 
         if (!profesionesData.profesiones || !Array.isArray(profesionesData.profesiones)) {
           console.error("La respuesta de profesiones no contiene un array válido");
@@ -52,18 +59,20 @@ function AltaEmpleados() {
           acc[profesion.idprofesion] = profesion.nombre;
           return acc;
         }, {});
-        console.log(profesionesMap);
+        console.log("ProfesionesMap",profesionesMap);
 
-        const formattedData = empleados.map((empleado) => ({
+        const formattedData = empleadosData.empleados.map((empleado) => ({
           idtrabajador: empleado.idtrabajador,
           nombre: empleado.nombre,
           apellido: empleado.apellido,
           profesion: profesionesMap[empleado.idprofesion] || "Sin profesión",
+          estadotrabajo: empleado.estadotrabajo,
         }));
 
         setData(formattedData);
       } catch (error) {
         console.error("Error al obtener los datos:", error);
+        setData([]);
       }
     };
 
