@@ -11,8 +11,9 @@ export const AuthProvider = ({ children }) => {
         const userLegajo = localStorage.getItem("userLegajo");
         const userName = localStorage.getItem("userName");
         const userDepartment = localStorage.getItem("userDepartment");
-        return userLegajo && userName && userDepartment
-            ? { legajo: userLegajo, nombre: userName, departamento: userDepartment }
+        const userDNI = localStorage.getItem("userDNI");
+        return userLegajo && userName && userDepartment && userDNI
+            ? { legajo: userLegajo, nombre: userName, departamento: userDepartment, dni: userDNI }
             : null;
     });
 

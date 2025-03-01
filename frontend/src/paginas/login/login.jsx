@@ -34,12 +34,14 @@ function Login() {
       localStorage.setItem('access', response.data.access);
       localStorage.setItem('userLegajo', response.data.legajo);
       localStorage.setItem('userName', response.data.nombre);
+      localStorage.setItem('userDNI', response.data.dni);
       localStorage.setItem('userDepartment', response.data.departamento);
       localStorage.setItem('refresh', response.data.refresh);
       login({
         legajo: response.data.legajo,
         nombre: response.data.nombre,
         departamento: response.data.departamento,
+        dni: response.data.dni,
         access: response.data.access,
         refresh: response.data.refresh
       });
