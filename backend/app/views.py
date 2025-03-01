@@ -154,43 +154,46 @@ class PistaViewSet(viewsets.ModelViewSet):
 
 
 class EstrategiaViewSet(viewsets.ModelViewSet):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    #authentication_classes = [JWTAuthentication]
+    #permission_classes = [IsAuthenticated]
     queryset = Estrategia.objects.all()
     serializer_class = EstrategiaSerializer
+    permission_classes = [AllowAny]
 
-    def get_permissions(self):
-        if self.action in ['list', 'retrieve']:
-            return [AllowAny()]
-        else:
-            return [IsAuthenticated()]
+    #def get_permissions(self):
+    #    if self.action in ['list', 'retrieve']:
+    #        return [AllowAny()]
+    #    else:
+    #        return [IsAuthenticated()]
 
 
 class EstrategiaPiezaViewSet(viewsets.ModelViewSet):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    #authentication_classes = [JWTAuthentication]
+    #permission_classes = [IsAuthenticated]
     queryset = EstrategiaPieza.objects.all()
     serializer_class = EstrategiaPiezaSerializer
-
-    def get_permissions(self):
-        if self.action in ['list', 'retrieve']:
-            return [AllowAny()]
-        else:
-            return [IsAuthenticated()]
+    permission_classes = [AllowAny]
+    
+    #def get_permissions(self):
+    #    if self.action in ['list', 'retrieve']:
+    #        return [AllowAny()]
+    #    else:
+    #        return [IsAuthenticated()]
 
 
 class CarreraViewSet(viewsets.ModelViewSet):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    #authentication_classes = [JWTAuthentication]
+    #permission_classes = [IsAuthenticated]
     queryset = Carrera.objects.all()
     serializer_class = CarreraSerializer
-    parser_classes = (MultiPartParser, FormParser)
+    #parser_classes = (MultiPartParser, FormParser)
+    permission_classes = [AllowAny]
 
-    def get_permissions(self):
-        if self.action in ['list', 'retrieve']:
-            return [AllowAny()]
-        else:
-            return [IsAuthenticated()]
+    #def get_permissions(self):
+    #    if self.action in ['list', 'retrieve']:
+    #        return [AllowAny()]
+    #    else:
+    #        return [IsAuthenticated()]
 
 
 class TelemetriaViewSet(viewsets.ModelViewSet):
