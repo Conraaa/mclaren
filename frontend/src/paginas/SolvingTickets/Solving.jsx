@@ -135,6 +135,7 @@ function ListadoTickets() {
           handleClose={() => setShowModal({ alta: false, respuesta: false })}
           asunto={selectedTicket?.Asunto || ""}
           prioridad={selectedTicket?.Prioridad || ""}
+          mensaje={selectedTicket?.Mensaje || ""}
           respuestas={selectedTicket?.Respuesta || []}
           onAddResponse={handleAddResponse}
         />
