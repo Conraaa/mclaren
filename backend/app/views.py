@@ -158,10 +158,19 @@ class PistaViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['delete'])
     def eliminar_pista(self, request, pk=None):
         try:
-            pista = self.get_object()  # Esto obtiene el objeto Pista por pk
+            pista = self.get_object()  # Obtén el objeto Pista por pk
             print(f"Linea antes de eliminar, pista:", pista)
-            pista.delete()  # Elimina la pista
+
+            # Si el campo de imagen está relacionado con Cloudinary, elimina el archivo de Cloudinary
+            if pista.imagen:  # Asumiendo que el campo de imagen se llama 'imagen'
+                public_id = pista.imagen.public_id  # Obtén el ID público de Cloudinary
+                destroy(public_id)  # Elimina el archivo de Cloudinary
+                print(f"Imagen eliminada de Cloudinary")
+
+            # Elimina la pista de la base de datos
+            pista.delete()
             print(f"Pista eliminada de la base de datos")
+
             return Response({"message": "Pista eliminada correctamente"}, status=status.HTTP_200_OK)
         
         except Pista.DoesNotExist:
