@@ -25,7 +25,9 @@ function ListadoTickets() {
   const [showModal, setShowModal] = useState({ alta: false, respuesta: false });
 
   useEffect(() => {
-    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    console.log(localStorage.getItem("user"))
+    console.log(localStorage.getItem("usuario"))
+    const usuario = JSON.parse(localStorage.getItem("user"));
     if (!usuario) return;
 
     const usuarioDNI = usuario.dni;
