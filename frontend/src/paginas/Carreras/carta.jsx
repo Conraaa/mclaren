@@ -83,13 +83,6 @@ function ListaDeCircuitos() {
   }, []);
 
   // Show error message only once if no carreras are found
-  useEffect(() => {
-    if (!error && carreras.length === 0 && !errorShown.current) {
-      message.error("No se encontraron carreras");
-      errorShown.current = true;
-    }
-  }, [carreras, error]);
-
   // Cerrar modal
   const handleCloseDetails = () => {
     setSelectedCircuito(null);
@@ -98,7 +91,7 @@ function ListaDeCircuitos() {
   return (
     <div>
       {error || carreras.length === 0 ? (
-        <p></p>
+        <p>No se encontraron carreras.</p>
       ) : (
 
         carreras.length > 0 ? (
